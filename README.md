@@ -3,7 +3,7 @@ University of Udine LaTeX Letter template (based on corporate image)
 
 ## Installation
 
-Put the `uniud.lco`, `dpia.lco`, `pollo.png` and `iso9001.png` files inside a directory into your TeX search path. Install the `Helvetica Neue Heavy` font systemswide.
+Put the `uniud.lco`, `dpia.lco`, `pollo.png` and `iso9001.png` files inside a directory into your TeX search path. Install the `Helvetica Neue Heavy` font systemwide (possibly also other `Helvetica Neue` fonts, if there are not available in your system).
 
 ## Compilation
 
