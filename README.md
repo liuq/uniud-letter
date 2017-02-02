@@ -55,3 +55,9 @@ And then type your letter:
 ## Corrections, improvements
 
 Corrections and improvements are very welcome, you can send me the patches or fork the project, make the improvements/corrections and then issue a pull request.
+
+---
+
+## License
+
+MIT
