@@ -1,7 +1,15 @@
 # uniud-letter
 University of Udine LaTeX Letter template (based on corporate image)
 
-### Example of use
+## Installation
+
+Put the `uniud.lco`, `dpia.lco`, `pollo.png` and `iso9001.png` files inside a directory into your TeX search path. Install the `Helvetica Neue Heavy` font systemswide.
+
+## Compilation
+
+In order to compile the letters you **must** use XeLaTeX.
+
+## Example of use
 
 Load the style with:
 
@@ -41,3 +49,7 @@ And then type your letter:
   \end{letter}
 \end{document}
 ```
+
+## Corrections, improvements
+
+Corrections and improvements are very welcome, you can send me the patches or fork the project, make the improvements/corrections and then issue a pull request.
