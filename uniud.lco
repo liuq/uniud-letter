@@ -143,7 +143,7 @@ node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.
 \MakeUppercase{of Udine} \\
 }
 \fontsize{9pt}{9pt}\headerfontbold\color{uniudLightBrown}hic sunt futura\\[0.5\baselineskip]
-\includegraphics[width=34.5pt]{pollo.png}
+\includegraphics[width=34.5pt]{uniud-logo.png}
 \end{minipage}
 };
 
