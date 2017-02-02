@@ -1,0 +1,146 @@
+\ProvidesFile{uniud.lco}[2017/02/01 lco (Luca Di Gaspero)]
+\RequirePackage{tikzpagenodes}
+\usetikzlibrary{calc}
+\usetikzlibrary{fit}
+\RequirePackage{fontspec}
+\RequirePackage{url}
+\RequirePackage{iflang}
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=5cm]{geometry}
+\newkomavar{fromdepartment}
+\newkomavar{qualitysystem}
+\newkomavar{fromdept}
+
+\setkomavar{phoneseparator}{p}
+\setkomavar{mobilephoneseparator}{m}
+\setkomavar{faxseparator}{f}
+\setkomavar{emailseparator}{e}
+\setkomavar{urlseparator}{w}
+\setkomavar{qualitysystem}{\IfLanguagePatterns{italian}{ISO9001 \\ Sistema Gestione Qualità Certificato}{ISO9001 \\ Quality System Certification}}
+\setkomavar{place}{Udine}
+
+\KOMAoption{refline}{dateleft}
+\KOMAoption{backaddress}{false}
+\KOMAoption{subject}{titled}
+\KOMAoption{fontsize}{10pt}
+\KOMAoption{parskip}{full}
+
+\setlength{\parindent}{0pt}
+\renewcommand*{\raggedsignature}{\raggedright}
+% to get the addressee aligned with the body
+\@setplength{firstheadwidth}{\textwidth}
+\@setplength{toaddrhpos}{\oddsidemargin}
+\@addtoplength{toaddrhpos}{1in}
+
+\pagestyle{myheadings}
+
+\setmainfont{Arial}[Ligatures=TeX]
+\setsansfont{Arial}[Ligatures=TeX]
+\setkomavar{subjectseparator}[]{\textbf{\subjectname:}~}
+\setkomafont{subject}{\sffamily}
+
+\newfontface\headerfontheavy{HelveticaNeue Heavy}
+\newfontface\headerfontbold{Helvetica Neue Bold}
+\newfontface\headerfont{Helvetica Neue}
+
+\definecolor{uniudBrown}{cmyk}{0,.30,.85,.80}
+\definecolor{uniudOrange}{cmyk}{0,.60,1.0,0}
+\definecolor{uniudBlue}{cmyk}{.40,0,0,.40}
+\definecolor{uniudLightBrown}{cmyk}{0,.30,.85,.40}
+
+\setkomavar{firsthead}{%
+\begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
+\node (xLeft) at ($ (current page.north west) + (1, -1)$) {};
+\node (xRight) at ($(current page.north east) + (-1, -1)$) {};
+\node (firstTab) at ($(xLeft)!0.1!(xRight)$) {};
+\node (secondTab) at ($ (xLeft)!0.3!(xRight)$) {};
+\node (thirdTab) at ($ (xLeft)!0.55!(xRight)$) {};
+\node (fourthTab) at ($ (xLeft)!0.8!(xRight)$) {};
+\node (fifthTab) at ($ (xLeft)!1.0!(xRight)$) {};
+\fill [uniudBrown] (xLeft) rectangle ($(firstTab) + (0, -0.5)$);
+\fill [uniudOrange] (firstTab) rectangle ($(secondTab) + (0, -0.5)$);
+\fill [uniudBlue] (secondTab) rectangle ($(fifthTab) + (0, -0.5)$);
+\end{tikzpicture}
+
+\begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
+
+\path let \p1=(firstTab), \p2=(secondTab), \n1={veclen(\x2-\x1,\y2-\y1)} in
+node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.75)$) ($(secondTab) + (0, -2.75) $)},align=left] {%
+\begin{minipage}[t][2cm]{\n1}
+\color{uniudBrown}%
+\fontsize{14pt}{14pt}\headerfontheavy%
+\IfLanguagePatterns{italian}{
+\MakeUppercase{\textbf{Università}} \\
+\MakeUppercase{\textbf{degli Studi}} \\
+\MakeUppercase{\textbf{di Udine}} \\
+}
+{
+\MakeUppercase{\textbf{University}} \\
+\MakeUppercase{\textbf{of Udine}} \\
+}
+\fontsize{9pt}{9pt}\headerfontbold\color{uniudLightBrown}hic sunt futura\\[0.5\baselineskip]
+\includegraphics[width=34.5pt]{pollo.png}
+\end{minipage}
+};
+
+\path let \p1=(secondTab), \p2=(thirdTab), \n1={veclen(\x2-\x1,\y2-\y1)} in node [anchor=north west,inner sep=0pt, fit={($(secondTab) + (0, -0.75)$) ($(thirdTab) + (0, -2.75)$)},align=left] {%
+\begin{minipage}[t][2cm]{\n1}
+\color{uniudLightBrown}%
+\fontsize{10pt}{12pt}\headerfontbold%
+\usekomavar{fromname} \\
+\fontsize{9pt}{9pt}\headerfont%
+\ifkomavarempty{fromdepartment}{}{\vspace{-1\baselineskip}\begin{sloppypar}\usekomavar{fromdepartment}\end{sloppypar}}
+\end{minipage}
+};
+
+\path let \p1=(thirdTab), \p2=(fourthTab), \n1={veclen(\x2-\x1,\y2-\y1)} in node[anchor=north west,inner sep=0pt, fit={($(thirdTab) + (0, -0.75)$) ($(fourthTab) + (0, -2.75)$)},align=left] {%
+\begin{minipage}[t][2cm]{\n1}
+\color{uniudLightBrown}%
+\fontsize{9pt}{9pt}\headerfont%
+\usekomavar{fromaddress} \\
+\ifkomavarempty{fromphone}{}{\usekomavar{phoneseparator} \usekomavar{fromphone}\\}   
+\ifkomavarempty{frommobilephone}{}{\usekomavar{mobilephoneseparator} \usekomavar{frommobilephone}} 
+
+\vspace{1\baselineskip}
+\ifkomavarempty{fromemail}{}{\usekomavar{fromemail} \\}
+\ifkomavarempty{fromurl}{}{\usekomavar{fromurl} \\}
+\end{minipage}
+};
+
+\path let \p1=(fourthTab), \p2=(fifthTab), \n1={veclen(\x2-\x1,\y2-\y1)} in node[anchor=north west,inner sep=0pt, fit={($(fourthTab) + (0, -0.75)$) ($ (fifthTab) + (0, -2.75)$)},align=right] {%
+\begin{minipage}[t][2cm]{\n1}
+\fontsize{10pt}{10pt}\color{uniudBlue}\headerfontbold%
+\ifkomavarempty{fromurl}{www.uniud.it}{}
+\ifkomavarempty{qualitysystem}{}{%
+\begin{center}
+\includegraphics[width=1.2cm]{iso9001.png} \\
+\fontsize{7pt}{7pt}\color{black}\headerfont\usekomavar{qualitysystem}
+\end{center}
+}
+\end{minipage}
+};
+\end{tikzpicture}   
+}
+
+\setkomavar{nexthead}{%
+\begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
+\node (xLeft) at ($ (current page.north west) + (1, -1)$) {};
+\node (xRight) at ($(current page.north east) + (-1, -1)$) {};
+\node (firstTab) at ($(xLeft)!0.1!(xRight)$) {};
+\node (secondTab) at ($ (xLeft)!0.3!(xRight)$) {};
+\node (thirdTab) at ($ (xLeft)!0.55!(xRight)$) {};
+\node (fourthTab) at ($ (xLeft)!0.8!(xRight)$) {};
+\node (fifthTab) at ($ (xLeft)!1.0!(xRight)$) {};
+\fill [uniudBrown] (xLeft) rectangle ($(firstTab) + (0, -0.5)$);
+\fill [uniudOrange] (firstTab) rectangle ($(secondTab) + (0, -0.5)$);
+\fill [uniudBlue] (secondTab) rectangle ($(fifthTab) + (0, -0.5)$);
+\end{tikzpicture}
+}
+
+\setkomavar{firstfoot}{%
+\fontsize{7pt}{7pt}\headerfont CF 80014550307 - P.IVA 01071600306 – IBAN IT65Z0200812310000040469457 – BIC swift UNCRITM1UN6 %
+\hfill\fontsize{7pt}{7pt}\headerfont\thepage/\letterlastpage
+}
+
+\setkomavar{nextfoot}{%
+\ifthispageodd{\hfill\fontsize{7pt}{7pt}\headerfont\thepage/\letterlastpage}{\fontsize{7pt}{7pt}\headerfont\thepage/\letterlastpage}
+}

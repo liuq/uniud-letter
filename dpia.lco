@@ -1,0 +1,5 @@
+\ProvidesFile{dpia.lco}[2017/02/01 lco (Luca Di Gaspero)]
+\LoadLetterOption{uniud}
+% DPIA customization
+\setkomavar{fromdepartment}{\IfLanguagePatterns{italian}{Dipartimento politecnico di Ingegneria e Architettura}{Polytechnic Department of Engineering and Architecture}}
+\setkomavar{fromaddress}{\IfLanguagePatterns{italian}{via delle Scienze 206 \\ 33100 Udine}{via delle Scienze 206 \\ I-33100 Udine, Italy}}
