@@ -38,9 +38,74 @@
 \setkomavar{subjectseparator}[]{\textbf{\subjectname:}~}
 \setkomafont{subject}{\sffamily}
 
-\newfontface\headerfontheavy{HelveticaNeue Heavy}
-\newfontface\headerfontbold{Helvetica Neue Bold}
-\newfontface\headerfont{Helvetica Neue}
+\def\mytestfont{"HelveticaNeue Heavy"}
+  \def\myfallback{"Helvetica Neue Bold"}
+  \def\mysafefallback{"Arial Bold"}
+  \count255=\interactionmode
+  \batchmode
+  \font\foo=\mytestfont\space at 10pt
+  \ifx\foo\nullfont
+    \font\foo = \myfallback\space at 10pt
+    \ifx\foo\nullfont
+      \font\foo = \mysafefallback\space at 10pt
+      \ifx\foo\nullfont
+        \errorstopmode
+        \errmessage{no suitable font found}
+      \else
+        \let\mytestfont=\mysafefallback
+        \newfontface\headerfontheavy{Arial Bold}
+      \fi
+    \else
+      \let\mytestfont=\myfallback
+      \newfontface\headerfontheavy{Helvetica Neue Bold}
+    \fi
+    \else
+      \newfontface\headerfontheavy{HelveticaNeue Heavy}
+  \fi
+  \interactionmode=\count255
+  
+\def\mytestfont{"Helvetica Neue Bold"}
+  \def\myfallback{"Arial Bold"}
+  \count255=\interactionmode
+  \batchmode
+  \font\foo=\mytestfont\space at 10pt
+  \ifx\foo\nullfont
+    \font\foo = \myfallback\space at 10pt
+    \ifx\foo\nullfont
+      \errorstopmode
+      \errmessage{no suitable font found}
+    \else
+      \let\mytestfont=\myfallback
+      \newfontface\headerfontbold{Arial Bold}
+    \fi
+  \else
+    \newfontface\headerfontbold{Helvetica Neue Bold}
+  \fi
+  \interactionmode=\count255
+  
+  
+\def\mytestfont{"Helvetica Neue"}
+  \def\myfallback{"Arial"}
+  \count255=\interactionmode
+  \batchmode
+  \font\foo=\mytestfont\space at 10pt
+  \ifx\foo\nullfont
+    \font\foo = \myfallback\space at 10pt
+    \ifx\foo\nullfont
+      \errorstopmode
+      \errmessage{no suitable font found}
+    \else
+      \let\mytestfont=\myfallback
+      \newfontface\headerfont{Arial}
+    \fi
+  \else
+    \newfontface\headerfont{Helvetica Neue}
+  \fi
+  \interactionmode=\count255
+
+
+%\newfontface\headerfontheavy{HelveticaNeue Heavy}
+%\newfontface\headerfont{Helvetica Neue}
 
 \definecolor{uniudBrown}{cmyk}{0,.30,.85,.80}
 \definecolor{uniudOrange}{cmyk}{0,.60,1.0,0}
@@ -69,13 +134,13 @@ node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.
 \color{uniudBrown}%
 \fontsize{14pt}{14pt}\headerfontheavy%
 \IfLanguagePatterns{italian}{
-\MakeUppercase{\textbf{Università}} \\
-\MakeUppercase{\textbf{degli Studi}} \\
-\MakeUppercase{\textbf{di Udine}} \\
+\MakeUppercase{Università} \\
+\MakeUppercase{degli Studi} \\
+\MakeUppercase{di Udine} \\
 }
 {
-\MakeUppercase{\textbf{University}} \\
-\MakeUppercase{\textbf{of Udine}} \\
+\MakeUppercase{University} \\
+\MakeUppercase{of Udine} \\
 }
 \fontsize{9pt}{9pt}\headerfontbold\color{uniudLightBrown}hic sunt futura\\[0.5\baselineskip]
 \includegraphics[width=34.5pt]{pollo.png}
@@ -86,7 +151,7 @@ node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.
 \begin{minipage}[t][2cm]{\n1}
 \color{uniudLightBrown}%
 \fontsize{10pt}{12pt}\headerfontbold%
-\usekomavar{fromname} \\
+\ifkomavarempty{fromname}{}{\usekomavar{fromname} \\[0.5\baselineskip]}
 \fontsize{9pt}{9pt}\headerfont%
 \ifkomavarempty{fromdepartment}{}{\vspace{-1\baselineskip}\begin{sloppypar}\usekomavar{fromdepartment}\end{sloppypar}}
 \end{minipage}
