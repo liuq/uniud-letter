@@ -26,6 +26,7 @@ language=TeX
 \setkomavar{frommobilephone}{+39 320 4366035}
 \setkomavar{fromemail}{luca.digaspero@uniud.it}
 \setkomavar{fromurl}{www.dpia.uniud.it/digaspero}
+\setkomavar{lastpage}{true}
 
 \begin{document}
   \begin{letter}{Spett.li Signori Utenti \LaTeX \\
@@ -85,6 +86,12 @@ language=TeX
   
     Per usare lo stile è necessario installare sul proprio sistema i font \texttt{Helvetica Neue},  in particolare nella variante \textbf{heavy}, indispensabili per comporre l'intestazione e il pié di pagina secondo le specifiche del manuale di immagine.
     
+    Infine, grazie a Stefano Miani che ha scovato questo pernicioso bug, è stata introdotta, nella versione 0.1.2, la variabile \texttt{lastpage} che può essere impostata a \lstinline{true} se si vuole ottenere una numerazione delle pagine che indichi anche il numero totale di pagine di cui è composta la lettera (nel classico formato \texttt{X/Y}). Per abilitare questa opzione è necessario inserire il comando:
+\begin{lstlisting}
+\setkomavar{lastpage}{true}
+\end{lstlisting}
+  nel preambolo. Tuttavia, in caso l'opzione sia attiva è necessario effettuare più di una compilazione perché, nel file \texttt{.aux} venga inserita questa informazione. Infatti, alla prima compilazione verrà segnalato un errore che poi sparisce nelle compilazioni successive (stile compilazioni multiple per indice/citazioni/riferimenti).
+    
     Qualora ci fossero problemi nell'utilizzo di questo modello non esitate a contattarmi.
 
     \closing{Cordialità,}
@@ -102,6 +109,8 @@ language=TeX
 \setkomavar{frommobilephone}{+39 320 4366035}
 \setkomavar{fromemail}{luca.digaspero@uniud.it}
 \setkomavar{fromurl}{www.dpia.uniud.it/digaspero}
+
+\setkomavar{lastpage}{true}
 
 \begin{document}
   \begin{letter}{Spett.li Signori Utenti \LaTeX \\

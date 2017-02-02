@@ -9,6 +9,7 @@
 \newkomavar{fromdepartment}
 \newkomavar{qualitysystem}
 \newkomavar{fromdept}
+\newkomavar{lastpage}
 
 \setkomavar{phoneseparator}{p}
 \setkomavar{mobilephoneseparator}{m}
@@ -17,6 +18,7 @@
 \setkomavar{urlseparator}{w}
 \setkomavar{qualitysystem}{\IfLanguagePatterns{italian}{ISO9001 \\ Sistema Gestione Qualità Certificato}{ISO9001 \\ Quality System Certification}}
 \setkomavar{place}{Udine}
+\setkomavar{lastpage}{}
 
 \KOMAoption{refline}{dateleft}
 \KOMAoption{backaddress}{false}
@@ -203,9 +205,9 @@ node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.
 
 \setkomavar{firstfoot}{%
 \fontsize{7pt}{7pt}\headerfont CF 80014550307 - P.IVA 01071600306 – IBAN IT65Z0200812310000040469457 – BIC swift UNCRITM1UN6 %
-\hfill\fontsize{7pt}{7pt}\headerfont\thepage/\letterlastpage
+\hfill\fontsize{7pt}{7pt}\headerfont\thepage\ifkomavarempty{lastpage}{}{/\letterlastpage}
 }
 
 \setkomavar{nextfoot}{%
-\ifthispageodd{\hfill\fontsize{7pt}{7pt}\headerfont\thepage/\letterlastpage}{\fontsize{7pt}{7pt}\headerfont\thepage/\letterlastpage}
+\ifthispageodd{\hfill\fontsize{7pt}{7pt}\headerfont\thepage\ifkomavarempty{lastpage}{}{/\letterlastpage}}{\fontsize{7pt}{7pt}\headerfont\thepage\ifkomavarempty{lastpage}{}{/\letterlastpage}}
 }
