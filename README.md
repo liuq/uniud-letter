@@ -7,7 +7,7 @@ Put the `uniud.lco`, `dpia.lco`, `pollo.png` and `iso9001.png` files inside a di
 
 For example, under MacOS X, using TeXLive 2016 you can put those files into `~/Library/texmf/tex/latex/uniud-letter`.
 
-In such a case you can issue the following command:
+In such a case you can issue the following command on a terminal session:
 
 ```bash
 git clone https://github.com/liuq/uniud-letter.git ~/Library/texmf/tex/latex/uniud-letter
