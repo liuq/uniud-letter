@@ -130,8 +130,8 @@
 
 \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
 
-\path let \p1=(firstTab), \p2=(secondTab), \n1={veclen(\x2-\x1,\y2-\y1)} in
-node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.75)$) ($(secondTab) + (0, -2.75) $)},align=left] {%
+\path let \p1=(firstTab), \p2=($(secondTab) + (-0.2, 0)$), \n1={veclen(\x2-\x1,\y2-\y1)} in
+node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.75)$) ($(secondTab) + (-0.2, -2.75) $)},align=left] {%
 \begin{minipage}[t][2cm]{\n1}
 \color{uniudBrown}%
 \fontsize{14pt}{14pt}\headerfontheavy%
@@ -149,7 +149,7 @@ node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.
 \end{minipage}
 };
 
-\path let \p1=(secondTab), \p2=(thirdTab), \n1={veclen(\x2-\x1,\y2-\y1)} in node [anchor=north west,inner sep=0pt, fit={($(secondTab) + (0, -0.75)$) ($(thirdTab) + (0, -2.75)$)},align=left] {%
+\path let \p1=(secondTab), \p2=($(thirdTab) + (-0.2, 0)$), \n1={veclen(\x2-\x1,\y2-\y1)} in node [anchor=north west,inner sep=0pt, fit={($(secondTab) + (0.0, -0.75)$) ($(thirdTab) + (-0.2, -2.75)$)},align=left] {%
 \begin{minipage}[t][2cm]{\n1}
 \color{uniudLightBrown}%
 \fontsize{10pt}{12pt}\headerfontbold%
@@ -159,7 +159,7 @@ node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.
 \end{minipage}
 };
 
-\path let \p1=(thirdTab), \p2=(fourthTab), \n1={veclen(\x2-\x1,\y2-\y1)} in node[anchor=north west,inner sep=0pt, fit={($(thirdTab) + (0, -0.75)$) ($(fourthTab) + (0, -2.75)$)},align=left] {%
+\path let \p1=(thirdTab), \p2=($(fourthTab) + (-0.2, 0)$), \n1={veclen(\x2-\x1,\y2-\y1)} in node[anchor=north west,inner sep=0pt, fit={($(thirdTab) + (0.0, -0.75)$) ($(fourthTab) + (-0.2, -2.75)$)},align=left] {%
 \begin{minipage}[t][2cm]{\n1}
 \color{uniudLightBrown}%
 \fontsize{9pt}{9pt}\headerfont%
@@ -173,7 +173,7 @@ node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.
 \end{minipage}
 };
 
-\path let \p1=(fourthTab), \p2=(fifthTab), \n1={veclen(\x2-\x1,\y2-\y1)} in node[anchor=north west,inner sep=0pt, fit={($(fourthTab) + (0, -0.75)$) ($ (fifthTab) + (0, -2.75)$)},align=right] {%
+\path let \p1=(fourthTab), \p2=(fifthTab), \n1={veclen(\x2-\x1,\y2-\y1)} in node[anchor=north west,inner sep=0pt, fit={($(fourthTab) + (0.0, -0.75)$) ($ (fifthTab) + (0.0, -2.75)$)},align=right] {%
 \begin{minipage}[t][2cm]{\n1}
 \fontsize{10pt}{10pt}\color{uniudBlue}\headerfontbold%
 \ifkomavarempty{fromurl}{www.uniud.it}{}
