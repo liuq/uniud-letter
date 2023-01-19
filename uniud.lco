@@ -153,9 +153,9 @@ node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.
 \begin{minipage}[t][2cm]{\n1}
 \color{uniudLightBrown}%
 \fontsize{10pt}{12pt}\headerfontbold%
-\ifkomavarempty{fromname}{}{\usekomavar{fromname} \\[0.5\baselineskip]}
+\Ifkomavarempty{fromname}{}{\usekomavar{fromname} \\[0.5\baselineskip]}
 \fontsize{9pt}{9pt}\headerfont%
-\ifkomavarempty{fromdepartment}{}{\vspace{-1\baselineskip}\begin{sloppypar}\usekomavar{fromdepartment}\end{sloppypar}}
+\Ifkomavarempty{fromdepartment}{}{\vspace{-1\baselineskip}\begin{sloppypar}\usekomavar{fromdepartment}\end{sloppypar}}
 \end{minipage}
 };
 
@@ -164,20 +164,20 @@ node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.
 \color{uniudLightBrown}%
 \fontsize{9pt}{9pt}\headerfont%
 \usekomavar{fromaddress} \\
-\ifkomavarempty{fromphone}{}{\usekomavar{phoneseparator} \usekomavar{fromphone}\\}   
-\ifkomavarempty{frommobilephone}{}{\usekomavar{mobilephoneseparator} \usekomavar{frommobilephone}} 
+\Ifkomavarempty{fromphone}{}{\usekomavar{phoneseparator} \usekomavar{fromphone}\\}   
+\Ifkomavarempty{frommobilephone}{}{\usekomavar{mobilephoneseparator} \usekomavar{frommobilephone}} 
 
 \vspace{1\baselineskip}
-\ifkomavarempty{fromemail}{}{\usekomavar{fromemail} \\}
-\ifkomavarempty{fromurl}{}{\usekomavar{fromurl} \\}
+\Ifkomavarempty{fromemail}{}{\usekomavar{fromemail} \\}
+\Ifkomavarempty{fromurl}{}{\usekomavar{fromurl} \\}
 \end{minipage}
 };
 
 \path let \p1=(fourthTab), \p2=(fifthTab), \n1={veclen(\x2-\x1,\y2-\y1)} in node[anchor=north west,inner sep=0pt, fit={($(fourthTab) + (0.0, -0.75)$) ($ (fifthTab) + (0.0, -2.75)$)},align=right] {%
 \begin{minipage}[t][2cm]{\n1}
 \fontsize{10pt}{10pt}\color{uniudBlue}\headerfontbold%
-\ifkomavarempty{fromurl}{www.uniud.it}{}
-\ifkomavarempty{qualitysystem}{}{%
+\Ifkomavarempty{fromurl}{www.uniud.it}{}
+\Ifkomavarempty{qualitysystem}{}{%
 \begin{center}
 \includegraphics[width=1.2cm]{iso9001.png} \\
 \fontsize{7pt}{7pt}\color{black}\headerfont\usekomavar{qualitysystem}
@@ -205,9 +205,9 @@ node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.
 
 \setkomavar{firstfoot}{%
 \fontsize{7pt}{7pt}\headerfont CF 80014550307 - P.IVA 01071600306 – IBAN IT65Z0200812310000040469457 – BIC swift UNCRITM1UN6 %
-\hfill\fontsize{7pt}{7pt}\headerfont\thepage\ifkomavarempty{lastpage}{}{/\letterlastpage}
+\hfill\fontsize{7pt}{7pt}\headerfont\thepage\Ifkomavarempty{lastpage}{}{/\letterlastpage}
 }
 
 \setkomavar{nextfoot}{%
-\ifthispageodd{\hfill\fontsize{7pt}{7pt}\headerfont\thepage\ifkomavarempty{lastpage}{}{/\letterlastpage}}{\fontsize{7pt}{7pt}\headerfont\thepage\ifkomavarempty{lastpage}{}{/\letterlastpage}}
+\Ifthispageodd{\hfill\fontsize{7pt}{7pt}\headerfont\thepage\Ifkomavarempty{lastpage}{}{/\letterlastpage}}{\fontsize{7pt}{7pt}\headerfont\thepage\Ifkomavarempty{lastpage}{}{/\letterlastpage}}
 }
