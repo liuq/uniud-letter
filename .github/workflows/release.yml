@@ -1,0 +1,92 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to package (for example v0.2.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build GitHub release
+    runs-on: ubuntu-latest
+    container: ghcr.io/xu-cheng/texlive-full:latest
+
+    steps:
+      - name: Resolve tag
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            tag='${{ inputs.tag }}'
+          else
+            tag='${GITHUB_REF_NAME}'
+          fi
+          version="${tag#v}"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.meta.outputs.tag }}
+          fetch-depth: 0
+
+      - name: Verify VERSION matches tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected='${{ steps.meta.outputs.version }}'
+          actual="$(tr -d '[:space:]' < VERSION)"
+          if [[ "$actual" != "$expected" ]]; then
+            echo "VERSION ($actual) does not match tag ($expected)" >&2
+            exit 1
+          fi
+
+      - name: Regression tests
+        run: l3build check
+
+      - name: Build CTAN and TDS archives
+        run: l3build ctan
+
+      - name: Prepare versioned release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          version='${{ steps.meta.outputs.version }}'
+          mv uniudletter.zip "uniudletter-${version}-ctan.zip"
+          mv uniudletter.tds.zip "uniudletter-${version}.tds.zip"
+          sha256sum \
+            "uniudletter-${version}-ctan.zip" \
+            "uniudletter-${version}.tds.zip" \
+            > SHA256SUMS
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: uniudletter-${{ steps.meta.outputs.version }}
+          if-no-files-found: error
+          path: |
+            uniudletter-${{ steps.meta.outputs.version }}-ctan.zip
+            uniudletter-${{ steps.meta.outputs.version }}.tds.zip
+            SHA256SUMS
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            uniudletter-${{ steps.meta.outputs.version }}-ctan.zip
+            uniudletter-${{ steps.meta.outputs.version }}.tds.zip
+            SHA256SUMS
