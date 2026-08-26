@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2 - 2026-08-26
+
+- Release 0.2.2.
+
 ## 0.2.0 - 2026-08-26
 
 - Reworked the template against the 2026 UNIUD visual identity manual and the official digital/analog Word templates.

@@ -1,4 +1,4 @@
-\ProvidesFile{uniud.lco}[2026/08/26 v0.2.1 UNIUD letterhead 2026]
+\ProvidesFile{uniud.lco}[2026/08/26 v0.2.2 UNIUD letterhead 2026]
 
 \RequirePackage{fontspec}
 \RequirePackage{xcolor}

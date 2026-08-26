@@ -56,7 +56,7 @@ tdslocations = {
 
 uploadconfig = {
   pkg = "uniudletter",
-  version = "0.2.1",
+  version = "0.2.2",
   author = "Luca Di Gaspero and contributors",
   license = "mit",
   summary = "University of Udine letter class based on KOMA-Script",

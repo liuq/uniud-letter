@@ -3,7 +3,7 @@
 Classe LaTeX per lettere dell'Universita degli Studi di Udine, basata su
 KOMA-Script (`scrlttr2`) e aggiornata ai modelli ufficiali 2025/2026.
 
-Versione corrente: **0.2.1** (2026-08-26).
+Versione corrente: **0.2.2** (2026-08-26).
 
 ## Principio di distribuzione
 
@@ -165,15 +165,15 @@ The repository includes two GitHub Actions workflows:
 A normal release therefore only requires committing the source tree and tagging it:
 
 ```sh
-git tag v0.2.1
-git push origin v0.2.1
+git tag v0.2.2
+git push origin v0.2.2
 ```
 
 GitHub itself supplies the automatically generated `Source code (zip)` and `Source code (tar.gz)` archives. The workflow adds only the derived release artifacts:
 
 ```text
-uniudletter-0.2.1-ctan.zip
-uniudletter-0.2.1.tds.zip
+uniudletter-0.2.2-ctan.zip
+uniudletter-0.2.2.tds.zip
 SHA256SUMS
 ```
 
