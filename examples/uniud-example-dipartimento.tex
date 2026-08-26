@@ -1,0 +1,40 @@
+\documentclass{uniudletter}
+\usepackage{polyglossia}
+\setmainlanguage{italian}
+
+\UniudDipartimento{DPIA}
+
+\UniudSetup{
+  documento = digitale,
+  indirizzo = {via delle Scienze 206},
+  cap = 33100,
+  citta = Udine,
+  provincia = UD,
+  paese = Italia,
+  telefono = {+39 0432 558400},
+  email = {dpia@uniud.it},
+  sito = {uniud.it},
+  responsabile = {Nome Cognome - nome.cognome@uniud.it},
+  compilatore = {Nome Cognome - nome.cognome@uniud.it},
+  firmatario = {Nome Cognome},
+  ruolo = {Direttore del Dipartimento}
+}
+
+\UniudDestinatario{
+  nome = {Prof.ssa Nome Cognome},
+  struttura = {Universita' di Esempio},
+  indirizzo = {via Esempio 1},
+  cap = 00100,
+  citta = Roma
+}
+
+\UniudOggetto{Oggetto della comunicazione}
+
+\begin{document}
+\begin{letter}{}
+\opening{}
+Testo di esempio per la carta intestata di dipartimento. Il marchio ufficiale del dipartimento e' collocato in alto a sinistra secondo il manuale UNIUD.
+
+\UniudFirma
+\end{letter}
+\end{document}

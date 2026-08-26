@@ -1,0 +1,18 @@
+\input regression-test.tex
+\documentclass{uniudletter}
+\begin{document}
+\makeatletter
+\START
+\UniudDipartimento{DIUM}\TYPE{dept=\scr@acronimodipartimento@var}
+\UniudDipartimento{DILL}\TYPE{dept=\scr@acronimodipartimento@var}
+\UniudDipartimento{DMIF}\TYPE{dept=\scr@acronimodipartimento@var}
+\UniudDipartimento{DPIA}\TYPE{dept=\scr@acronimodipartimento@var}
+\TYPE{dpia-struttura=\scr@struttura@var}
+\UniudDipartimento{DIES}\TYPE{dept=\scr@acronimodipartimento@var}
+\UniudDipartimento{DISG}\TYPE{dept=\scr@acronimodipartimento@var}
+\UniudDipartimento{DI4A}\TYPE{dept=\scr@acronimodipartimento@var}
+\UniudDipartimento{DMED}\TYPE{dept=\scr@acronimodipartimento@var}
+\UniudDipartimento{DEIS}\TYPE{alias=\scr@acronimodipartimento@var}
+\END
+\makeatother
+\end{document}

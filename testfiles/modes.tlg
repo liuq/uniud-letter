@@ -1,0 +1,10 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+modalita=digitale
+modalita=analogico
+intestazione=istituzionale
+intestazione=dipartimento
+protocollo=123
+titolo=2
+classe=4
+fascicolo=7

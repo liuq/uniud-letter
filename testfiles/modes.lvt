@@ -1,0 +1,17 @@
+\input regression-test.tex
+\documentclass{uniudletter}
+\begin{document}
+\makeatletter
+\START
+\UniudDigitale\TYPE{modalita=\uniud@modalita}
+\UniudAnalogico\TYPE{modalita=\uniud@modalita}
+\UniudIstituzionale\TYPE{intestazione=\uniud@intestazione}
+\UniudDipartimento{DPIA}\TYPE{intestazione=\uniud@intestazione}
+\UniudProtocollo{numero=123,titolo=2,classe=4,fascicolo=7}
+\TYPE{protocollo=\scr@protocollo@var}
+\TYPE{titolo=\scr@titolo@var}
+\TYPE{classe=\scr@classe@var}
+\TYPE{fascicolo=\scr@fascicolo@var}
+\END
+\makeatother
+\end{document}

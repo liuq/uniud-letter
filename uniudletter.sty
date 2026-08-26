@@ -1,0 +1,221 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{uniudletter}[2026/08/26 v0.2.0 API ad alto livello per lettere UNIUD]
+
+\RequirePackage{expl3}
+\RequirePackage{xparse}
+
+\makeatletter
+\@ifundefined{LoadLetterOption}{%
+  \PackageError{uniudletter}{La classe corrente non supporta le letter option KOMA}{Usare scrlttr2 oppure la classe uniudletter.}%
+}{%
+  \LoadLetterOption{uniud}%
+}
+\makeatother
+
+\ExplSyntaxOn
+
+\tl_new:N \g_uniud_indirizzo_tl
+\tl_new:N \g_uniud_cap_tl
+\tl_new:N \g_uniud_citta_tl
+\tl_new:N \g_uniud_provincia_tl
+\tl_new:N \g_uniud_paese_tl
+\tl_new:N \g_uniud_localita_tl
+
+\tl_new:N \g_uniud_dest_nome_tl
+\tl_new:N \g_uniud_dest_struttura_tl
+\tl_new:N \g_uniud_dest_indirizzo_tl
+\tl_new:N \g_uniud_dest_cap_tl
+\tl_new:N \g_uniud_dest_citta_tl
+\tl_new:N \g_uniud_dest_provincia_tl
+\tl_new:N \g_uniud_dest_paese_tl
+\tl_new:N \g_uniud_dest_localita_tl
+
+\cs_new_protected:Npn \uniud_build_localita:NNNNN #1#2#3#4#5
+  {
+    \tl_clear:N #1
+    \tl_if_blank:VF #2 { \tl_put_right:NV #1 #2 }
+    \tl_if_blank:VF #3
+      {
+        \tl_if_blank:VF #1 { \tl_put_right:Nn #1 {~} }
+        \tl_put_right:NV #1 #3
+      }
+    \tl_if_blank:VF #4
+      {
+        \tl_put_right:Nn #1 {~(}
+        \tl_put_right:NV #1 #4
+        \tl_put_right:Nn #1 {)}
+      }
+    \tl_if_blank:VF #5
+      {
+        \tl_if_blank:VF #1 { \tl_put_right:Nn #1 {,~} }
+        \tl_put_right:NV #1 #5
+      }
+  }
+
+\cs_new_protected:Npn \uniud_aggiorna_indirizzo_mittente:
+  {
+    \uniud_build_localita:NNNNN \l_tmpa_tl
+      \g_uniud_cap_tl \g_uniud_citta_tl \g_uniud_provincia_tl \g_uniud_paese_tl
+    \tl_if_blank:VF \g_uniud_localita_tl { \tl_set_eq:NN \l_tmpa_tl \g_uniud_localita_tl }
+
+    \tl_clear:N \l_tmpb_tl
+    \tl_if_blank:VF \g_uniud_indirizzo_tl
+      {
+        \tl_put_right:NV \l_tmpb_tl \g_uniud_indirizzo_tl
+        \tl_if_blank:VF \l_tmpa_tl
+          {
+            \tl_put_right:Nn \l_tmpb_tl {\\}
+            \tl_put_right:NV \l_tmpb_tl \l_tmpa_tl
+          }
+        \exp_args:NnV \setkomavar {fromaddress} \l_tmpb_tl
+      }
+
+    \tl_clear:N \l_tmpb_tl
+    \tl_if_blank:VF \g_uniud_indirizzo_tl { \tl_put_right:NV \l_tmpb_tl \g_uniud_indirizzo_tl }
+    \tl_if_blank:VF \l_tmpa_tl
+      {
+        \tl_if_blank:VF \l_tmpb_tl { \tl_put_right:Nn \l_tmpb_tl {,~} }
+        \tl_put_right:NV \l_tmpb_tl \l_tmpa_tl
+      }
+    \tl_if_blank:VF \l_tmpb_tl { \exp_args:NnV \setkomavar {indirizzopiepagina} \l_tmpb_tl }
+  }
+
+\cs_new_protected:Npn \uniud_aggiorna_destinatario:
+  {
+    \uniud_build_localita:NNNNN \l_tmpa_tl
+      \g_uniud_dest_cap_tl \g_uniud_dest_citta_tl \g_uniud_dest_provincia_tl \g_uniud_dest_paese_tl
+    \tl_if_blank:VF \g_uniud_dest_localita_tl { \tl_set_eq:NN \l_tmpa_tl \g_uniud_dest_localita_tl }
+
+    \exp_args:NnV \setkomavar {toname} \g_uniud_dest_nome_tl
+    \tl_clear:N \l_tmpb_tl
+    \tl_if_blank:VF \g_uniud_dest_struttura_tl { \tl_put_right:NV \l_tmpb_tl \g_uniud_dest_struttura_tl }
+    \tl_if_blank:VF \g_uniud_dest_indirizzo_tl
+      {
+        \tl_if_blank:VF \l_tmpb_tl { \tl_put_right:Nn \l_tmpb_tl {\\} }
+        \tl_put_right:NV \l_tmpb_tl \g_uniud_dest_indirizzo_tl
+      }
+    \tl_if_blank:VF \l_tmpa_tl
+      {
+        \tl_if_blank:VF \l_tmpb_tl { \tl_put_right:Nn \l_tmpb_tl {\\} }
+        \tl_put_right:NV \l_tmpb_tl \l_tmpa_tl
+      }
+    \exp_args:NnV \setkomavar {toaddress} \l_tmpb_tl
+  }
+
+\keys_define:nn { uniud/setup }
+  {
+    documento .choice:,
+    documento / digitale .code:n = { \uniuddigitale },
+    documento / analogico .code:n = { \uniudanalogico },
+
+    intestazione .choice:,
+    intestazione / istituzionale .code:n = { \uniudistituzionale },
+    intestazione / dipartimento .code:n = { \uniuddipartimento },
+
+    acronimo .code:n = { \setkomavar{acronimodipartimento}{#1} \uniudsetmarchiodipartimento{} },
+    struttura .code:n = { \setkomavar{struttura}{#1} },
+    luogo .code:n = { \setkomavar{place}{#1} },
+    directory-assets .code:n = { \UniudAssetsPath{#1} },
+
+    indirizzo .tl_gset:N = \g_uniud_indirizzo_tl,
+    cap .tl_gset:N = \g_uniud_cap_tl,
+    citta .tl_gset:N = \g_uniud_citta_tl,
+    provincia .tl_gset:N = \g_uniud_provincia_tl,
+    paese .tl_gset:N = \g_uniud_paese_tl,
+    localita .tl_gset:N = \g_uniud_localita_tl,
+
+    telefono .code:n = { \setkomavar{fromphone}{#1} },
+    fax .code:n = { \setkomavar{fromfax}{#1} },
+    email .code:n = { \setkomavar{fromemail}{#1} },
+    sito .code:n = { \setkomavar{fromurl}{#1} },
+
+    firmatario .code:n = { \setkomavar{signature}{#1} },
+    ruolo .code:n = { \setkomavar{ruolofirmatario}{#1} },
+    responsabile .code:n = { \setkomavar{responsabileprocedimento}{#1} },
+    compilatore .code:n = { \setkomavar{compilatoreprocedimento}{#1} },
+
+    protocollo .code:n = { \setkomavar{protocollo}{#1} },
+    titolo .code:n = { \setkomavar{titolo}{#1} },
+    classe .code:n = { \setkomavar{classe}{#1} },
+    fascicolo .code:n = { \setkomavar{fascicolo}{#1} },
+  }
+
+\keys_define:nn { uniud/destinatario }
+  {
+    nome .tl_gset:N = \g_uniud_dest_nome_tl,
+    struttura .tl_gset:N = \g_uniud_dest_struttura_tl,
+    indirizzo .tl_gset:N = \g_uniud_dest_indirizzo_tl,
+    cap .tl_gset:N = \g_uniud_dest_cap_tl,
+    citta .tl_gset:N = \g_uniud_dest_citta_tl,
+    provincia .tl_gset:N = \g_uniud_dest_provincia_tl,
+    paese .tl_gset:N = \g_uniud_dest_paese_tl,
+    localita .tl_gset:N = \g_uniud_dest_localita_tl,
+  }
+
+\keys_define:nn { uniud/protocollo }
+  {
+    numero .code:n = { \setkomavar{protocollo}{#1} },
+    titolo .code:n = { \setkomavar{titolo}{#1} },
+    classe .code:n = { \setkomavar{classe}{#1} },
+    fascicolo .code:n = { \setkomavar{fascicolo}{#1} },
+  }
+
+\NewDocumentCommand \UniudAssetsPath { m }
+  {
+    \uniudsetassetspath{#1}
+  }
+
+\NewDocumentCommand \UniudSetup { m }
+  {
+    \keys_set:nn { uniud/setup } { #1 }
+    \uniud_aggiorna_indirizzo_mittente:
+  }
+
+\NewDocumentCommand \UniudDestinatario { m }
+  {
+    \keys_set:nn { uniud/destinatario } { #1 }
+    \uniud_aggiorna_destinatario:
+  }
+
+\NewDocumentCommand \UniudProtocollo { m }
+  { \keys_set:nn { uniud/protocollo } { #1 } }
+
+\NewDocumentCommand \UniudOggetto { m }
+  { \setkomavar{subject}{#1} }
+
+\NewDocumentCommand \UniudDigitale { }
+  { \UniudSetup{documento=digitale} }
+
+\NewDocumentCommand \UniudAnalogico { }
+  { \UniudSetup{documento=analogico} }
+
+\NewDocumentCommand \UniudIstituzionale { }
+  { \UniudSetup{intestazione=istituzionale} }
+
+\cs_new_protected:Npn \uniud_imposta_dipartimento:n #1
+  {
+    \str_case_e:nnF { \str_uppercase:f {#1} }
+      {
+        {DIUM}{\UniudSetup{intestazione=dipartimento,acronimo=DIUM,struttura={Dipartimento~di~Studi\\umanistici~e~del\\patrimonio~culturale}}}
+        {DILL}{\UniudSetup{intestazione=dipartimento,acronimo=DILL,struttura={Dipartimento~di~Lingue~e\\letterature,\\comunicazione,~formazione\\e~società}}}
+        {DMIF}{\UniudSetup{intestazione=dipartimento,acronimo=DMIF,struttura={Dipartimento~di~Scienze\\matematiche,~informatiche\\e~fisiche}}}
+        {DPIA}{\UniudSetup{intestazione=dipartimento,acronimo=DPIA,struttura={Dipartimento~Politecnico~di\\ingegneria~e~architettura}}}
+        {DIES}{\UniudSetup{intestazione=dipartimento,acronimo=DIES,struttura={Dipartimento~di~Scienze\\economiche~e~statistiche}}}
+        {DEIS}{\PackageWarningNoLine{uniudletter}{Acronimo DEIS non corrente; uso DIES}\UniudSetup{intestazione=dipartimento,acronimo=DIES,struttura={Dipartimento~di~Scienze\\economiche~e~statistiche}}}
+        {DISG}{\UniudSetup{intestazione=dipartimento,acronimo=DISG,struttura={Dipartimento~di~Scienze\\giuridiche}}}
+        {DI4A}{\UniudSetup{intestazione=dipartimento,acronimo=DI4A,struttura={Dipartimento~di~Scienze\\agroalimentari,~ambientali\\e~animali}}}
+        {DMED}{\UniudSetup{intestazione=dipartimento,acronimo=DMED,struttura={Dipartimento~di~Medicina}}}
+      }
+      {
+        \PackageWarningNoLine{uniudletter}{Dipartimento '#1' non riconosciuto; uso l'acronimo cosi' come fornito}
+        \UniudSetup{intestazione=dipartimento,acronimo={#1}}
+      }
+  }
+
+\NewDocumentCommand \UniudDipartimento { m }
+  { \uniud_imposta_dipartimento:n {#1} }
+
+\NewDocumentCommand \UniudFirma { }
+  { \bloccofirmauniud }
+
+\ExplSyntaxOff

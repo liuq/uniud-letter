@@ -1,67 +1,180 @@
-# uniud-letter
-University of Udine LaTeX Letter template (based on corporate image)
+# uniudletter
 
-## Installation
+Classe LaTeX per lettere dell'Universita degli Studi di Udine, basata su
+KOMA-Script (`scrlttr2`) e aggiornata ai modelli ufficiali 2025/2026.
 
-Put the `uniud.lco`, `dpia.lco`, `pollo.png` and `iso9001.png` files inside a directory into your TeX search path. Install the `Helvetica Neue Heavy` font systemwide (possibly also other `Helvetica Neue` fonts, if there are not available in your system).
+Versione corrente: **0.2.0** (2026-08-26).
 
-For example, under MacOS X using TeXLive 2016, you can put those files into `~/Library/texmf/tex/latex/uniud-letter`.
+## Principio di distribuzione
 
-In such a case you can issue the following command on a terminal session:
+Il repository distribuisce **solo codice e documentazione**. Sigillo, loghi,
+carta intestata e altri asset di identita visiva UNIUD non sono inclusi e vanno
+ottenuti separatamente da una fonte autorizzata.
 
-```bash
-git clone https://github.com/liuq/uniud-letter.git ~/Library/texmf/tex/latex/uniud-letter
+L'installazione degli asset e automatizzata: SVG/PDF/EPS/PNG vengono
+normalizzati a PDF una sola volta, senza richiedere conversioni durante la
+compilazione LaTeX.
+
+Vedi [ASSETS.md](ASSETS.md).
+
+## Installazione rapida
+
+```sh
+./install.sh
+./install-assets.sh /percorso/agli/asset-ufficiali
+./check-assets.sh
 ```
 
-## Compilation
+`install-assets.sh` accetta anche una directory/ZIP con il modello Word
+ufficiale `*intestata*.dotx` e `uniud-sigillo-completo.svg` (o PDF/EPS/PNG):
+estrae automaticamente la grafica della carta intestata 2025/2026 e la
+converte in PDF per l'uso runtime.
 
-In order to compile the letters you **must** use XeLaTeX. Unfortunately, there is **no way** it can be used with PDFLaTeX because of the fonts.
+## Uso rapido
 
-## Example of use
-
-Load the style with:
-
-```LaTeX
-\documentclass[dpia,subject=true]{scrlttr2}
+```latex
+\documentclass{uniudletter}
 \usepackage{polyglossia}
 \setmainlanguage{italian}
-```
 
-Set the personal information fields:
+\UniudDipartimento{DPIA}
+\UniudDigitale
 
-```LaTeX
-\setkomavar{fromname}{Prof. Luca Di Gaspero}
-\setkomavar{signature}{Luca Di Gaspero}
-\setkomavar{fromphone}{+39 0432 55 8242}
-\setkomavar{frommobilephone}{+39 320 4366035}
-\setkomavar{fromemail}{luca.digaspero@uniud.it}
-\setkomavar{fromurl}{www.dpia.uniud.it/digaspero}
-```
+\UniudSetup{
+  indirizzo = {via delle Scienze 206},
+  cap = 33100,
+  citta = Udine,
+  provincia = UD,
+  paese = Italia,
+  telefono = {+39 0432 558400},
+  email = {dpia@uniud.it},
+  sito = {uniud.it},
+  firmatario = {Nome Cognome},
+  ruolo = {Direttore del Dipartimento}
+}
 
-And then type your letter:
+\UniudDestinatario{
+  nome = {Prof.ssa Nome Cognome},
+  struttura = {Universita di Esempio},
+  indirizzo = {via Esempio 1},
+  cap = 00100,
+  citta = Roma
+}
 
-```LaTeX
+\UniudOggetto{Oggetto della comunicazione}
+
 \begin{document}
-  \begin{letter}{Spett.li Signori Utenti \LaTeX \\
-    dell'Università degli Studi di Udine \\
-    \MakeUppercase{Loro Sedi}
-    }
-    \setkomavar{subject}{nuovo stile \LaTeX Uniud corporate image}
-    \opening{Gentili signore e egregi signori,}
-    ...
-    \closing{Cordialità,}
-    \ps{P.S.  Riporto di seguito lo schema di documento da cui è stata ottenuta questa lettera.}
-    ...
-    \vfill
-    \encl{Non ce ne sono}
-  \end{letter}
+\begin{letter}{}
+\opening{}
+Testo della lettera.
+\UniudFirma
+\end{letter}
 \end{document}
 ```
 
-## Corrections, improvements
+L'API pubblica evita l'uso diretto delle `komavar`; `\setkomavar` resta un
+dettaglio del backend KOMA-Script.
 
-Corrections and improvements are very welcome, you can send me the patches or fork the project, make the improvements/corrections and then issue a pull request.
+## API
 
-## License
+`\UniudSetup{...}` accetta fra le altre le chiavi:
 
-MIT
+- `documento = digitale | analogico`;
+- `intestazione = istituzionale | dipartimento`;
+- `acronimo`, `struttura`, `luogo`;
+- `indirizzo`, `cap`, `citta`, `provincia`, `paese`, `localita`;
+- `telefono`, `fax`, `email`, `sito`;
+- `firmatario`, `ruolo`;
+- `responsabile`, `compilatore`;
+- `protocollo`, `titolo`, `classe`, `fascicolo`;
+- `directory-assets` per una directory locale contenente i PDF canonici.
+
+Comandi di comodo:
+
+```latex
+\UniudDigitale
+\UniudAnalogico
+\UniudIstituzionale
+\UniudDipartimento{DPIA}
+\UniudOggetto{...}
+\UniudFirma
+\UniudAssetsPath{/percorso/asset-pdf}
+```
+
+## Dipartimenti
+
+Sono riconosciuti direttamente:
+
+`DIUM`, `DILL`, `DMIF`, `DPIA`, `DIES`, `DISG`, `DI4A`, `DMED`.
+
+`DEIS` e accettato come alias per `DIES`; la chiave e case-insensitive.
+
+Il marchio di dipartimento viene costruito a runtime da sigillo + acronimo,
+entrambi normalizzati a **13 mm di altezza**. Il sigillo e un asset esterno;
+l'acronimo usa la catena di font:
+
+1. Gotham Black;
+2. Work Sans Black;
+3. Work Sans ExtraBold;
+4. Work Sans con `FakeBold`;
+5. Helvetica Neue Black/Bold o equivalente Helvetica-like;
+6. sans-serif bold generico.
+
+I blocchi informativi superiori seguono Circular Bold/Book 8/8 pt; Work Sans e
+il fallback quando Circular non e disponibile.
+
+## Uso avanzato
+
+```latex
+\documentclass{scrlttr2}
+\usepackage{uniudletter}
+```
+
+## Motore TeX
+
+Usare **XeLaTeX** (motore verificato dai test). Il codice usa `fontspec`, quindi
+pdfLaTeX non e supportato. LuaLaTeX puo funzionare ma non e ancora il motore di
+regressione principale.
+
+La grafica usa TikZ con `remember picture`: compilare due volte quando cambia
+l'impaginazione.
+
+## Sviluppo e release
+
+```sh
+l3build check
+l3build ctan
+```
+
+`make examples` richiede asset installati e viene mantenuto come test grafico
+locale, non come requisito della CI pubblica.
+
+## CTAN e licenze
+
+Il codice e distribuito con licenza MIT. Gli archivi CTAN/TDS non contengono
+asset UNIUD. Nome, sigillo, loghi e identita visiva restano proprieta
+dell'Universita degli Studi di Udine; vedere `NOTICE`.
+
+## Continuous integration and releases
+
+The repository includes two GitHub Actions workflows:
+
+- `.github/workflows/ci.yml` runs `l3build check`, tests installation of external branding assets using synthetic PDFs, and verifies that the CTAN/TDS archives can be built. The generated archives are retained as temporary workflow artifacts.
+- `.github/workflows/release.yml` runs for tags matching `vX.Y.Z` (or manually for an existing tag), verifies that `VERSION` matches the tag, runs the test suite, builds the CTAN and TDS archives, creates SHA-256 checksums, and attaches the versioned files to the GitHub Release.
+
+A normal release therefore only requires committing the source tree and tagging it:
+
+```sh
+git tag v0.2.0
+git push origin v0.2.0
+```
+
+GitHub itself supplies the automatically generated `Source code (zip)` and `Source code (tar.gz)` archives. The workflow adds only the derived release artifacts:
+
+```text
+uniudletter-0.2.0-ctan.zip
+uniudletter-0.2.0.tds.zip
+SHA256SUMS
+```
+
+Branding assets are deliberately excluded from all of these archives.

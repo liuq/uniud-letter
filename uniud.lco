@@ -1,213 +1,295 @@
-\ProvidesFile{uniud.lco}[2017/02/01 lco (Luca Di Gaspero)]
-\RequirePackage{tikzpagenodes}
-\usetikzlibrary{calc}
-\usetikzlibrary{fit}
+\ProvidesFile{uniud.lco}[2026/08/26 v0.2.0 UNIUD letterhead 2026]
+
 \RequirePackage{fontspec}
-\RequirePackage{url}
-\RequirePackage{iflang}
-\usepackage[left=3cm,right=3cm,top=3cm,bottom=5cm]{geometry}
-\newkomavar{fromdepartment}
-\newkomavar{qualitysystem}
-\newkomavar{fromdept}
-\newkomavar{lastpage}
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+\RequirePackage{etoolbox}
+\RequirePackage{geometry}
+\usetikzlibrary{calc}
 
-\setkomavar{phoneseparator}{p}
-\setkomavar{mobilephoneseparator}{m}
-\setkomavar{faxseparator}{f}
-\setkomavar{emailseparator}{e}
-\setkomavar{urlseparator}{w}
-\setkomavar{qualitysystem}{\IfLanguagePatterns{italian}{ISO9001 \\ Sistema Gestione Qualità Certificato}{ISO9001 \\ Quality System Certification}}
-\setkomavar{place}{Udine}
-\setkomavar{lastpage}{}
+\makeatletter
 
-\KOMAoption{refline}{dateleft}
-\KOMAoption{backaddress}{false}
-\KOMAoption{subject}{titled}
-\KOMAoption{fontsize}{10pt}
-\KOMAoption{parskip}{full}
+\definecolor{uniudblue}{HTML}{0000FF}
+
+% Gli asset grafici ufficiali UNIUD non sono redistribuiti con il pacchetto.
+% A runtime usiamo esclusivamente PDF, preparati esternamente da install-assets.sh.
+\newcommand*{\uniud@assethelp}{Eseguire install-assets.sh su una directory contenente gli asset ufficiali UNIUD (PDF/SVG/EPS/PNG), oppure usare \string\UniudAssetsPath per una directory locale.}
+\def\uniud@assetprefix{}
+\newcommand*{\uniudsetassetspath}[1]{%
+  \gdef\uniud@assetprefix{#1/}%
+  \graphicspath{{#1/}}%
+}
+\newcommand*{\uniud@includeasset}[2][]{%
+  \ifx\uniud@assetprefix\@empty
+    \def\uniud@assetfile{#2.pdf}%
+  \else
+    \edef\uniud@assetfile{\uniud@assetprefix#2.pdf}%
+  \fi
+  \IfFileExists{\uniud@assetfile}{%
+    \includegraphics[#1]{\uniud@assetfile}%
+  }{%
+    \PackageError{uniud}{Asset grafico '#2.pdf' non trovato}{\uniud@assethelp}%
+  }%
+}
+
+\IfFontExistsTF{Work Sans}{%
+  \setmainfont{Work Sans}[Ligatures=TeX]
+  \setsansfont{Work Sans}[Ligatures=TeX]
+}{%
+  \setmainfont{Noto Sans}[Ligatures=TeX]
+  \setsansfont{Noto Sans}[Ligatures=TeX]
+  \PackageWarningNoLine{uniud}{Work Sans non trovato; uso Noto Sans. Installare Work Sans per la tipografia ufficiale}
+}
+
+% Tipografia dei blocchi di intestazione (Manuale di identita' visiva 2026,
+% sezione 2.2, tavola 071): Circular Bold 8/8 pt per il blocco struttura/sito
+% e Circular Book 8/8 pt per il blocco indirizzo. Il DOTX ufficiale usa Work Sans
+% per i campi modificabili; lo manteniamo esclusivamente come fallback quando
+% Circular non e' installato.
+\newif\ifuniud@circular
+\uniud@circularfalse
+\IfFontExistsTF{Circular Std Book}{%
+  \newfontfamily\uniudheaderbook{Circular Std Book}[Ligatures=TeX]
+  \IfFontExistsTF{Circular Std Bold}{%
+    \newfontfamily\uniudheaderbold{Circular Std Bold}[Ligatures=TeX]
+  }{\newfontfamily\uniudheaderbold{Circular Std Book}[Ligatures=TeX,FakeBold=2]}%
+  \uniud@circulartrue
+}{%
+  \IfFontExistsTF{LL Circular Book}{%
+    \newfontfamily\uniudheaderbook{LL Circular Book}[Ligatures=TeX]
+    \IfFontExistsTF{LL Circular Bold}{%
+      \newfontfamily\uniudheaderbold{LL Circular Bold}[Ligatures=TeX]
+    }{\newfontfamily\uniudheaderbold{LL Circular Book}[Ligatures=TeX,FakeBold=2]}%
+    \uniud@circulartrue
+  }{%
+    \IfFontExistsTF{Work Sans}{%
+      \newfontfamily\uniudheaderbook{Work Sans}[Ligatures=TeX]
+      \IfFontExistsTF{Work Sans SemiBold}{%
+        \newfontfamily\uniudheaderbold{Work Sans SemiBold}[Ligatures=TeX]
+      }{\newfontfamily\uniudheaderbold{Work Sans}[Ligatures=TeX,FakeBold=2]}%
+    }{%
+      \newcommand*{\uniudheaderbook}{\sffamily}%
+      \newcommand*{\uniudheaderbold}{\sffamily\bfseries}%
+    }%
+    \PackageWarningNoLine{uniud}{LL Circular non trovato. I blocchi dell'intestazione usano il fallback d'ufficio; installare Circular per la resa tipografica esatta del manuale}%
+  }%
+}
+% Font dell'acronimo dipartimentale. Gotham Black e' la font primaria del logo;
+% Work Sans Black e' il fallback ufficiale previsto dal manuale.
+\IfFontExistsTF{Gotham Black}{%
+  \newfontfamily\uniudacronymfont{Gotham Black}[Ligatures=TeX]
+}{%
+  \IfFontExistsTF{Work Sans Black}{%
+    \newfontfamily\uniudacronymfont{Work Sans Black}[Ligatures=TeX]
+  }{%
+    \IfFontExistsTF{Work Sans ExtraBold}{%
+      \newfontfamily\uniudacronymfont{Work Sans ExtraBold}[Ligatures=TeX]
+    }{%
+      \IfFontExistsTF{Work Sans}{%
+        \newfontfamily\uniudacronymfont{Work Sans}[Ligatures=TeX,FakeBold=3]
+      }{%
+        % Ultimo fallback tipografico prima del sans generico: Helvetica-like.
+        \IfFontExistsTF{Helvetica Neue Black}{%
+          \newfontfamily\uniudacronymfont{Helvetica Neue Black}[Ligatures=TeX]
+        }{%
+          \IfFontExistsTF{Helvetica Neue Bold}{%
+            \newfontfamily\uniudacronymfont{Helvetica Neue Bold}[Ligatures=TeX]
+          }{%
+            \IfFontExistsTF{Helvetica Neue}{%
+              \newfontfamily\uniudacronymfont{Helvetica Neue}[Ligatures=TeX,FakeBold=3]
+            }{%
+              \IfFontExistsTF{TeX Gyre Heros}{%
+                \newfontfamily\uniudacronymfont{TeX Gyre Heros}[Ligatures=TeX,FakeBold=3]
+              }{%
+                \newcommand*{\uniudacronymfont}{\sffamily\bfseries}%
+              }%
+            }%
+          }%
+        }%
+      }%
+    }%
+  }%
+}
+
+\geometry{a4paper,left=60mm,right=15mm,top=40mm,bottom=26mm,includehead=false,includefoot=false}
+
+\KOMAoptions{%
+  fontsize=10pt,
+  parskip=half,
+  addrfield=false,
+  backaddress=false,
+  foldmarks=false,
+  refline=nodate,
+  subject=titled
+}
 
 \setlength{\parindent}{0pt}
+\pagestyle{headings}
+\setkomafont{subject}{\normalfont\bfseries\fontsize{10pt}{12.5pt}\selectfont}
+\setkomafont{fromname}{\normalfont}
 \renewcommand*{\raggedsignature}{\raggedright}
-% to get the addressee aligned with the body
-\@setplength{firstheadwidth}{\textwidth}
-\@setplength{toaddrhpos}{\oddsidemargin}
-\@addtoplength{toaddrhpos}{1in}
 
-\pagestyle{myheadings}
+% Backend KOMA: questi nomi restano disponibili per compatibilita', ma
+% l'interfaccia pubblica consigliata e' definita da uniudletter.sty.
+\newkomavar{struttura}
+\newkomavar{protocollo}
+\newkomavar{titolo}
+\newkomavar{classe}
+\newkomavar{fascicolo}
+\newkomavar{responsabileprocedimento}
+\newkomavar{compilatoreprocedimento}
+\newkomavar{indirizzopiepagina}
+\newkomavar{ruolofirmatario}
+\newkomavar{acronimodipartimento}
+\newkomavar{marchiodipartimento}
 
-\setmainfont{Arial}[Ligatures=TeX]
-\setsansfont{Arial}[Ligatures=TeX]
-\setkomavar{subjectseparator}[]{\textbf{\subjectname:}~}
-\setkomafont{subject}{\sffamily}
+\setkomavar{place}{Udine}
+\setkomavar{fromurl}{uniud.it}
+\setkomavar{struttura}{Nome\\Ufficio}
+\setkomavar{fromaddress}{via Palladio 8\\33100 Udine, Italia}
+\setkomavar{indirizzopiepagina}{via Palladio 8, 33100 Udine (UD), Italia}
+\setkomavar{responsabileprocedimento}{}
+\setkomavar{compilatoreprocedimento}{}
+\setkomavar{ruolofirmatario}{}
+\setkomavar{acronimodipartimento}{}
+\setkomavar{marchiodipartimento}{}
 
-\def\mytestfont{"HelveticaNeue Heavy"}
-  \def\myfallback{"Helvetica Neue Bold"}
-  \def\mysafefallback{"Arial Bold"}
-  \count255=\interactionmode
-  \batchmode
-  \font\foo=\mytestfont\space at 10pt
-  \ifx\foo\nullfont
-    \font\foo = \myfallback\space at 10pt
-    \ifx\foo\nullfont
-      \font\foo = \mysafefallback\space at 10pt
-      \ifx\foo\nullfont
-        \errorstopmode
-        \errmessage{no suitable font found}
-      \else
-        \let\mytestfont=\mysafefallback
-        \newfontface\headerfontheavy{Arial Bold}
-      \fi
-    \else
-      \let\mytestfont=\myfallback
-      \newfontface\headerfontheavy{Helvetica Neue Bold}
-    \fi
-    \else
-      \newfontface\headerfontheavy{HelveticaNeue Heavy}
-  \fi
-  \interactionmode=\count255
-  
-\def\mytestfont{"Helvetica Neue Bold"}
-  \def\myfallback{"Arial Bold"}
-  \count255=\interactionmode
-  \batchmode
-  \font\foo=\mytestfont\space at 10pt
-  \ifx\foo\nullfont
-    \font\foo = \myfallback\space at 10pt
-    \ifx\foo\nullfont
-      \errorstopmode
-      \errmessage{no suitable font found}
-    \else
-      \let\mytestfont=\myfallback
-      \newfontface\headerfontbold{Arial Bold}
-    \fi
+% Modalita' documentale.
+\def\uniud@modalita{digitale}
+\newcommand*{\uniuddigitale}{\gdef\uniud@modalita{digitale}}
+\newcommand*{\uniudanalogico}{\gdef\uniud@modalita{analogico}}
+
+% Tipo di carta intestata.
+\def\uniud@intestazione{istituzionale}
+\newcommand*{\uniudistituzionale}{\gdef\uniud@intestazione{istituzionale}}
+\newcommand*{\uniuddipartimento}{\gdef\uniud@intestazione{dipartimento}}
+
+\newcommand*{\uniud@headerboldtext}[1]{{\color{uniudblue}\uniudheaderbold\fontsize{8pt}{8pt}\selectfont #1}}
+\newcommand*{\uniud@headerbooktext}[1]{{\color{uniudblue}\uniudheaderbook\fontsize{8pt}{8pt}\selectfont #1}}
+\newcommand*{\uniud@bodyfont}{\fontsize{10pt}{12.5pt}\selectfont}
+\newcommand*{\uniud@reffont}{\fontsize{6pt}{7.5pt}\selectfont}
+
+\def\uniud@marchiofile{}
+\newcommand*{\uniudsetmarchiodipartimento}[1]{\gdef\uniud@marchiofile{#1}}
+
+% Marchio di dipartimento per la carta intestata.
+% Sigillo e acronimo sono entrambi normalizzati a 13 mm di altezza.
+% L'acronimo e' composto in Gotham Black (fallback ufficiale: Work Sans Black)
+% e scalato con \resizebox, cosi' DPIA, DILL, DI4A, ecc. hanno la stessa
+% altezza visiva pur mantenendo larghezze naturali diverse.
+\newcommand*{\uniud@acronimodipartimento}{%
+  \resizebox{!}{13mm}{%
+    {\color{uniudblue}\uniudacronymfont\usekomavar{acronimodipartimento}}%
+  }%
+}
+\newcommand*{\uniud@marchiodipartimento}{%
+  \ifx\uniud@marchiofile\@empty
+    \raisebox{0pt}[13mm][0pt]{%
+      \uniud@includeasset[height=13mm]{uniud-sigillo-completo}%
+      \hspace{1.5mm}%
+      \uniud@acronimodipartimento
+    }%
   \else
-    \newfontface\headerfontbold{Helvetica Neue Bold}
+    \includegraphics[height=13mm]{\uniud@marchiofile}%
   \fi
-  \interactionmode=\count255
-  
-  
-\def\mytestfont{"Helvetica Neue"}
-  \def\myfallback{"Arial"}
-  \count255=\interactionmode
-  \batchmode
-  \font\foo=\mytestfont\space at 10pt
-  \ifx\foo\nullfont
-    \font\foo = \myfallback\space at 10pt
-    \ifx\foo\nullfont
-      \errorstopmode
-      \errmessage{no suitable font found}
-    \else
-      \let\mytestfont=\myfallback
-      \newfontface\headerfont{Arial}
-    \fi
-  \else
-    \newfontface\headerfont{Helvetica Neue}
-  \fi
-  \interactionmode=\count255
-
-
-%\newfontface\headerfontheavy{HelveticaNeue Heavy}
-%\newfontface\headerfont{Helvetica Neue}
-
-\definecolor{uniudBrown}{cmyk}{0,.30,.85,.80}
-\definecolor{uniudOrange}{cmyk}{0,.60,1.0,0}
-\definecolor{uniudBlue}{cmyk}{.40,0,0,.40}
-\definecolor{uniudLightBrown}{cmyk}{0,.30,.85,.40}
-
+}
 \setkomavar{firsthead}{%
-\begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
-\node (xLeft) at ($ (current page.north west) + (1, -1)$) {};
-\node (xRight) at ($(current page.north east) + (-1, -1)$) {};
-\node (firstTab) at ($(xLeft)!0.1!(xRight)$) {};
-\node (secondTab) at ($ (xLeft)!0.3!(xRight)$) {};
-\node (thirdTab) at ($ (xLeft)!0.55!(xRight)$) {};
-\node (fourthTab) at ($ (xLeft)!0.8!(xRight)$) {};
-\node (fifthTab) at ($ (xLeft)!1.0!(xRight)$) {};
-\fill [uniudBrown] (xLeft) rectangle ($(firstTab) + (0, -0.5)$);
-\fill [uniudOrange] (firstTab) rectangle ($(secondTab) + (0, -0.5)$);
-\fill [uniudBlue] (secondTab) rectangle ($(fifthTab) + (0, -0.5)$);
-\end{tikzpicture}
+  \begin{tikzpicture}[remember picture,overlay]
+    \ifdefstring{\uniud@intestazione}{dipartimento}{%
+      \node[anchor=north west,inner sep=0pt] at (current page.north west)
+        {\uniud@includeasset[width=\paperwidth,height=\paperheight]{uniud-letterhead-first-dipartimento}};
+      \node[anchor=north west,inner sep=0pt]
+        at ([xshift=12mm,yshift=-12mm]current page.north west)
+        {\uniud@marchiodipartimento};
+      % Nella carta intestata di dipartimento i due blocchi sono anticipati
+      % rispetto a quella istituzionale (costruzione 2.2, manuale 2026).
+      \node[anchor=north west,align=left,text width=40mm,inner sep=0pt]
+        at ([xshift=107mm,yshift=-14mm]current page.north west)
+        {\uniud@headerboldtext{\usekomavar{struttura}\\[3mm]\usekomavar{fromurl}}};
+      \node[anchor=north west,align=left,text width=28mm,inner sep=0pt]
+        at ([xshift=155mm,yshift=-14mm]current page.north west)
+        {\uniud@headerbooktext{\usekomavar{fromaddress}}};
+    }{%
+      \node[anchor=north west,inner sep=0pt] at (current page.north west)
+        {\uniud@includeasset[width=\paperwidth,height=\paperheight]{uniud-letterhead-first}};
+      \node[anchor=north west,align=left,text width=40mm,inner sep=0pt]
+        at ([xshift=123mm,yshift=-14mm]current page.north west)
+        {\uniud@headerboldtext{\usekomavar{struttura}\\[3mm]\usekomavar{fromurl}}};
+      \node[anchor=north west,align=left,text width=28mm,inner sep=0pt]
+        at ([xshift=171mm,yshift=-14mm]current page.north west)
+        {\uniud@headerbooktext{\usekomavar{fromaddress}}};
+    }%
 
-\begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
+    \node[anchor=north west,align=left,text width=72mm,inner sep=0pt]
+      at ([xshift=123mm,yshift=-54mm]current page.north west)
+      {\uniud@bodyfont\usekomavar{toname}\\\usekomavar{toaddress}};
 
-\path let \p1=(firstTab), \p2=($(secondTab) + (-0.2, 0)$), \n1={veclen(\x2-\x1,\y2-\y1)} in
-node[anchor=north west,inner sep=0pt, outer sep=0pt, fit={($(firstTab) + (0, -0.75)$) ($(secondTab) + (-0.2, -2.75) $)},align=left] {%
-\begin{minipage}[t][2cm]{\n1}
-\color{uniudBrown}%
-\fontsize{14pt}{14pt}\headerfontheavy%
-\IfLanguagePatterns{italian}{
-\MakeUppercase{Università} \\
-\MakeUppercase{degli Studi} \\
-\MakeUppercase{di Udine} \\
-}
-{
-\MakeUppercase{University} \\
-\MakeUppercase{of Udine} \\
-}
-\fontsize{9pt}{9pt}\headerfontbold\color{uniudLightBrown}hic sunt futura\\[0.5\baselineskip]
-\includegraphics[width=34.5pt]{uniud-logo.png}
-\end{minipage}
-};
-
-\path let \p1=(secondTab), \p2=($(thirdTab) + (-0.2, 0)$), \n1={veclen(\x2-\x1,\y2-\y1)} in node [anchor=north west,inner sep=0pt, fit={($(secondTab) + (0.0, -0.75)$) ($(thirdTab) + (-0.2, -2.75)$)},align=left] {%
-\begin{minipage}[t][2cm]{\n1}
-\color{uniudLightBrown}%
-\fontsize{10pt}{12pt}\headerfontbold%
-\Ifkomavarempty{fromname}{}{\usekomavar{fromname} \\[0.5\baselineskip]}
-\fontsize{9pt}{9pt}\headerfont%
-\Ifkomavarempty{fromdepartment}{}{\vspace{-1\baselineskip}\begin{sloppypar}\usekomavar{fromdepartment}\end{sloppypar}}
-\end{minipage}
-};
-
-\path let \p1=(thirdTab), \p2=($(fourthTab) + (-0.2, 0)$), \n1={veclen(\x2-\x1,\y2-\y1)} in node[anchor=north west,inner sep=0pt, fit={($(thirdTab) + (0.0, -0.75)$) ($(fourthTab) + (-0.2, -2.75)$)},align=left] {%
-\begin{minipage}[t][2cm]{\n1}
-\color{uniudLightBrown}%
-\fontsize{9pt}{9pt}\headerfont%
-\usekomavar{fromaddress} \\
-\Ifkomavarempty{fromphone}{}{\usekomavar{phoneseparator} \usekomavar{fromphone}\\}   
-\Ifkomavarempty{frommobilephone}{}{\usekomavar{mobilephoneseparator} \usekomavar{frommobilephone}} 
-
-\vspace{1\baselineskip}
-\Ifkomavarempty{fromemail}{}{\usekomavar{fromemail} \\}
-\Ifkomavarempty{fromurl}{}{\usekomavar{fromurl} \\}
-\end{minipage}
-};
-
-\path let \p1=(fourthTab), \p2=(fifthTab), \n1={veclen(\x2-\x1,\y2-\y1)} in node[anchor=north west,inner sep=0pt, fit={($(fourthTab) + (0.0, -0.75)$) ($ (fifthTab) + (0.0, -2.75)$)},align=right] {%
-\begin{minipage}[t][2cm]{\n1}
-\fontsize{10pt}{10pt}\color{uniudBlue}\headerfontbold%
-\Ifkomavarempty{fromurl}{www.uniud.it}{}
-\Ifkomavarempty{qualitysystem}{}{%
-\begin{center}
-\includegraphics[width=1.2cm]{iso9001.png} \\
-\fontsize{7pt}{7pt}\color{black}\headerfont\usekomavar{qualitysystem}
-\end{center}
-}
-\end{minipage}
-};
-\end{tikzpicture}   
+    \ifdefstring{\uniud@modalita}{analogico}{%
+      \node[anchor=north west,align=left,text width=52mm,inner sep=0pt]
+        at ([xshift=60mm,yshift=-54mm]current page.north west)
+        {\uniud@bodyfont
+          \begin{tabular}{@{}l@{\hspace{5mm}}l@{}}
+            Prot. & \usekomavar{protocollo}\\
+            Tit.  & \usekomavar{titolo}\\
+            cl.   & \usekomavar{classe}\\
+            Fasc. & \usekomavar{fascicolo}
+          \end{tabular}};
+    }{%
+      \node[anchor=north west,align=left,text width=52mm,inner sep=0pt]
+        at ([xshift=60mm,yshift=-54mm]current page.north west)
+        {\uniud@bodyfont
+          \usekomavar{place}\\
+          data del protocollo\\[5mm]
+          Numero della\\
+          Segnatura di protocollo};
+    }%
+  \end{tikzpicture}%
 }
 
 \setkomavar{nexthead}{%
-\begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
-\node (xLeft) at ($ (current page.north west) + (1, -1)$) {};
-\node (xRight) at ($(current page.north east) + (-1, -1)$) {};
-\node (firstTab) at ($(xLeft)!0.1!(xRight)$) {};
-\node (secondTab) at ($ (xLeft)!0.3!(xRight)$) {};
-\node (thirdTab) at ($ (xLeft)!0.55!(xRight)$) {};
-\node (fourthTab) at ($ (xLeft)!0.8!(xRight)$) {};
-\node (fifthTab) at ($ (xLeft)!1.0!(xRight)$) {};
-\fill [uniudBrown] (xLeft) rectangle ($(firstTab) + (0, -0.5)$);
-\fill [uniudOrange] (firstTab) rectangle ($(secondTab) + (0, -0.5)$);
-\fill [uniudBlue] (secondTab) rectangle ($(fifthTab) + (0, -0.5)$);
-\end{tikzpicture}
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=north west,inner sep=0pt] at (current page.north west)
+      {\uniud@includeasset[width=\paperwidth]{uniud-letterhead-next}};
+  \end{tikzpicture}%
 }
 
 \setkomavar{firstfoot}{%
-\fontsize{7pt}{7pt}\headerfont CF 80014550307 - P.IVA 01071600306 – IBAN IT65Z0200812310000040469457 – BIC swift UNCRITM1UN6 %
-\hfill\fontsize{7pt}{7pt}\headerfont\thepage\Ifkomavarempty{lastpage}{}{/\letterlastpage}
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south west,align=left,text width=108mm,inner sep=0pt]
+      at ([xshift=60mm,yshift=14.2mm]current page.south west)
+      {\uniud@reffont
+       \Ifkomavarempty{responsabileprocedimento}{}{Responsabile del procedimento: \usekomavar{responsabileprocedimento}\\}%
+       \Ifkomavarempty{compilatoreprocedimento}{}{Compilatore del procedimento: \usekomavar{compilatoreprocedimento}\\}%
+       \usekomavar{indirizzopiepagina}%
+       \Ifkomavarempty{fromphone}{}{ - t \usekomavar{fromphone}}%
+       \Ifkomavarempty{fromfax}{}{ - f \usekomavar{fromfax}}%
+       \Ifkomavarempty{fromemail}{}{ - \usekomavar{fromemail}}%
+       \Ifkomavarempty{fromurl}{}{ - www.\usekomavar{fromurl}}};
+  \end{tikzpicture}%
 }
 
 \setkomavar{nextfoot}{%
-\Ifthispageodd{\hfill\fontsize{7pt}{7pt}\headerfont\thepage\Ifkomavarempty{lastpage}{}{/\letterlastpage}}{\fontsize{7pt}{7pt}\headerfont\thepage\Ifkomavarempty{lastpage}{}{/\letterlastpage}}
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south east,inner sep=0pt,text=uniudblue]
+      at ([xshift=-14.8mm,yshift=14.2mm]current page.south east)
+      {\fontsize{8pt}{8pt}\selectfont\thepage};
+  \end{tikzpicture}%
 }
+
+\AtBeginLetter{\uniud@bodyfont}
+
+\newcommand*{\bloccofirmauniud}{%
+  \par\vspace{4mm}
+  \usekomavar{ruolofirmatario}\\
+  \usekomavar{signature}%
+  \ifdefstring{\uniud@modalita}{digitale}{%
+    \par\vspace{8mm}
+    {\fontsize{6pt}{7.5pt}\selectfont\colorbox{yellow}{\underline{FIRMA DIGITALE}}}\par
+    \vspace{5mm}
+    {\fontsize{6pt}{7.5pt}\selectfont
+    Documento informatico firmato digitalmente ai sensi del D.lgs. 82/2005 s.m.i. e norme collegate, il quale sostituisce il documento cartaceo e la firma autografa.}%
+  }{}%
+}
+
+\makeatother

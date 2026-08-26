@@ -1,0 +1,13 @@
+UNIUD BRANDING NOTICE
+
+The LaTeX code in this distribution is licensed under the MIT License.
+
+The University of Udine name, seal, logos and other visual identity assets are
+property of the Universita degli Studi di Udine and are subject to the
+University's visual identity guidelines and logo-use protocol.
+
+No UNIUD seal, logo, official letterhead image, or other branding artwork is
+redistributed by this package. Users must obtain authorized assets separately
+and install them with install-assets.sh (or provide project-local PDF assets).
+The MIT License for the package code does not grant trademark or branding
+rights.

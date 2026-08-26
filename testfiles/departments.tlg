@@ -1,0 +1,13 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+dept=DIUM
+dept=DILL
+dept=DMIF
+dept=DPIA
+dpia-struttura=Dipartimento Politecnico di\\ingegneria e architettura
+dept=DIES
+dept=DISG
+dept=DI4A
+dept=DMED
+Package uniudletter Warning: AcronimoDEISnoncorrente;usoDIES.
+alias=DIES

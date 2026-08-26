@@ -1,0 +1,44 @@
+\documentclass{uniudletter}
+\usepackage{polyglossia}
+\setmainlanguage{italian}
+
+\UniudSetup{
+  documento = digitale,
+  intestazione = istituzionale,
+  struttura = {Nome\\Ufficio},
+  indirizzo = {via Palladio 8},
+  cap = 33100,
+  citta = Udine,
+  provincia = UD,
+  paese = Italia,
+  telefono = {+39 0000 000000},
+  email = {nome.ufficio@uniud.it},
+  sito = {uniud.it},
+  responsabile = {Nome Cognome - nome.cognome@uniud.it},
+  compilatore = {Nome Cognome - nome.cognome@uniud.it},
+  firmatario = {Nome Cognome},
+  ruolo = {Funzione}
+}
+
+\UniudDestinatario{
+  nome = {Spett.le Corte dei Conti},
+  struttura = {Procura Regionale FVG},
+  indirizzo = {via Esempio 1},
+  cap = 33100,
+  citta = Udine
+}
+
+\UniudOggetto{Testo oggetto}
+
+\begin{document}
+\begin{letter}{}
+\opening{}
+Testo di esempio per una lettera digitale. L'interfaccia pubblica non richiede
+l'uso diretto di \texttt{\string\setkomavar}.
+
+\UniudFirma
+
+\newpage
+Eventuale testo su piu' pagine.
+\end{letter}
+\end{document}

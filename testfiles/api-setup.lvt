@@ -1,0 +1,41 @@
+\input regression-test.tex
+\documentclass{uniudletter}
+\begin{document}
+\makeatletter
+\START
+\UniudSetup{
+  documento=digitale,
+  intestazione=istituzionale,
+  struttura={Area Test},
+  indirizzo={via Test 1},
+  cap=33100,
+  citta=Udine,
+  provincia=UD,
+  paese=Italia,
+  telefono={+39 0432 000000},
+  email={test@uniud.it},
+  sito={uniud.it},
+  firmatario={Mario Rossi},
+  ruolo={Responsabile}
+}
+\UniudDestinatario{
+  nome={Anna Bianchi},
+  struttura={Ente Test},
+  indirizzo={via Destinatario 2},
+  cap=34100,
+  citta=Trieste,
+  provincia=TS,
+  paese=Italia
+}
+\TYPE{struttura=\scr@struttura@var}
+\TYPE{mittente=\scr@fromaddress@var}
+\TYPE{telefono=\scr@fromphone@var}
+\TYPE{email=\scr@fromemail@var}
+\TYPE{sito=\scr@fromurl@var}
+\TYPE{firmatario=\scr@signature@var}
+\TYPE{ruolo=\scr@ruolofirmatario@var}
+\TYPE{destinatario=\scr@toname@var}
+\TYPE{destindirizzo=\scr@toaddress@var}
+\END
+\makeatother
+\end{document}

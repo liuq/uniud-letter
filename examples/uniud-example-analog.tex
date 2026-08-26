@@ -1,0 +1,44 @@
+\documentclass{uniudletter}
+\usepackage{polyglossia}
+\setmainlanguage{italian}
+
+\UniudSetup{
+  documento = analogico,
+  intestazione = istituzionale,
+  struttura = {Nome\\Ufficio},
+  indirizzo = {via Palladio 8},
+  cap = 33100,
+  citta = Udine,
+  provincia = UD,
+  paese = Italia,
+  telefono = {+39 0000 000000},
+  sito = {uniud.it},
+  firmatario = {Nome Cognome},
+  ruolo = {Funzione}
+}
+
+\UniudProtocollo{
+  numero = 4,
+  titolo = 14,
+  classe = 2,
+  fascicolo = 1
+}
+
+\UniudDestinatario{
+  nome = {Prof.ssa Nome Cognome},
+  struttura = {Universita' di Esempio},
+  indirizzo = {via Esempio 1},
+  cap = 00100,
+  citta = Roma
+}
+
+\UniudOggetto{Testo oggetto}
+
+\begin{document}
+\begin{letter}{}
+\opening{}
+Testo di esempio per una lettera analogica.
+
+\UniudFirma
+\end{letter}
+\end{document}

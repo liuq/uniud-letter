@@ -1,0 +1,11 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+struttura=Area Test
+mittente=via Test 1\\33100 Udine (UD), Italia
+telefono=+39 0432 000000
+email=test@uniud.it
+sito=uniud.it
+firmatario=Mario Rossi
+ruolo=Responsabile
+destinatario=Anna Bianchi
+destindirizzo=Ente Test\\via Destinatario 2\\34100 Trieste (TS), Italia
