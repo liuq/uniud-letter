@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{uniudletter}[2026/08/26 v0.2.0 Classe per lettere UNIUD]
+\ProvidesClass{uniudletter}[2026/08/26 v0.2.1 Classe per lettere UNIUD]
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrlttr2}}
 \ProcessOptions\relax
