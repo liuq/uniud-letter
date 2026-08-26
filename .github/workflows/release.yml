@@ -75,7 +75,7 @@ jobs:
           set -euo pipefail
           l3build check
 
-      - name: Build CTAN package
+      - name: Build CTAN and TDS packages
         shell: bash
         run: |
           set -euo pipefail
@@ -88,18 +88,22 @@ jobs:
 
           mkdir -p release
 
-          CTAN_ZIP="$(find . -maxdepth 2 -type f -name 'uniudletter-ctan.zip' | head -n 1)"
-          TDS_ZIP="$(find . -maxdepth 2 -type f -name 'uniudletter.tds.zip' | head -n 1)"
+          CTAN_ZIP="$(find . -type f -name 'uniudletter-ctan.zip' -print -quit)"
+          TDS_ZIP="$(find . -type f -name 'uniudletter.tds.zip' -print -quit)"
 
-          if [[ -z "$CTAN_ZIP" || ! -f "$CTAN_ZIP" ]]; then
+          if [[ -z "$CTAN_ZIP" ]]; then
             echo "CTAN archive not found"
-            find . -maxdepth 3 -type f -name '*.zip' -print
+            find . -type f -name '*.zip' -print
             exit 1
           fi
 
-          if [[ -z "$TDS_ZIP" || ! -f "$TDS_ZIP" ]]; then
+          if [[ -z "$TDS_ZIP" ]]; then
             echo "TDS archive not found"
-            find . -maxdepth 3 -type f -name '*.zip' -print
+            echo
+            echo "Make sure build.lua contains:"
+            echo "  packtdszip = true"
+            echo
+            find . -type f -name '*.zip' -print
             exit 1
           fi
 
@@ -111,6 +115,7 @@ jobs:
 
           (
             cd release
+
             sha256sum \
               "uniudletter-${VERSION}-ctan.zip" \
               "uniudletter-${VERSION}.tds.zip" \

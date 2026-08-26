@@ -1,5 +1,7 @@
 module = "uniudletter"
 ctanpkg = "uniudletter"
+packtdszip = true
+
 
 sourcefiles = {
   "*.cls",
@@ -16,7 +18,7 @@ installfiles = {
 textfiles = {
   "build.lua",
   "README.md",
-  "INSTALL.md",
+  "INSTALL.md",v
   "ASSETS.md",
   "CHANGELOG.md",
   "LICENSE",
