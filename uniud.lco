@@ -1,4 +1,5 @@
-\ProvidesFile{uniud.lco}[2026/08/26 v0.2.2 UNIUD letterhead 2026]
+\input{uniudletter-version.tex}
+\ProvidesFile{uniud.lco}[2026/08/26 v\UniudLetterVersion\space UNIUD letterhead 2026]
 
 \RequirePackage{fontspec}
 \RequirePackage{xcolor}

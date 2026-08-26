@@ -3,7 +3,7 @@
 Classe LaTeX per lettere dell'Universita degli Studi di Udine, basata su
 KOMA-Script (`scrlttr2`) e aggiornata ai modelli ufficiali 2025/2026.
 
-Versione corrente: **0.2.2** (2026-08-26).
+Versione corrente: **0.2.3** (2026-08-26).
 
 ## Principio di distribuzione
 
@@ -155,25 +155,31 @@ Il codice e distribuito con licenza MIT. Gli archivi CTAN/TDS non contengono
 asset UNIUD. Nome, sigillo, loghi e identita visiva restano proprieta
 dell'Universita degli Studi di Udine; vedere `NOTICE`.
 
-## Continuous integration and releases
+## Versioning and releases
 
-The repository includes two GitHub Actions workflows:
+`VERSION` is the **single source of truth** for the package version.
+`uniudletter-version.tex` is generated from it and is consumed by the class,
+package and KOMA letter option; do not edit the generated file manually.
+`build.lua` also reads `VERSION` directly for CTAN metadata.
 
-- `.github/workflows/ci.yml` runs `l3build check`, tests installation of external branding assets using synthetic PDFs, and verifies that the CTAN/TDS archives can be built. The generated archives are retained as temporary workflow artifacts.
-- `.github/workflows/release.yml` runs for tags matching `vX.Y.Z` (or manually for an existing tag), verifies that `VERSION` matches the tag, runs the test suite, builds the CTAN and TDS archives, creates SHA-256 checksums, and attaches the versioned files to the GitHub Release.
-
-A normal release therefore only requires committing the source tree and tagging it:
+Use `release.sh` to advance the version, regenerate derived metadata, run the
+regression tests, create the commit/tag and push the release. For example:
 
 ```sh
-git tag v0.2.2
-git push origin v0.2.2
+./release.sh patch
 ```
 
-GitHub itself supplies the automatically generated `Source code (zip)` and `Source code (tar.gz)` archives. The workflow adds only the derived release artifacts:
+A release is triggered **only** when a tag matching `vX.Y.Z` is pushed. The
+single workflow `.github/workflows/release.yml` verifies that the tag matches
+`VERSION`, runs `l3build check`, builds CTAN/TDS archives, computes SHA-256
+checksums and creates the GitHub Release.
+
+GitHub supplies `Source code (zip)` and `Source code (tar.gz)` automatically.
+The workflow adds only the derived artifacts:
 
 ```text
-uniudletter-0.2.2-ctan.zip
-uniudletter-0.2.2.tds.zip
+uniudletter-X.Y.Z-ctan.zip
+uniudletter-X.Y.Z.tds.zip
 SHA256SUMS
 ```
 
