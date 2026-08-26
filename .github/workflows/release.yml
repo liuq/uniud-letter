@@ -4,89 +4,133 @@ on:
   push:
     tags:
       - 'v*.*.*'
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Existing tag to package (for example v0.2.0)'
-        required: true
-        type: string
 
 permissions:
   contents: write
 
 jobs:
   release:
-    name: Build GitHub release
+    name: Build and publish release
     runs-on: ubuntu-latest
-    container: ghcr.io/xu-cheng/texlive-full:latest
 
     steps:
-      - name: Resolve tag
-        id: meta
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
-            tag='${{ inputs.tag }}'
-          else
-            tag='${GITHUB_REF_NAME}'
-          fi
-          version="${tag#v}"
-          echo "tag=$tag" >> "$GITHUB_OUTPUT"
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-
-      - name: Checkout tag
-        uses: actions/checkout@v4
+      - name: Checkout tagged revision
+        uses: actions/checkout@v7
         with:
-          ref: ${{ steps.meta.outputs.tag }}
           fetch-depth: 0
 
-      - name: Verify VERSION matches tag
+      - name: Validate tag and package version
         shell: bash
         run: |
           set -euo pipefail
-          expected='${{ steps.meta.outputs.version }}'
-          actual="$(tr -d '[:space:]' < VERSION)"
-          if [[ "$actual" != "$expected" ]]; then
-            echo "VERSION ($actual) does not match tag ($expected)" >&2
+
+          TAG="${GITHUB_REF_NAME}"
+
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid release tag: $TAG"
+            echo "Expected format: vX.Y.Z"
             exit 1
           fi
 
-      - name: Regression tests
-        run: l3build check
+          VERSION="${TAG#v}"
 
-      - name: Build CTAN and TDS archives
-        run: l3build ctan
+          if [[ ! -f VERSION ]]; then
+            echo "VERSION file not found"
+            exit 1
+          fi
 
-      - name: Prepare versioned release assets
+          PACKAGE_VERSION="$(tr -d '[:space:]' < VERSION)"
+
+          if [[ "$PACKAGE_VERSION" != "$VERSION" ]]; then
+            echo "Version mismatch"
+            echo "Tag:     $VERSION"
+            echo "VERSION: $PACKAGE_VERSION"
+            exit 1
+          fi
+
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "Release version: $VERSION"
+
+      - name: Install TeX Live dependencies
         shell: bash
         run: |
           set -euo pipefail
-          version='${{ steps.meta.outputs.version }}'
-          mv uniudletter.zip "uniudletter-${version}-ctan.zip"
-          mv uniudletter.tds.zip "uniudletter-${version}.tds.zip"
-          sha256sum \
-            "uniudletter-${version}-ctan.zip" \
-            "uniudletter-${version}.tds.zip" \
-            > SHA256SUMS
 
-      - name: Upload workflow artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: uniudletter-${{ steps.meta.outputs.version }}
-          if-no-files-found: error
-          path: |
-            uniudletter-${{ steps.meta.outputs.version }}-ctan.zip
-            uniudletter-${{ steps.meta.outputs.version }}.tds.zip
-            SHA256SUMS
+          sudo apt-get update
+          sudo apt-get install -y \
+            texlive-xetex \
+            texlive-latex-base \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            latexmk \
+            zip
+
+          l3build --version
+          xelatex --version | head -n 1
+
+      - name: Run regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          l3build check
+
+      - name: Build CTAN package
+        shell: bash
+        run: |
+          set -euo pipefail
+          l3build ctan
+
+      - name: Prepare release artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p release
+
+          CTAN_ZIP="$(find . -maxdepth 2 -type f -name 'uniudletter-ctan.zip' | head -n 1)"
+          TDS_ZIP="$(find . -maxdepth 2 -type f -name 'uniudletter.tds.zip' | head -n 1)"
+
+          if [[ -z "$CTAN_ZIP" || ! -f "$CTAN_ZIP" ]]; then
+            echo "CTAN archive not found"
+            find . -maxdepth 3 -type f -name '*.zip' -print
+            exit 1
+          fi
+
+          if [[ -z "$TDS_ZIP" || ! -f "$TDS_ZIP" ]]; then
+            echo "TDS archive not found"
+            find . -maxdepth 3 -type f -name '*.zip' -print
+            exit 1
+          fi
+
+          cp "$CTAN_ZIP" \
+            "release/uniudletter-${VERSION}-ctan.zip"
+
+          cp "$TDS_ZIP" \
+            "release/uniudletter-${VERSION}.tds.zip"
+
+          (
+            cd release
+            sha256sum \
+              "uniudletter-${VERSION}-ctan.zip" \
+              "uniudletter-${VERSION}.tds.zip" \
+              > SHA256SUMS
+          )
+
+          echo
+          echo "Release artifacts:"
+          ls -lh release
 
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.meta.outputs.tag }}
-          generate_release_notes: true
-          fail_on_unmatched_files: true
-          files: |
-            uniudletter-${{ steps.meta.outputs.version }}-ctan.zip
-            uniudletter-${{ steps.meta.outputs.version }}.tds.zip
-            SHA256SUMS
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          gh release create "$GITHUB_REF_NAME" \
+            --title "uniudletter ${VERSION}" \
+            --generate-notes \
+            "release/uniudletter-${VERSION}-ctan.zip" \
+            "release/uniudletter-${VERSION}.tds.zip" \
+            "release/SHA256SUMS"
