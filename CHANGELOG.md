@@ -1,8 +1,18 @@
 # Changelog
 
-## 0.2.4 - 2026-08-26
+## Unreleased
 
-- Release 0.2.4.
+- Footer riferimenti: ripristinato il corpo 6/7.5 pt previsto dal manuale; etichette Responsabile/Compilatore in grassetto e spazi funzionali tra campi resi piu compatti senza alterare il tracking del font.
+
+- Reso modulare il footer della prima pagina: responsabile, compilatore, indirizzo, contatti, CF/P.IVA e dati bancari possono essere mostrati o nascosti singolarmente; aggiunti switch per branding/riferimenti/footer completo.
+- L'indirizzo del footer deriva automaticamente dai dati dell'intestazione; CF/P.IVA UNIUD hanno valori predefiniti, mentre ABI/CAB/CIN/c/c sono disponibili ma disattivati per default.
+- Allineate le proporzioni del marchio dipartimentale alle unita del manuale: 5,25 u di ingombro/sigillo, 1 u di separazione e 4,8 u per l'acronimo centrato.
+- L'altezza del marker (13 mm di default) e ora l'unica misura assoluta; tutte le altre dimensioni scalano automaticamente.
+- Alleggerito il font dell'acronimo dipartimentale (Gotham Bold/Medium, Work Sans SemiBold/Bold); il wordmark UNIUD mantiene separatamente il peso Black.
+- Repository reso self-contained: il sigillo blu UNIUD e incluso come SVG e PDF.
+- Rimossi `install-assets.sh`, `check-assets.sh`, `ASSETS.md` e la configurazione `directory-assets`.
+- La versione contratta `UNIUD` viene composta direttamente dal pacchetto.
+- Licenza del codice/documentazione cambiata a CC BY-NC 4.0; gli asset UNIUD restano esclusi dalla relicenza.
 
 ## 0.2.3 - 2026-08-26
 

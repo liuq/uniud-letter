@@ -18,6 +18,11 @@ sourcefiles = {
   "*.sty",
   "*.lco",
   "uniudletter-version.tex",
+  "uniud-sigillo-blu.pdf",
+  "uniud-sigillo-blu.svg",
+  "uniud-footer-istituzionale-blu.pdf",
+  "uniud-footer-istituzionale-blu.svg",
+  "uniud-footer-certificazioni.pdf",
 }
 
 installfiles = {
@@ -25,26 +30,29 @@ installfiles = {
   "*.sty",
   "*.lco",
   "uniudletter-version.tex",
+  "uniud-sigillo-blu.pdf",
+  "uniud-sigillo-blu.svg",
+  "uniud-footer-istituzionale-blu.pdf",
+  "uniud-footer-istituzionale-blu.svg",
+  "uniud-footer-certificazioni.pdf",
 }
 
 textfiles = {
   "build.lua",
   "README.md",
   "INSTALL.md",
-  "ASSETS.md",
   "CHANGELOG.md",
   "LICENSE",
   "NOTICE",
   "VERSION",
   "release.sh",
   "install.sh",
-  "install-assets.sh",
-  "check-assets.sh",
   "uninstall.sh",
 }
 
 docfiles = {
   "examples/*.tex",
+  "examples/*.pdf",
 }
 
 typesetfiles = {}
@@ -59,22 +67,25 @@ tdslocations = {
   ["*.sty"] = "tex/latex/uniudletter",
   ["*.lco"] = "tex/latex/uniudletter",
   ["uniudletter-version.tex"] = "tex/latex/uniudletter",
+  ["uniud-sigillo-blu.pdf"] = "tex/latex/uniudletter",
+  ["uniud-sigillo-blu.svg"] = "tex/latex/uniudletter",
+  ["uniud-footer-istituzionale-blu.pdf"] = "tex/latex/uniudletter",
+  ["uniud-footer-istituzionale-blu.svg"] = "tex/latex/uniudletter",
+  ["uniud-footer-certificazioni.pdf"] = "tex/latex/uniudletter",
   ["README.md"] = "doc/latex/uniudletter",
   ["INSTALL.md"] = "doc/latex/uniudletter",
-  ["ASSETS.md"] = "doc/latex/uniudletter",
   ["CHANGELOG.md"] = "doc/latex/uniudletter",
   ["LICENSE"] = "doc/latex/uniudletter",
   ["NOTICE"] = "doc/latex/uniudletter",
   ["examples/*.tex"] = "doc/latex/uniudletter/examples",
-  ["install-assets.sh"] = "scripts/uniudletter",
-  ["check-assets.sh"] = "scripts/uniudletter",
+  ["examples/*.pdf"] = "doc/latex/uniudletter/examples",
 }
 
 uploadconfig = {
   pkg = "uniudletter",
   version = version,
   author = "Luca Di Gaspero and contributors",
-  license = "mit",
+  license = "cc-by-nc-4",
   summary = "University of Udine letter class based on KOMA-Script",
   ctanPath = "/macros/latex/contrib/uniudletter",
   repository = "https://github.com/liuq/uniud-letter",

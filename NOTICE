@@ -1,13 +1,34 @@
 UNIUD BRANDING NOTICE
 
-The LaTeX code in this distribution is licensed under the MIT License.
+The University of Udine name, seal, logos and other visual identity elements
+are trademarks and/or protected identity assets of the Universita degli Studi
+di Udine. No trademark or endorsement rights are granted by the CC BY-NC 4.0
+license applied to the original code and documentation in this repository.
 
-The University of Udine name, seal, logos and other visual identity assets are
-property of the Universita degli Studi di Udine and are subject to the
-University's visual identity guidelines and logo-use protocol.
+This distribution contains the minimal branding assets required by the letter layout:
 
-No UNIUD seal, logo, official letterhead image, or other branding artwork is
-redistributed by this package. Users must obtain authorized assets separately
-and install them with install-assets.sh (or provide project-local PDF assets).
-The MIT License for the package code does not grant trademark or branding
-rights.
+  uniud-sigillo-blu.svg
+  uniud-sigillo-blu.pdf
+  uniud-footer-istituzionale-blu.svg
+  uniud-footer-istituzionale-blu.pdf
+  uniud-footer-certificazioni.pdf
+
+The seal SVG is a vector crop from the official blue "versione_01" UNIUD logo
+made available by the University of Udine; its PDF is the runtime conversion.
+The institutional footer SVG is likewise a vector crop from the same official
+blue "versione_01" artwork and includes the UNIVERSITA DEGLI STUDI DI UDINE /
+HIC SUNT FUTURA block; its PDF is used at runtime. The continuation UNI/UD mark
+is generated typographically by the package and is not stored as an asset. The
+HR/quality certification marks are taken from the official UNIUD letterhead
+template (DOTX) available with the 2025/2026 visual identity material.
+
+Official visual-identity files can be obtained from:
+https://www.uniud.it/uniud/it/ateneo-uniud/identita-visiva/manuale_dimmagine/files
+
+The included crop corresponds to the official files available on 2026-08-26,
+the publication date of this package revision. If the University updates its
+visual identity or source artwork, the current institutional files and rules
+take precedence.
+
+The UNIUD branding asset is NOT relicensed under CC BY-NC 4.0. It remains
+subject to the rights and usage rules of the University of Udine.

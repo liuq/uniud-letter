@@ -1,43 +1,161 @@
+% uniud-example-analog.tex
+% -----------------------------------------------------------------------------
+% ESEMPIO 2 / DOCUMENTAZIONE
+% Lettera istituzionale analogica.
+%
+% L'esempio e' una lettera auto-documentante. Mostra soprattutto le differenze
+% rispetto alla modalita' digitale: il protocollo viene compilato con i campi
+% tradizionali numero/titolo/classe/fascicolo.
+% -----------------------------------------------------------------------------
 \documentclass{uniudletter}
+
 \usepackage{polyglossia}
 \setmainlanguage{italian}
+\usepackage{metalogo}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\definecolor{UniudCodeComment}{cmyk}{0,0.81,1,0.60}
+\definecolor{UniudCodeKeyword}{cmyk}{0.64,0,0.95,0.40}
+\definecolor{UniudCodeIdentifier}{cmyk}{0.62,0.57,0.23,0}
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{UniudCodeKeyword},
+  identifierstyle=\color{UniudCodeIdentifier}\bfseries,
+  stringstyle=\color{blue},
+  commentstyle=\color{UniudCodeComment},
+  morecomment=[l][\color{UniudCodeComment}]{\#},
+  breaklines=true,
+  columns=fullflexible,
+  language=TeX
+}
+
+\UniudIstituzionale
+\UniudAnalogico
 
 \UniudSetup{
-  documento = analogico,
-  intestazione = istituzionale,
-  struttura = {Nome\\Ufficio},
+  struttura = {Area / Ufficio di esempio},
   indirizzo = {via Palladio 8},
   cap = 33100,
   citta = Udine,
   provincia = UD,
   paese = Italia,
-  telefono = {+39 0000 000000},
+  telefono = {+39 0432 556111},
+  email = {ufficio.esempio@uniud.it},
   sito = {uniud.it},
   firmatario = {Nome Cognome},
   ruolo = {Funzione}
 }
 
 \UniudProtocollo{
-  numero = 4,
-  titolo = 14,
-  classe = 2,
-  fascicolo = 1
+  numero = {4},
+  titolo = {14},
+  classe = {2},
+  fascicolo = {1}
 }
 
 \UniudDestinatario{
-  nome = {Prof.ssa Nome Cognome},
-  struttura = {Universita' di Esempio},
-  indirizzo = {via Esempio 1},
-  cap = 00100,
-  citta = Roma
+  nome = {Spett.li Utenti \LaTeX},
+  struttura = {Universita' degli Studi di Udine},
+  indirizzo = {Loro sedi},
+  citta = {Udine}
 }
 
-\UniudOggetto{Testo oggetto}
+\UniudOggetto{Come scrivere una lettera istituzionale analogica con uniudletter}
 
 \begin{document}
 \begin{letter}{}
-\opening{}
-Testo di esempio per una lettera analogica.
+\opening{Gentili signore e gentili signori,}
+
+la modalita' analogica usa la stessa interfaccia della lettera digitale. La
+differenza fondamentale e' il blocco di protocollo, predisposto per i campi
+tradizionalmente compilati sulla carta o nel flusso amministrativo associato.
+
+Il prologo minimo e':
+
+\begin{lstlisting}
+\documentclass{uniudletter}
+\usepackage{polyglossia}
+\setmainlanguage{italian}
+
+\UniudIstituzionale
+\UniudAnalogico
+\end{lstlisting}
+
+\lstinline|\UniudAnalogico| sostituisce quindi
+\lstinline|\UniudDigitale|. Tutti gli altri dati del mittente continuano a
+essere impostati con \lstinline|\UniudSetup|:
+
+\begin{lstlisting}
+\UniudSetup{
+  struttura = {Area / Ufficio di esempio},
+  indirizzo = {via Palladio 8},
+  cap = 33100,
+  citta = Udine,
+  provincia = UD,
+  paese = Italia,
+  telefono = {+39 0432 556111},
+  email = {ufficio.esempio@uniud.it},
+  sito = {uniud.it},
+  firmatario = {Nome Cognome},
+  ruolo = {Funzione}
+}
+\end{lstlisting}
+
+Anche nella lettera analogica \texttt{telefono}, \texttt{email} e
+\texttt{sito} sono liberamente impostabili. La classe non impone che siano
+contatti generali della struttura: chi prepara la lettera puo' indicare i
+riferimenti effettivamente utili al destinatario. E' disponibile anche
+\texttt{fax}.
+
+Il protocollo analogico si imposta con un comando dedicato:
+
+\begin{lstlisting}
+\UniudProtocollo{
+  numero = {4},
+  titolo = {14},
+  classe = {2},
+  fascicolo = {1}
+}
+\end{lstlisting}
+
+Le quattro chiavi corrispondono ai campi \texttt{Prot.}, \texttt{Tit.},
+\texttt{cl.} e \texttt{Fasc.} del modello analogico. Se un campo non serve,
+puo' essere lasciato vuoto.
+
+Destinatario e oggetto si definiscono come nella modalita' digitale:
+
+\begin{lstlisting}
+\UniudDestinatario{
+  nome = {Prof.ssa Nome Cognome},
+  struttura = {Universita' di esempio},
+  indirizzo = {via Esempio 1},
+  cap = 00100,
+  citta = Roma,
+  provincia = RM,
+  paese = Italia
+}
+
+\UniudOggetto{Oggetto della comunicazione}
+\end{lstlisting}
+
+Il corpo della lettera non cambia:
+
+\begin{lstlisting}
+\begin{document}
+\begin{letter}{}
+\opening{Gentile Professoressa,}
+
+Testo della lettera.
+
+\UniudFirma
+\end{letter}
+\end{document}
+\end{lstlisting}
+
+Per passare da questo esempio alla versione digitale e' quindi sufficiente
+sostituire \lstinline|\UniudAnalogico| con \lstinline|\UniudDigitale| e
+rimuovere, se non necessario, il blocco \lstinline|\UniudProtocollo|.
 
 \UniudFirma
 \end{letter}

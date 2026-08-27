@@ -1,44 +1,198 @@
+% uniud-example-digital.tex
+% -----------------------------------------------------------------------------
+% ESEMPIO 1 / DOCUMENTAZIONE
+% Lettera istituzionale digitale.
+%
+% Questo file e' volutamente una lettera "auto-documentante": il testo della
+% lettera spiega come usare la classe uniudletter e mostra i comandi principali.
+% -----------------------------------------------------------------------------
 \documentclass{uniudletter}
+
 \usepackage{polyglossia}
 \setmainlanguage{italian}
+\usepackage{metalogo}
+\usepackage{xcolor}
+\usepackage{listings}
 
+\definecolor{UniudCodeComment}{cmyk}{0,0.81,1,0.60}
+\definecolor{UniudCodeKeyword}{cmyk}{0.64,0,0.95,0.40}
+\definecolor{UniudCodeIdentifier}{cmyk}{0.62,0.57,0.23,0}
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{UniudCodeKeyword},
+  identifierstyle=\color{UniudCodeIdentifier}\bfseries,
+  stringstyle=\color{blue},
+  commentstyle=\color{UniudCodeComment},
+  morecomment=[l][\color{UniudCodeComment}]{\#},
+  breaklines=true,
+  columns=fullflexible,
+  language=TeX
+}
+
+% Tipo di intestazione e tipo di documento.
+\UniudIstituzionale
+\UniudDigitale
+
+% Dati della struttura mittente.
 \UniudSetup{
-  documento = digitale,
-  intestazione = istituzionale,
-  struttura = {Nome\\Ufficio},
+  struttura = {Area / Ufficio di esempio},
+  luogo = {Udine},
   indirizzo = {via Palladio 8},
   cap = 33100,
   citta = Udine,
   provincia = UD,
   paese = Italia,
-  telefono = {+39 0000 000000},
-  email = {nome.ufficio@uniud.it},
+  telefono = {+39 0432 556111},
+  email = {ufficio.esempio@uniud.it},
   sito = {uniud.it},
-  responsabile = {Nome Cognome - nome.cognome@uniud.it},
-  compilatore = {Nome Cognome - nome.cognome@uniud.it},
+  responsabile = {Nome Cognome -- nome.cognome@uniud.it},
+  compilatore = {Nome Cognome -- nome.cognome@uniud.it},
   firmatario = {Nome Cognome},
   ruolo = {Funzione}
 }
 
+% Destinatario della lettera.
 \UniudDestinatario{
-  nome = {Spett.le Corte dei Conti},
-  struttura = {Procura Regionale FVG},
-  indirizzo = {via Esempio 1},
-  cap = 33100,
-  citta = Udine
+  nome = {Spett.li Utenti \LaTeX},
+  struttura = {Universita' degli Studi di Udine},
+  indirizzo = {Loro sedi},
+  citta = {Udine}
 }
 
-\UniudOggetto{Testo oggetto}
+\UniudOggetto{Come scrivere una lettera istituzionale digitale con uniudletter}
 
 \begin{document}
 \begin{letter}{}
-\opening{}
-Testo di esempio per una lettera digitale. L'interfaccia pubblica non richiede
-l'uso diretto di \texttt{\string\setkomavar}.
+\opening{Gentili signore e gentili signori,}
+
+questa lettera e' anche un esempio completo di utilizzo della classe
+\texttt{uniudletter}. La classe e' costruita sopra KOMA-Script, ma per l'uso
+normale non e' necessario ricorrere direttamente a \texttt{\string\setkomavar}:
+i comandi pubblici della classe raccolgono le impostazioni piu' comuni con nomi
+espliciti.
+
+Per iniziare e' sufficiente caricare la classe e scegliere il tipo di
+intestazione e di documento:
+
+\begin{lstlisting}
+\documentclass{uniudletter}
+\usepackage{polyglossia}
+\setmainlanguage{italian}
+
+\UniudIstituzionale
+\UniudDigitale
+\end{lstlisting}
+
+Il comando \lstinline|\UniudIstituzionale| seleziona la carta intestata
+istituzionale dell'Ateneo. Il comando \lstinline|\UniudDigitale| seleziona la
+versione destinata alla gestione digitale: il blocco di protocollo viene quindi
+predisposto secondo il modello digitale anziche' con i campi da compilare a
+mano della versione analogica.
+
+I dati della struttura mittente si impostano con un unico comando
+\lstinline|\UniudSetup|:
+
+\begin{lstlisting}
+\UniudSetup{
+  struttura = {Area / Ufficio di esempio},
+  luogo = {Udine},
+  indirizzo = {via Palladio 8},
+  cap = 33100,
+  citta = Udine,
+  provincia = UD,
+  paese = Italia,
+  telefono = {+39 0432 556111},
+  email = {ufficio.esempio@uniud.it},
+  sito = {uniud.it},
+  firmatario = {Nome Cognome},
+  ruolo = {Funzione}
+}
+\end{lstlisting}
+
+Le chiavi \texttt{indirizzo}, \texttt{cap}, \texttt{citta},
+\texttt{provincia} e \texttt{paese} compongono l'indirizzo della struttura.
+La chiave \texttt{luogo} imposta il luogo usato dove previsto dal modello.
+Le chiavi \texttt{telefono}, \texttt{email} e \texttt{sito} permettono di
+indicare direttamente i contatti di riferimento: possono quindi essere quelli
+dell'ufficio oppure, se piu' opportuno, quelli della singola persona che sta
+scrivendo la lettera. E' disponibile anche la chiave \texttt{fax}.
+
+Quando serve, si possono aggiungere i riferimenti amministrativi:
+
+\begin{lstlisting}
+\UniudSetup{
+  responsabile = {Nome Cognome -- nome.cognome@uniud.it},
+  compilatore  = {Nome Cognome -- nome.cognome@uniud.it}
+}
+\end{lstlisting}
+
+Il footer della prima pagina e' configurabile per singole componenti. Per
+esempio, per mostrare l'indirizzo e CF/P.IVA ma non e-mail e fax:
+
+\begin{lstlisting}
+\UniudSetup{
+  footer-indirizzo = true,
+  footer-email = false,
+  footer-fax = false,
+  footer-cf-piva = true
+}
+\end{lstlisting}
+
+\texttt{footer-riferimenti=false} lascia solo il branding corporate; con
+\texttt{footer-prima-pagina=false} si sopprime invece l'intero footer della prima
+pagina. ABI, CAB, CIN e conto corrente si attivano separatamente con le
+corrispondenti chiavi \texttt{footer-*}.
+
+Il destinatario e l'oggetto non richiedono sintassi KOMA-Script. Si possono
+scrivere cosi':
+
+\begin{lstlisting}
+\UniudDestinatario{
+  nome = {Prof.ssa Nome Cognome},
+  struttura = {Universita' di esempio},
+  indirizzo = {via Esempio 1},
+  cap = 00100,
+  citta = Roma,
+  provincia = RM,
+  paese = Italia
+}
+
+\UniudOggetto{Oggetto della comunicazione}
+\end{lstlisting}
+
+Il testo vero e proprio resta una normale lettera KOMA-Script:
+
+\begin{lstlisting}
+\begin{document}
+\begin{letter}{}
+\opening{Gentile Professoressa,}
+
+Testo della lettera.
+
+\UniudFirma
+\end{letter}
+\end{document}
+\end{lstlisting}
+
+\lstinline|\UniudFirma| costruisce il blocco firma utilizzando le chiavi
+\texttt{firmatario} e \texttt{ruolo} definite in \lstinline|\UniudSetup|.
+Se si preferisce una chiusura testuale tradizionale, si puo' naturalmente usare
+anche \lstinline|\closing{Cordialmente,}| secondo le normali regole di
+\texttt{scrlttr2}.
+
+Per i font e' consigliato compilare con \XeLaTeX{} o LuaLaTeX. La classe usa i
+font dell'identita' visiva quando disponibili e applica automaticamente i
+fallback previsti dal progetto.
+
+In sintesi, per una lettera istituzionale digitale bastano i quattro passaggi:
+selezione del modello, dati del mittente, destinatario/oggetto e testo della
+lettera. Tutto il resto dell'impaginazione viene costruito dalla classe.
 
 \UniudFirma
 
 \newpage
-Eventuale testo su piu' pagine.
+Questa seconda pagina serve anche a mostrare l'intestazione prevista per il
+``segue foglio'' e la numerazione delle pagine successive.
+
 \end{letter}
 \end{document}

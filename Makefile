@@ -1,17 +1,26 @@
-.PHONY: check examples ctan clean install install-assets check-assets uninstall
+.PHONY: check examples ctan clean install uninstall
+
+EXAMPLES = \
+	uniud-example-digital \
+	uniud-example-analog \
+	uniud-example-dipartimento
 
 check:
 	l3build check
 
-examples: check-assets
+# Build the documentation examples. Auxiliary files stay under build/examples,
+# while the final PDFs are copied next to their .tex sources so GitHub can
+# render/link them directly from the repository.
+examples:
 	mkdir -p build/examples
-	for f in examples/*.tex; do \
-	  name=$$(basename $$f .tex); \
-	  xelatex -interaction=nonstopmode -halt-on-error -output-directory=build/examples $$f; \
-	  xelatex -interaction=nonstopmode -halt-on-error -output-directory=build/examples $$f; \
+	@set -e; \
+	for example in $(EXAMPLES); do \
+		latexmk -xelatex -interaction=nonstopmode -halt-on-error \
+			-outdir=build/examples examples/$$example.tex; \
+		cp build/examples/$$example.pdf examples/$$example.pdf; \
 	done
 
-ctan: check
+ctan:
 	l3build ctan
 
 clean:
@@ -19,18 +28,7 @@ clean:
 	rm -rf build/examples
 
 install:
-	l3build install
-
-install-assets:
-	@test -n "$(ASSETS)" || { echo "Usage: make install-assets ASSETS=/path/to/assets" >&2; exit 2; }
-	./install-assets.sh "$(ASSETS)"
-
-check-assets:
-	./check-assets.sh
+	./install.sh
 
 uninstall:
-	@root=$$(kpsewhich -var-value=TEXMFHOME); \
-	 echo "Removing $$root/tex/latex/uniudletter"; \
-	 rm -rf "$$root/tex/latex/uniudletter"; \
-	 rm -rf "$$root/doc/latex/uniudletter"; \
-	 mktexlsr "$$root" >/dev/null 2>&1 || true
+	./uninstall.sh

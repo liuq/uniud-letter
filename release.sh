@@ -74,7 +74,7 @@ if git ls-remote --exit-code --tags origin "refs/tags/$NEW_TAG" >/dev/null 2>&1;
     die "Remote tag '$NEW_TAG' already exists"
 fi
 
-# VERSION is the only source of truth.
+# VERSION is the single source of truth.
 printf '%s\n' "$NEW_VERSION" > VERSION
 
 # Generate the TeX-facing version file from VERSION.
@@ -116,10 +116,23 @@ if grep -En '[vV]?[0-9]+\.[0-9]+\.[0-9]+' uniudletter.cls uniudletter.sty uniud.
 fi
 
 command -v l3build >/dev/null 2>&1 || die "l3build not found"
+command -v latexmk >/dev/null 2>&1 || die "latexmk not found"
 
 echo
 echo "Running l3build check..."
 l3build check
+
+echo
+echo "Building example PDFs..."
+make examples
+
+for pdf in \
+    examples/uniud-example-digital.pdf \
+    examples/uniud-example-analog.pdf \
+    examples/uniud-example-dipartimento.pdf
+do
+    [[ -s "$pdf" ]] || die "Example PDF was not generated: $pdf"
+done
 
 echo
 echo "Changes:"
@@ -137,7 +150,7 @@ case "$answer" in
         ;;
 esac
 
-git add VERSION uniudletter-version.tex README.md
+git add VERSION uniudletter-version.tex README.md examples/*.pdf
 [[ -f CHANGELOG.md ]] && git add CHANGELOG.md
 
 git commit -m "Release $NEW_TAG"

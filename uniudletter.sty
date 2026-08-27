@@ -116,7 +116,6 @@
     acronimo .code:n = { \setkomavar{acronimodipartimento}{#1} \uniudsetmarchiodipartimento{} },
     struttura .code:n = { \setkomavar{struttura}{#1} },
     luogo .code:n = { \setkomavar{place}{#1} },
-    directory-assets .code:n = { \UniudAssetsPath{#1} },
 
     indirizzo .tl_gset:N = \g_uniud_indirizzo_tl,
     cap .tl_gset:N = \g_uniud_cap_tl,
@@ -134,6 +133,68 @@
     ruolo .code:n = { \setkomavar{ruolofirmatario}{#1} },
     responsabile .code:n = { \setkomavar{responsabileprocedimento}{#1} },
     compilatore .code:n = { \setkomavar{compilatoreprocedimento}{#1} },
+
+    pie-prima-pagina .code:n = { \setkomavar{piedipaginaprimapagina}{#1} },
+
+    % Footer della prima pagina. Ogni componente e' indipendente; le chiavi
+    % booleane accettano true/false. `footer-prima-pagina=false` sopprime
+    % l'intero footer della prima pagina, senza toccare la numerazione delle
+    % pagine successive.
+    footer-prima-pagina .choice:,
+    footer-prima-pagina / true .code:n = { \uniudsetfooterprimapagina{true} },
+    footer-prima-pagina / false .code:n = { \uniudsetfooterprimapagina{false} },
+    footer-marchio .choice:,
+    footer-marchio / true .code:n = { \uniudsetfootermarchio{true} },
+    footer-marchio / false .code:n = { \uniudsetfootermarchio{false} },
+    footer-certificazioni .choice:,
+    footer-certificazioni / true .code:n = { \uniudsetfootercertificazioni{true} },
+    footer-certificazioni / false .code:n = { \uniudsetfootercertificazioni{false} },
+    footer-riferimenti .choice:,
+    footer-riferimenti / true .code:n = { \uniudsetfooterriferimenti{true} },
+    footer-riferimenti / false .code:n = { \uniudsetfooterriferimenti{false} },
+    footer-responsabile .choice:,
+    footer-responsabile / true .code:n = { \uniudsetfooterresponsabile{true} },
+    footer-responsabile / false .code:n = { \uniudsetfooterresponsabile{false} },
+    footer-compilatore .choice:,
+    footer-compilatore / true .code:n = { \uniudsetfootercompilatore{true} },
+    footer-compilatore / false .code:n = { \uniudsetfootercompilatore{false} },
+    footer-indirizzo .choice:,
+    footer-indirizzo / true .code:n = { \uniudsetfooterindirizzo{true} },
+    footer-indirizzo / false .code:n = { \uniudsetfooterindirizzo{false} },
+    footer-telefono .choice:,
+    footer-telefono / true .code:n = { \uniudsetfootertelefono{true} },
+    footer-telefono / false .code:n = { \uniudsetfootertelefono{false} },
+    footer-fax .choice:,
+    footer-fax / true .code:n = { \uniudsetfooterfax{true} },
+    footer-fax / false .code:n = { \uniudsetfooterfax{false} },
+    footer-email .choice:,
+    footer-email / true .code:n = { \uniudsetfooteremail{true} },
+    footer-email / false .code:n = { \uniudsetfooteremail{false} },
+    footer-sito .choice:,
+    footer-sito / true .code:n = { \uniudsetfootersito{true} },
+    footer-sito / false .code:n = { \uniudsetfootersito{false} },
+    footer-cf-piva .choice:,
+    footer-cf-piva / true .code:n = { \uniudsetfootercfpiva{true} },
+    footer-cf-piva / false .code:n = { \uniudsetfootercfpiva{false} },
+    footer-abi .choice:,
+    footer-abi / true .code:n = { \uniudsetfooterabi{true} },
+    footer-abi / false .code:n = { \uniudsetfooterabi{false} },
+    footer-cab .choice:,
+    footer-cab / true .code:n = { \uniudsetfootercab{true} },
+    footer-cab / false .code:n = { \uniudsetfootercab{false} },
+    footer-cin .choice:,
+    footer-cin / true .code:n = { \uniudsetfootercin{true} },
+    footer-cin / false .code:n = { \uniudsetfootercin{false} },
+    footer-conto-corrente .choice:,
+    footer-conto-corrente / true .code:n = { \uniudsetfooterconto{true} },
+    footer-conto-corrente / false .code:n = { \uniudsetfooterconto{false} },
+
+    codice-fiscale .code:n = { \setkomavar{codicefiscale}{#1} },
+    partita-iva .code:n = { \setkomavar{partitaiva}{#1} },
+    abi .code:n = { \setkomavar{abi}{#1} },
+    cab .code:n = { \setkomavar{cab}{#1} },
+    cin .code:n = { \setkomavar{cin}{#1} },
+    conto-corrente .code:n = { \setkomavar{contocorrente}{#1} },
 
     protocollo .code:n = { \setkomavar{protocollo}{#1} },
     titolo .code:n = { \setkomavar{titolo}{#1} },
@@ -159,11 +220,6 @@
     titolo .code:n = { \setkomavar{titolo}{#1} },
     classe .code:n = { \setkomavar{classe}{#1} },
     fascicolo .code:n = { \setkomavar{fascicolo}{#1} },
-  }
-
-\NewDocumentCommand \UniudAssetsPath { m }
-  {
-    \uniudsetassetspath{#1}
   }
 
 \NewDocumentCommand \UniudSetup { m }

@@ -75,6 +75,23 @@ jobs:
           set -euo pipefail
           l3build check
 
+      - name: Rebuild example PDFs
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Remove the committed copies first: this makes the workflow prove
+          # that every PDF can actually be regenerated from its .tex source.
+          rm -f examples/uniud-example-digital.pdf \
+                examples/uniud-example-analog.pdf \
+                examples/uniud-example-dipartimento.pdf
+
+          make examples
+
+          test -s examples/uniud-example-digital.pdf
+          test -s examples/uniud-example-analog.pdf
+          test -s examples/uniud-example-dipartimento.pdf
+
       - name: Build CTAN and TDS packages
         shell: bash
         run: |
@@ -113,12 +130,19 @@ jobs:
           cp "$TDS_ZIP" \
             "release/uniudletter-${VERSION}.tds.zip"
 
+          cp examples/uniud-example-digital.pdf release/
+          cp examples/uniud-example-analog.pdf release/
+          cp examples/uniud-example-dipartimento.pdf release/
+
           (
             cd release
 
             sha256sum \
               "uniudletter-${VERSION}-ctan.zip" \
               "uniudletter-${VERSION}.tds.zip" \
+              uniud-example-digital.pdf \
+              uniud-example-analog.pdf \
+              uniud-example-dipartimento.pdf \
               > SHA256SUMS
           )
 
@@ -138,4 +162,7 @@ jobs:
             --generate-notes \
             "release/uniudletter-${VERSION}-ctan.zip" \
             "release/uniudletter-${VERSION}.tds.zip" \
+            "release/uniud-example-digital.pdf" \
+            "release/uniud-example-analog.pdf" \
+            "release/uniud-example-dipartimento.pdf" \
             "release/SHA256SUMS"

@@ -1,11 +1,103 @@
+% uniud-example-dipartimento.tex
+% -----------------------------------------------------------------------------
+% ESEMPIO 3 / DOCUMENTAZIONE
+% Lettera di dipartimento (qui in modalita' digitale).
+%
+% L'esempio e' una lettera auto-documentante e descrive in particolare il
+% comando \UniudDipartimento{...}, che imposta marchio, acronimo e denominazione
+% estesa del dipartimento.
+% -----------------------------------------------------------------------------
+\documentclass{uniudletter}
+
+\usepackage{polyglossia}
+\setmainlanguage{italian}
+\usepackage{metalogo}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\definecolor{UniudCodeComment}{cmyk}{0,0.81,1,0.60}
+\definecolor{UniudCodeKeyword}{cmyk}{0.64,0,0.95,0.40}
+\definecolor{UniudCodeIdentifier}{cmyk}{0.62,0.57,0.23,0}
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{UniudCodeKeyword},
+  identifierstyle=\color{UniudCodeIdentifier}\bfseries,
+  stringstyle=\color{blue},
+  commentstyle=\color{UniudCodeComment},
+  morecomment=[l][\color{UniudCodeComment}]{\#},
+  breaklines=true,
+  columns=fullflexible,
+  language=TeX
+}
+
+% Il comando imposta automaticamente acronimo e denominazione estesa.
+\UniudDipartimento{DPIA}
+\UniudDigitale
+
+\UniudSetup{
+  luogo = {Udine},
+  indirizzo = {via delle Scienze 206},
+  cap = 33100,
+  citta = Udine,
+  provincia = UD,
+  paese = Italia,
+  telefono = {+39 0432 558400},
+  fax = {+39 0432 558499},
+  email = {dpia@uniud.it},
+  sito = {uniud.it},
+  responsabile = {Nome Cognome -- nome.cognome@uniud.it},
+  compilatore = {Nome Cognome -- nome.cognome@uniud.it},
+  footer-email = false,
+  footer-cf-piva = true,
+  footer-abi = true,
+  footer-cab = true,
+  firmatario = {Nome Cognome},
+  ruolo = {Direttore del Dipartimento}
+}
+
+\UniudDestinatario{
+  nome = {Spett.li Utenti \LaTeX},
+  struttura = {Universita' degli Studi di Udine},
+  indirizzo = {Loro sedi},
+  citta = {Udine}
+}
+
+\UniudOggetto{Come scrivere una lettera di dipartimento con uniudletter}
+
+\begin{document}
+\begin{letter}{}
+\opening{Gentili signore e gentili signori,}
+
+per una lettera di dipartimento non e' necessario impostare manualmente
+acronimo e denominazione estesa. La classe mette a disposizione un comando
+specifico:
+
+\begin{lstlisting}
 \documentclass{uniudletter}
 \usepackage{polyglossia}
 \setmainlanguage{italian}
 
 \UniudDipartimento{DPIA}
+\UniudDigitale
+\end{lstlisting}
 
+\lstinline|\UniudDipartimento{DPIA}| seleziona l'intestazione di dipartimento,
+imposta l'acronimo \texttt{DPIA}, la denominazione estesa e costruisce il
+marchio con il sigillo UNIUD e l'acronimo secondo le proporzioni previste dal
+manuale di identita' visiva.
+
+Sono riconosciuti direttamente gli acronimi:
+
+\begin{center}
+\texttt{DIUM, DILL, DMIF, DPIA, DIES, DISG, DI4A, DMED}.
+\end{center}
+
+I dati variabili della sede e della persona che scrive si impostano con
+\lstinline|\UniudSetup|:
+
+\begin{lstlisting}
 \UniudSetup{
-  documento = digitale,
+  luogo = {Udine},
   indirizzo = {via delle Scienze 206},
   cap = 33100,
   citta = Udine,
@@ -14,26 +106,134 @@
   telefono = {+39 0432 558400},
   email = {dpia@uniud.it},
   sito = {uniud.it},
-  responsabile = {Nome Cognome - nome.cognome@uniud.it},
-  compilatore = {Nome Cognome - nome.cognome@uniud.it},
   firmatario = {Nome Cognome},
   ruolo = {Direttore del Dipartimento}
 }
+\end{lstlisting}
 
+Le chiavi \texttt{telefono}, \texttt{email} e \texttt{sito} sono proprio i
+campi da usare per i riferimenti della lettera. Possono contenere i contatti
+generali del dipartimento oppure quelli del singolo mittente, a seconda del
+caso. Il numero di fax, se necessario, si imposta con \texttt{fax}.
+
+Per i riferimenti del procedimento sono disponibili anche:
+
+\begin{lstlisting}
+\UniudSetup{
+  responsabile = {Nome Cognome -- nome.cognome@uniud.it},
+  compilatore  = {Nome Cognome -- nome.cognome@uniud.it}
+}
+\end{lstlisting}
+
+Destinatario e oggetto si indicano esattamente come nelle lettere
+istituzionali:
+
+\begin{lstlisting}
 \UniudDestinatario{
   nome = {Prof.ssa Nome Cognome},
-  struttura = {Universita' di Esempio},
+  struttura = {Universita' di esempio},
   indirizzo = {via Esempio 1},
   cap = 00100,
-  citta = Roma
+  citta = Roma,
+  provincia = RM,
+  paese = Italia
 }
 
 \UniudOggetto{Oggetto della comunicazione}
+\end{lstlisting}
 
+Infine si scrive normalmente il corpo della lettera:
+
+\begin{lstlisting}
 \begin{document}
 \begin{letter}{}
-\opening{}
-Testo di esempio per la carta intestata di dipartimento. Il marchio ufficiale del dipartimento e' collocato in alto a sinistra secondo il manuale UNIUD.
+\opening{Gentile Professoressa,}
+
+Testo della lettera.
+
+\UniudFirma
+\end{letter}
+\end{document}
+\end{lstlisting}
+
+Nelle lettere di dipartimento il protocollo e i riferimenti sono facoltativi.
+Se non viene usato \lstinline|\UniudProtocollo|, il relativo blocco non viene
+stampato e non viene riservato spazio. Se invece serve, lo si puo' aggiungere
+indipendentemente dalla modalita' scelta.
+
+Questo esempio usa la modalita' digitale. Per ottenere la corrispondente
+lettera di dipartimento analogica basta sostituire
+\lstinline|\UniudDigitale| con \lstinline|\UniudAnalogico|. Se la lettera
+analogica deve riportare il protocollo, si aggiungono i dati:
+
+\begin{lstlisting}
+\UniudProtocollo{
+  numero = {4},
+  titolo = {14},
+  classe = {2},
+  fascicolo = {1}
+}
+\end{lstlisting}
+
+Il pie' di pagina della prima pagina e' modulare. Il responsabile e il
+compilatore sono facoltativi: se le relative chiavi non vengono valorizzate,
+le righe non compaiono. L'indirizzo del footer puo' essere ricavato
+automaticamente dai dati gia' usati nell'intestazione; non occorre quindi
+scriverlo una seconda volta.
+
+Per default vengono mostrati indirizzo, contatti disponibili e la coppia
+CF/P.IVA dell'Ateneo. ABI, CAB, CIN e conto corrente sono disponibili ma
+spenti per default. Ogni componente puo' essere attivata o disattivata:
+
+\begin{lstlisting}
+\UniudSetup{
+  responsabile = {Nome Cognome - nome.cognome@uniud.it},
+  compilatore  = {Nome Cognome - nome.cognome@uniud.it},
+
+  footer-indirizzo = true,
+  footer-telefono = true,
+  footer-fax = false,
+  footer-email = false,
+  footer-sito = true,
+  footer-cf-piva = true,
+
+  footer-abi = true,
+  footer-cab = true,
+  footer-cin = false,
+  footer-conto-corrente = false
+}
+\end{lstlisting}
+
+I valori istituzionali predefiniti per CF, P.IVA, ABI, CAB, CIN e conto
+corrente possono essere sostituiti con le chiavi \texttt{codice-fiscale},
+\texttt{partita-iva}, \texttt{abi}, \texttt{cab}, \texttt{cin} e
+\texttt{conto-corrente}.
+
+Se si vogliono mantenere i marchi corporate ma nessun dato testuale centrale:
+
+\begin{lstlisting}
+\UniudSetup{footer-riferimenti = false}
+\end{lstlisting}
+
+Se invece si vuole sopprimere completamente il pie' di pagina della prima
+pagina:
+
+\begin{lstlisting}
+\UniudSetup{footer-prima-pagina = false}
+\end{lstlisting}
+
+La numerazione delle pagine successive non viene disattivata. Marchio e
+certificazioni possono inoltre essere controllati separatamente con
+\texttt{footer-marchio} e \texttt{footer-certificazioni}. Una nota libera puo'
+essere aggiunta con \texttt{pie-prima-pagina}.
+
+Dalla seconda pagina viene usato automaticamente il marchio contratto
+\texttt{UNI/UD} largo 21,3 mm, posizionato a 12 mm dai bordi superiore e
+sinistro; il numero di pagina e' nel formato \texttt{2 di X}.
+
+Non serve creare un file \texttt{.lco} personalizzato per ciascun dipartimento:
+la scelta del dipartimento e i dati variabili della lettera sono separati e
+vengono gestiti dall'interfaccia della classe.
 
 \UniudFirma
 \end{letter}

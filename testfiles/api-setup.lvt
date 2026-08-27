@@ -15,6 +15,17 @@
   telefono={+39 0432 000000},
   email={test@uniud.it},
   sito={uniud.it},
+  responsabile={Resp Test},
+  compilatore={Comp Test},
+  footer-email=false,
+  footer-abi=true,
+  footer-cab=true,
+  footer-cin=false,
+  footer-conto-corrente=false,
+  codice-fiscale={80014550307},
+  partita-iva={01071600306},
+  abi={02008},
+  cab={12310},
   firmatario={Mario Rossi},
   ruolo={Responsabile}
 }
@@ -32,6 +43,15 @@
 \TYPE{telefono=\scr@fromphone@var}
 \TYPE{email=\scr@fromemail@var}
 \TYPE{sito=\scr@fromurl@var}
+\TYPE{responsabile=\scr@responsabileprocedimento@var}
+\TYPE{compilatore=\scr@compilatoreprocedimento@var}
+\TYPE{cf=\scr@codicefiscale@var}
+\TYPE{piva=\scr@partitaiva@var}
+\TYPE{abi=\scr@abi@var}
+\TYPE{cab=\scr@cab@var}
+\TYPE{footer-email=\uniud@footeremail}
+\TYPE{footer-abi=\uniud@footerabi}
+\TYPE{footer-cab=\uniud@footercab}
 \TYPE{firmatario=\scr@signature@var}
 \TYPE{ruolo=\scr@ruolofirmatario@var}
 \TYPE{destinatario=\scr@toname@var}
