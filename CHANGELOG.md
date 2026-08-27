@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3 - 2026-08-27
+
+- Release 0.3.3.
+
 ## Unreleased
 - Department personal letterheads now show `firmatario`, when provided, between the department name and the website.
 - Documentation typography normalized to proper UTF-8 Italian accents; documented English-language use via `polyglossia` and the current absence of a complete English localization.
