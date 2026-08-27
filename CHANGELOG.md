@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1 - 2026-08-27
+
+- Release 0.3.1.
+
 ## Unreleased
 - Added `API.md` as the complete reference for the simplified public API, including document modes, institutional/department defaults, footer blocks and responsible/compiler validation.
 - Simplified the first-page footer API into three logical blocks: responsible/compiler, contacts and fiscal/banking data.

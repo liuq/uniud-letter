@@ -3,7 +3,7 @@
 Classe LaTeX per lettere dell'Universita degli Studi di Udine, basata su
 KOMA-Script (`scrlttr2`) e aggiornata ai modelli ufficiali 2025/2026.
 
-Versione corrente: **0.2.3** (2026-08-26).
+Versione corrente: **0.3.1** (2026-08-26).
 
 ## Repository self-contained
 
