@@ -1,10 +1,7 @@
 # Changelog
 
-## 0.3.0 - 2026-08-27
-
-- Release 0.3.0.
-
 ## Unreleased
+- Added `API.md` as the complete reference for the simplified public API, including document modes, institutional/department defaults, footer blocks and responsible/compiler validation.
 - Simplified the first-page footer API into three logical blocks: responsible/compiler, contacts and fiscal/banking data.
 - Department letters now default to a minimal personal profile; institutional letters keep contacts and fiscal data enabled.
 - Normal document mode is now the default; digital-signature wording is opt-in via `\UniudDigitale`.

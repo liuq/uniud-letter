@@ -58,6 +58,12 @@ mktexlsr "$(kpsewhich -var-value=TEXMFHOME)"
 ./uninstall.sh
 ```
 
+## Documentazione dell'API
+
+Dopo l'installazione, vedere `README.md` per l'avvio rapido e `API.md` per la
+documentazione completa dell'interfaccia pubblica, inclusi modalita' del
+documento, profili istituzionale/dipartimento e i tre blocchi logici del footer.
+
 ## Sviluppo
 
 ```sh

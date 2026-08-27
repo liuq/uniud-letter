@@ -40,6 +40,7 @@ installfiles = {
 textfiles = {
   "build.lua",
   "README.md",
+  "API.md",
   "INSTALL.md",
   "CHANGELOG.md",
   "LICENSE",
@@ -73,6 +74,7 @@ tdslocations = {
   ["uniud-footer-istituzionale-blu.svg"] = "tex/latex/uniudletter",
   ["uniud-footer-certificazioni.pdf"] = "tex/latex/uniudletter",
   ["README.md"] = "doc/latex/uniudletter",
+  ["API.md"] = "doc/latex/uniudletter",
   ["INSTALL.md"] = "doc/latex/uniudletter",
   ["CHANGELOG.md"] = "doc/latex/uniudletter",
   ["LICENSE"] = "doc/latex/uniudletter",

@@ -3,7 +3,7 @@
 Classe LaTeX per lettere dell'Universita degli Studi di Udine, basata su
 KOMA-Script (`scrlttr2`) e aggiornata ai modelli ufficiali 2025/2026.
 
-Versione corrente: **0.3.0** (2026-08-26).
+Versione corrente: **0.2.3** (2026-08-26).
 
 ## Repository self-contained
 
@@ -97,8 +97,7 @@ dettaglio del backend KOMA-Script.
 
 ## Esempi come documentazione
 
-I tre file in `examples/` sono esempi compilabili e, allo stesso tempo, una
-documentazione commentata dei tre casi d'uso principali:
+La documentazione di riferimento e' in [API.md](API.md). I tre file in `examples/` sono inoltre esempi compilabili e, allo stesso tempo, una documentazione commentata dei tre casi d'uso principali:
 
 - [lettera istituzionale digitale (PDF)](examples/uniud-example-digital.pdf) - [sorgente `.tex`](examples/uniud-example-digital.tex);
 - [lettera istituzionale analogica (PDF)](examples/uniud-example-analog.pdf) - [sorgente `.tex`](examples/uniud-example-analog.tex);
@@ -116,6 +115,8 @@ default. `responsabile` e `compilatore` formano un unico blocco automatico e
 devono essere specificati insieme.
 
 ## API
+
+La documentazione completa della nuova API, inclusi i default dei tre blocchi del footer e la validazione responsabile/compilatore, e' in [API.md](API.md).
 
 `\UniudSetup{...}` accetta fra le altre le chiavi:
 
