@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0 - 2026-08-27
+
+- Release 0.3.0.
+
 ## Unreleased
 - Simplified the first-page footer API into three logical blocks: responsible/compiler, contacts and fiscal/banking data.
 - Department letters now default to a minimal personal profile; institutional letters keep contacts and fiscal data enabled.
