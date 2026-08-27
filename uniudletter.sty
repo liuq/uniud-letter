@@ -106,6 +106,7 @@
 \keys_define:nn { uniud/setup }
   {
     documento .choice:,
+    documento / normale .code:n = { \uniudnormale },
     documento / digitale .code:n = { \uniuddigitale },
     documento / analogico .code:n = { \uniudanalogico },
 
@@ -136,10 +137,8 @@
 
     pie-prima-pagina .code:n = { \setkomavar{piedipaginaprimapagina}{#1} },
 
-    % Footer della prima pagina. Ogni componente e' indipendente; le chiavi
-    % booleane accettano true/false. `footer-prima-pagina=false` sopprime
-    % l'intero footer della prima pagina, senza toccare la numerazione delle
-    % pagine successive.
+    % Footer della prima pagina. Il branding e' standard; i dati variabili
+    % sono organizzati in tre blocchi logici.
     footer-prima-pagina .choice:,
     footer-prima-pagina / true .code:n = { \uniudsetfooterprimapagina{true} },
     footer-prima-pagina / false .code:n = { \uniudsetfooterprimapagina{false} },
@@ -149,45 +148,17 @@
     footer-certificazioni .choice:,
     footer-certificazioni / true .code:n = { \uniudsetfootercertificazioni{true} },
     footer-certificazioni / false .code:n = { \uniudsetfootercertificazioni{false} },
-    footer-riferimenti .choice:,
-    footer-riferimenti / true .code:n = { \uniudsetfooterriferimenti{true} },
-    footer-riferimenti / false .code:n = { \uniudsetfooterriferimenti{false} },
-    footer-responsabile .choice:,
-    footer-responsabile / true .code:n = { \uniudsetfooterresponsabile{true} },
-    footer-responsabile / false .code:n = { \uniudsetfooterresponsabile{false} },
-    footer-compilatore .choice:,
-    footer-compilatore / true .code:n = { \uniudsetfootercompilatore{true} },
-    footer-compilatore / false .code:n = { \uniudsetfootercompilatore{false} },
-    footer-indirizzo .choice:,
-    footer-indirizzo / true .code:n = { \uniudsetfooterindirizzo{true} },
-    footer-indirizzo / false .code:n = { \uniudsetfooterindirizzo{false} },
-    footer-telefono .choice:,
-    footer-telefono / true .code:n = { \uniudsetfootertelefono{true} },
-    footer-telefono / false .code:n = { \uniudsetfootertelefono{false} },
-    footer-fax .choice:,
-    footer-fax / true .code:n = { \uniudsetfooterfax{true} },
-    footer-fax / false .code:n = { \uniudsetfooterfax{false} },
-    footer-email .choice:,
-    footer-email / true .code:n = { \uniudsetfooteremail{true} },
-    footer-email / false .code:n = { \uniudsetfooteremail{false} },
-    footer-sito .choice:,
-    footer-sito / true .code:n = { \uniudsetfootersito{true} },
-    footer-sito / false .code:n = { \uniudsetfootersito{false} },
-    footer-cf-piva .choice:,
-    footer-cf-piva / true .code:n = { \uniudsetfootercfpiva{true} },
-    footer-cf-piva / false .code:n = { \uniudsetfootercfpiva{false} },
-    footer-abi .choice:,
-    footer-abi / true .code:n = { \uniudsetfooterabi{true} },
-    footer-abi / false .code:n = { \uniudsetfooterabi{false} },
-    footer-cab .choice:,
-    footer-cab / true .code:n = { \uniudsetfootercab{true} },
-    footer-cab / false .code:n = { \uniudsetfootercab{false} },
-    footer-cin .choice:,
-    footer-cin / true .code:n = { \uniudsetfootercin{true} },
-    footer-cin / false .code:n = { \uniudsetfootercin{false} },
-    footer-conto-corrente .choice:,
-    footer-conto-corrente / true .code:n = { \uniudsetfooterconto{true} },
-    footer-conto-corrente / false .code:n = { \uniudsetfooterconto{false} },
+
+    footer-responsabili .choice:,
+    footer-responsabili / auto .code:n = { \uniudsetfooterresponsabili{auto} },
+    footer-responsabili / true .code:n = { \uniudsetfooterresponsabili{true} },
+    footer-responsabili / false .code:n = { \uniudsetfooterresponsabili{false} },
+    footer-contatti .choice:,
+    footer-contatti / true .code:n = { \uniudsetfootercontatti{true} },
+    footer-contatti / false .code:n = { \uniudsetfootercontatti{false} },
+    footer-fiscale .choice:,
+    footer-fiscale / true .code:n = { \uniudsetfooterfiscale{true} },
+    footer-fiscale / false .code:n = { \uniudsetfooterfiscale{false} },
 
     codice-fiscale .code:n = { \setkomavar{codicefiscale}{#1} },
     partita-iva .code:n = { \setkomavar{partitaiva}{#1} },
@@ -240,6 +211,9 @@
 \NewDocumentCommand \UniudOggetto { m }
   { \setkomavar{subject}{#1} }
 
+\NewDocumentCommand \UniudNormale { }
+  { \UniudSetup{documento=normale} }
+
 \NewDocumentCommand \UniudDigitale { }
   { \UniudSetup{documento=digitale} }
 
@@ -258,7 +232,6 @@
         {DMIF}{\UniudSetup{intestazione=dipartimento,acronimo=DMIF,struttura={Dipartimento~di~Scienze\\matematiche,~informatiche\\e~fisiche}}}
         {DPIA}{\UniudSetup{intestazione=dipartimento,acronimo=DPIA,struttura={Dipartimento~Politecnico~di\\ingegneria~e~architettura}}}
         {DIES}{\UniudSetup{intestazione=dipartimento,acronimo=DIES,struttura={Dipartimento~di~Scienze\\economiche~e~statistiche}}}
-        {DEIS}{\PackageWarningNoLine{uniudletter}{Acronimo DEIS non corrente; uso DIES}\UniudSetup{intestazione=dipartimento,acronimo=DIES,struttura={Dipartimento~di~Scienze\\economiche~e~statistiche}}}
         {DISG}{\UniudSetup{intestazione=dipartimento,acronimo=DISG,struttura={Dipartimento~di~Scienze\\giuridiche}}}
         {DI4A}{\UniudSetup{intestazione=dipartimento,acronimo=DI4A,struttura={Dipartimento~di~Scienze\\agroalimentari,~ambientali\\e~animali}}}
         {DMED}{\UniudSetup{intestazione=dipartimento,acronimo=DMED,struttura={Dipartimento~di~Medicina}}}

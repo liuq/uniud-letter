@@ -1,14 +1,9 @@
 # Changelog
 
-## 0.2.5 - 2026-08-27
-
-- Release 0.2.5.
-
-## 0.2.4 - 2026-08-27
-
-- Release 0.2.4.
-
 ## Unreleased
+- Simplified the first-page footer API into three logical blocks: responsible/compiler, contacts and fiscal/banking data.
+- Department letters now default to a minimal personal profile; institutional letters keep contacts and fiscal data enabled.
+- Normal document mode is now the default; digital-signature wording is opt-in via `\UniudDigitale`.
 
 - Footer riferimenti: ripristinato il corpo 6/7.5 pt previsto dal manuale; etichette Responsabile/Compilatore in grassetto e spazi funzionali tra campi resi piu compatti senza alterare il tracking del font.
 

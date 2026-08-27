@@ -17,11 +17,9 @@
   sito={uniud.it},
   responsabile={Resp Test},
   compilatore={Comp Test},
-  footer-email=false,
-  footer-abi=true,
-  footer-cab=true,
-  footer-cin=false,
-  footer-conto-corrente=false,
+  footer-responsabili=auto,
+  footer-contatti=true,
+  footer-fiscale=true,
   codice-fiscale={80014550307},
   partita-iva={01071600306},
   abi={02008},
@@ -49,9 +47,9 @@
 \TYPE{piva=\scr@partitaiva@var}
 \TYPE{abi=\scr@abi@var}
 \TYPE{cab=\scr@cab@var}
-\TYPE{footer-email=\uniud@footeremail}
-\TYPE{footer-abi=\uniud@footerabi}
-\TYPE{footer-cab=\uniud@footercab}
+\TYPE{footer-responsabili=\uniud@footerresponsabili}
+\TYPE{footer-contatti=\uniud@footercontatti}
+\TYPE{footer-fiscale=\uniud@footerfiscale}
 \TYPE{firmatario=\scr@signature@var}
 \TYPE{ruolo=\scr@ruolofirmatario@var}
 \TYPE{destinatario=\scr@toname@var}

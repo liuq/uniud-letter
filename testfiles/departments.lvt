@@ -12,7 +12,6 @@
 \UniudDipartimento{DISG}\TYPE{dept=\scr@acronimodipartimento@var}
 \UniudDipartimento{DI4A}\TYPE{dept=\scr@acronimodipartimento@var}
 \UniudDipartimento{DMED}\TYPE{dept=\scr@acronimodipartimento@var}
-\UniudDipartimento{DEIS}\TYPE{alias=\scr@acronimodipartimento@var}
 \END
 \makeatother
 \end{document}

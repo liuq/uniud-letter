@@ -35,28 +35,36 @@
   }%
 }
 
-\IfFontExistsTF{Work Sans}{
+\IfFontExistsTF{Work Sans}{%
   \setmainfont{Work Sans}[Ligatures=TeX]
   \setsansfont{Work Sans}[Ligatures=TeX]
-}{
-  \IfFontExistsTF{Helvetica Neue}{
+}{%
+  \IfFontExistsTF{Helvetica Neue}{%
     \setmainfont{Helvetica Neue}[Ligatures=TeX]
     \setsansfont{Helvetica Neue}[Ligatures=TeX]
-    \PackageWarningNoLine{uniud}
-      {Work Sans non trovato; uso Helvetica Neue}
-  }{
-    \IfFontExistsTF{Helvetica}{
-      \setmainfont{Helvetica}[Ligatures=TeX]
-      \setsansfont{Helvetica}[Ligatures=TeX]
-      \PackageWarningNoLine{uniud}
-        {Work Sans non trovato; uso Helvetica}
-    }{
+    \PackageWarningNoLine{uniud}{Work Sans non trovato; uso Helvetica Neue}%
+  }{%
+    \IfFontExistsTF{TeX Gyre Heros}{%
       \setmainfont{TeX Gyre Heros}[Ligatures=TeX]
       \setsansfont{TeX Gyre Heros}[Ligatures=TeX]
-      \PackageWarningNoLine{uniud}
-        {Work Sans/Helvetica non trovati; uso TeX Gyre Heros}
-    }
-  }
+      \PackageWarningNoLine{uniud}{Work Sans/Helvetica Neue non trovati; uso TeX Gyre Heros}%
+    }{%
+      % Fallback finale garantito da una normale installazione TeX Live/MacTeX:
+      % usiamo direttamente i file OTF Latin Modern Sans via kpathsea, evitando
+      % dipendenze da font di sistema nei runner CI minimali.
+      \setmainfont{lmsans10-regular.otf}[
+        Ligatures=TeX,
+        BoldFont=lmsans10-bold.otf,
+        ItalicFont=lmsans10-oblique.otf,
+        BoldItalicFont=lmsans10-boldoblique.otf]
+      \setsansfont{lmsans10-regular.otf}[
+        Ligatures=TeX,
+        BoldFont=lmsans10-bold.otf,
+        ItalicFont=lmsans10-oblique.otf,
+        BoldItalicFont=lmsans10-boldoblique.otf]
+      \PackageWarningNoLine{uniud}{Work Sans/Helvetica-like non trovati; uso Latin Modern Sans}%
+    }%
+  }%
 }
 
 % Tipografia dei blocchi di intestazione (Manuale di identita' visiva 2026,
@@ -221,42 +229,49 @@
 \setkomavar{cin}{R}
 \setkomavar{contocorrente}{000040469443}
 
-% Visibilita' del footer della prima pagina. Il branding corporate resta
-% separato dal blocco dei riferimenti, cosi' e' possibile lasciare i marchi
-% ufficiali ma sopprimere completamente dati e contatti.
+% Footer della prima pagina. Marchio e certificazioni sono branding standard.
+% I dati variabili sono raccolti in tre blocchi:
+%   responsabili = responsabile + compilatore (auto/true/false)
+%   contatti     = indirizzo, telefono, fax, email, sito
+%   fiscale      = CF, P.IVA e gli eventuali dati bancari
 \def\uniud@footerprimapagina{true}
 \def\uniud@footermarchio{true}
 \def\uniud@footercertificazioni{true}
-\def\uniud@footerriferimenti{true}
-\def\uniud@footerresponsabile{true}
-\def\uniud@footercompilatore{true}
-\def\uniud@footerindirizzo{true}
-\def\uniud@footertelefono{true}
-\def\uniud@footerfax{true}
-\def\uniud@footeremail{true}
-\def\uniud@footersito{true}
-\def\uniud@footercfpiva{true}
-\def\uniud@footerabi{false}
-\def\uniud@footercab{false}
-\def\uniud@footercin{false}
-\def\uniud@footerconto{false}
+\def\uniud@footerresponsabili{auto}
+% Il profilo iniziale e' istituzionale: contatti e dati fiscali visibili.
+\def\uniud@footercontatti{true}
+\def\uniud@footerfiscale{true}
 
 \newcommand*{\uniudsetfooterprimapagina}[1]{\gdef\uniud@footerprimapagina{#1}}
 \newcommand*{\uniudsetfootermarchio}[1]{\gdef\uniud@footermarchio{#1}}
 \newcommand*{\uniudsetfootercertificazioni}[1]{\gdef\uniud@footercertificazioni{#1}}
-\newcommand*{\uniudsetfooterriferimenti}[1]{\gdef\uniud@footerriferimenti{#1}}
-\newcommand*{\uniudsetfooterresponsabile}[1]{\gdef\uniud@footerresponsabile{#1}}
-\newcommand*{\uniudsetfootercompilatore}[1]{\gdef\uniud@footercompilatore{#1}}
-\newcommand*{\uniudsetfooterindirizzo}[1]{\gdef\uniud@footerindirizzo{#1}}
-\newcommand*{\uniudsetfootertelefono}[1]{\gdef\uniud@footertelefono{#1}}
-\newcommand*{\uniudsetfooterfax}[1]{\gdef\uniud@footerfax{#1}}
-\newcommand*{\uniudsetfooteremail}[1]{\gdef\uniud@footeremail{#1}}
-\newcommand*{\uniudsetfootersito}[1]{\gdef\uniud@footersito{#1}}
-\newcommand*{\uniudsetfootercfpiva}[1]{\gdef\uniud@footercfpiva{#1}}
-\newcommand*{\uniudsetfooterabi}[1]{\gdef\uniud@footerabi{#1}}
-\newcommand*{\uniudsetfootercab}[1]{\gdef\uniud@footercab{#1}}
-\newcommand*{\uniudsetfootercin}[1]{\gdef\uniud@footercin{#1}}
-\newcommand*{\uniudsetfooterconto}[1]{\gdef\uniud@footerconto{#1}}
+\newcommand*{\uniudsetfooterresponsabili}[1]{\gdef\uniud@footerresponsabili{#1}}
+\newcommand*{\uniudsetfootercontatti}[1]{\gdef\uniud@footercontatti{#1}}
+\newcommand*{\uniudsetfooterfiscale}[1]{\gdef\uniud@footerfiscale{#1}}
+
+% Risoluzione del blocco responsabile/compilatore. In modalita' auto il
+% blocco compare solo se entrambi sono valorizzati; un solo valore e' quasi
+% certamente un'omissione e viene segnalato come errore. Con false il blocco
+% e' esplicitamente soppresso e non viene effettuato alcun controllo.
+\newif\ifuniud@showresponsabili
+\newcommand*{\uniud@resolveresponsabili}{%
+  \uniud@showresponsabilifalse
+  \ifdefstring{\uniud@footerresponsabili}{false}{}{%
+    \Ifkomavarempty{responsabileprocedimento}{%
+      \Ifkomavarempty{compilatoreprocedimento}{%
+        \ifdefstring{\uniud@footerresponsabili}{true}{%
+          \PackageError{uniudletter}{Blocco responsabili richiesto ma responsabile e compilatore sono vuoti}{Impostare entrambi con responsabile=... e compilatore=..., oppure usare footer-responsabili=false.}%
+        }{}%
+      }{%
+        \PackageError{uniudletter}{Hai impostato compilatore ma manca responsabile}{Il blocco responsabili richiede entrambi i campi. Impostare responsabile=... oppure usare footer-responsabili=false.}%
+      }%
+    }{%
+      \Ifkomavarempty{compilatoreprocedimento}{%
+        \PackageError{uniudletter}{Hai impostato responsabile ma manca compilatore}{Il blocco responsabili richiede entrambi i campi. Impostare compilatore=... oppure usare footer-responsabili=false.}%
+      }{\uniud@showresponsabilitrue}%
+    }%
+  }%
+}
 
 % Costruzione di una riga del footer con separatori solo tra gli elementi
 % realmente presenti.
@@ -280,37 +295,53 @@
 \newcommand*{\uniud@footerrowend}{\ifuniud@footerrowcontent\\\fi}
 
 \newcommand*{\uniud@footercontactrow}{%
-  \uniud@footerrowstart
-  \ifdefstring{\uniud@footerindirizzo}{true}{\Ifkomavarempty{indirizzopiepagina}{}{\uniud@footeritem{\usekomavar{indirizzopiepagina}}}}{}%
-  \ifdefstring{\uniud@footertelefono}{true}{\Ifkomavarempty{fromphone}{}{\uniud@footeritem{t\uniud@footerfieldspace\uniud@footerphonenumber{\usekomavar{fromphone}}}}}{}%
-  \ifdefstring{\uniud@footerfax}{true}{\Ifkomavarempty{fromfax}{}{\uniud@footeritem{f\uniud@footerfieldspace\uniud@footerphonenumber{\usekomavar{fromfax}}}}}{}%
-  \ifdefstring{\uniud@footeremail}{true}{\Ifkomavarempty{fromemail}{}{\uniud@footeritem{\usekomavar{fromemail}}}}{}%
-  \ifdefstring{\uniud@footersito}{true}{\Ifkomavarempty{fromurl}{}{\uniud@footeritem{www.\usekomavar{fromurl}}}}{}%
-  \uniud@footerrowend
+  \ifdefstring{\uniud@footercontatti}{true}{%
+    \uniud@footerrowstart
+    \Ifkomavarempty{indirizzopiepagina}{}{\uniud@footeritem{\usekomavar{indirizzopiepagina}}}%
+    \Ifkomavarempty{fromphone}{}{\uniud@footeritem{t\uniud@footerfieldspace\uniud@footerphonenumber{\usekomavar{fromphone}}}}%
+    \Ifkomavarempty{fromfax}{}{\uniud@footeritem{f\uniud@footerfieldspace\uniud@footerphonenumber{\usekomavar{fromfax}}}}%
+    \Ifkomavarempty{fromemail}{}{\uniud@footeritem{\usekomavar{fromemail}}}%
+    \Ifkomavarempty{fromurl}{}{\uniud@footeritem{www.\usekomavar{fromurl}}}%
+    \uniud@footerrowend
+  }{}%
 }
 
 \newcommand*{\uniud@footerfiscalrow}{%
-  \uniud@footerrowstart
-  \ifdefstring{\uniud@footercfpiva}{true}{%
+  \ifdefstring{\uniud@footerfiscale}{true}{%
+    \uniud@footerrowstart
     \Ifkomavarempty{codicefiscale}{}{\uniud@footeritem{CF\uniud@footerfieldspace\usekomavar{codicefiscale}}}%
     \Ifkomavarempty{partitaiva}{}{\uniud@footeritem{P.IVA\uniud@footerfieldspace\usekomavar{partitaiva}}}%
+    \Ifkomavarempty{abi}{}{\uniud@footeritem{ABI\uniud@footerfieldspace\usekomavar{abi}}}%
+    \Ifkomavarempty{cab}{}{\uniud@footeritem{CAB\uniud@footerfieldspace\usekomavar{cab}}}%
+    \Ifkomavarempty{cin}{}{\uniud@footeritem{CIN\uniud@footerfieldspace\usekomavar{cin}}}%
+    \Ifkomavarempty{contocorrente}{}{\uniud@footeritem{c/c\uniud@footerfieldspace\usekomavar{contocorrente}}}%
+    \uniud@footerrowend
   }{}%
-  \ifdefstring{\uniud@footerabi}{true}{\Ifkomavarempty{abi}{}{\uniud@footeritem{ABI\uniud@footerfieldspace\usekomavar{abi}}}}{}%
-  \ifdefstring{\uniud@footercab}{true}{\Ifkomavarempty{cab}{}{\uniud@footeritem{CAB\uniud@footerfieldspace\usekomavar{cab}}}}{}%
-  \ifdefstring{\uniud@footercin}{true}{\Ifkomavarempty{cin}{}{\uniud@footeritem{CIN\uniud@footerfieldspace\usekomavar{cin}}}}{}%
-  \ifdefstring{\uniud@footerconto}{true}{\Ifkomavarempty{contocorrente}{}{\uniud@footeritem{c/c\uniud@footerfieldspace\usekomavar{contocorrente}}}}{}%
-  \uniud@footerrowend
 }
 
-% Modalita' documentale.
-\def\uniud@modalita{digitale}
+% Modalita' documentale. Una lettera normale non porta diciture automatiche
+% sulla firma. Le modalita' digitale e analogica sono sempre scelte esplicite.
+\def\uniud@modalita{normale}
+\newcommand*{\uniudnormale}{\gdef\uniud@modalita{normale}}
 \newcommand*{\uniuddigitale}{\gdef\uniud@modalita{digitale}}
 \newcommand*{\uniudanalogico}{\gdef\uniud@modalita{analogico}}
 
-% Tipo di carta intestata.
+% Tipo di carta intestata e relativi default di footer. Le lettere di
+% dipartimento sono pensate come lettere personali: solo branding di default.
+% Le lettere istituzionali attivano anche contatti e dati fiscali.
 \def\uniud@intestazione{istituzionale}
-\newcommand*{\uniudistituzionale}{\gdef\uniud@intestazione{istituzionale}}
-\newcommand*{\uniuddipartimento}{\gdef\uniud@intestazione{dipartimento}}
+\newcommand*{\uniudistituzionale}{%
+  \gdef\uniud@intestazione{istituzionale}%
+  \uniudsetfooterresponsabili{auto}%
+  \uniudsetfootercontatti{true}%
+  \uniudsetfooterfiscale{true}%
+}
+\newcommand*{\uniuddipartimento}{%
+  \gdef\uniud@intestazione{dipartimento}%
+  \uniudsetfooterresponsabili{auto}%
+  \uniudsetfootercontatti{false}%
+  \uniudsetfooterfiscale{false}%
+}
 
 \newcommand*{\uniud@headerboldtext}[1]{{\color{uniudblue}\uniudheaderbold\fontsize{8pt}{8pt}\selectfont #1}}
 \newcommand*{\uniud@headerbooktext}[1]{{\color{uniudblue}\uniudheaderbook\fontsize{8pt}{8pt}\selectfont #1}}
@@ -380,19 +411,28 @@
     ([xshift=#2,yshift=-12mm]current page.north west);%
 }
 
-% Nelle lettere di dipartimento il blocco protocollo/riferimenti e' opzionale.
-% Se nessun campo di protocollo e' stato impostato, il blocco viene omesso senza
-% riservare spazio. Nelle lettere istituzionali rimane invece sempre presente.
-\newcommand*{\uniud@ifshowreferenceblock}[2]{%
-  \ifdefstring{\uniud@intestazione}{dipartimento}{%
-    \Ifkomavarempty{protocollo}{%
-      \Ifkomavarempty{titolo}{%
-        \Ifkomavarempty{classe}{%
-          \Ifkomavarempty{fascicolo}{#2}{#1}%
-        }{#1}%
+% Protocollo/riferimenti. Nella modalita' normale il blocco compare solo
+% se almeno un campo e' stato fornito; nelle lettere di dipartimento vale la
+% stessa regola anche per digitale/analogico. La scelta esplicita di una lettera
+% istituzionale digitale o analogica mantiene invece il blocco previsto dal
+% modello ufficiale.
+\newcommand*{\uniud@ifreferencefields}[2]{%
+  \Ifkomavarempty{protocollo}{%
+    \Ifkomavarempty{titolo}{%
+      \Ifkomavarempty{classe}{%
+        \Ifkomavarempty{fascicolo}{#2}{#1}%
       }{#1}%
     }{#1}%
   }{#1}%
+}
+\newcommand*{\uniud@ifshowreferenceblock}[2]{%
+  \ifdefstring{\uniud@modalita}{normale}{%
+    \uniud@ifreferencefields{#1}{#2}%
+  }{%
+    \ifdefstring{\uniud@intestazione}{dipartimento}{%
+      \uniud@ifreferencefields{#1}{#2}%
+    }{#1}%
+  }%
 }
 
 \setkomavar{firsthead}{%
@@ -435,7 +475,15 @@
       {\uniud@bodyfont\usekomavar{toname}\\\usekomavar{toaddress}};
 
     \uniud@ifshowreferenceblock{%
-      \ifdefstring{\uniud@modalita}{analogico}{%
+      \ifdefstring{\uniud@modalita}{digitale}{%
+        \node[anchor=north west,align=left,text width=52mm,inner sep=0pt]
+          at ([xshift=60mm,yshift=-54mm]current page.north west)
+          {\uniud@bodyfont
+            \usekomavar{place}\\
+            data del protocollo\\[5mm]
+            Numero della\\
+            Segnatura di protocollo};
+      }{%
         \node[anchor=north west,align=left,text width=52mm,inner sep=0pt]
           at ([xshift=60mm,yshift=-54mm]current page.north west)
           {\uniud@bodyfont
@@ -445,14 +493,6 @@
               cl.   & \usekomavar{classe}\\
               Fasc. & \usekomavar{fascicolo}
             \end{tabular}};
-      }{%
-        \node[anchor=north west,align=left,text width=52mm,inner sep=0pt]
-          at ([xshift=60mm,yshift=-54mm]current page.north west)
-          {\uniud@bodyfont
-            \usekomavar{place}\\
-            data del protocollo\\[5mm]
-            Numero della\\
-            Segnatura di protocollo};
       }%
     }{}%
   \end{tikzpicture}%
@@ -484,20 +524,17 @@
           {\uniud@includeasset[width=23mm]{uniud-footer-certificazioni.pdf}};
       }{}%
 
-      \ifdefstring{\uniud@footerriferimenti}{true}{%
-        \node[anchor=south west,align=left,text width=112mm,inner sep=0pt]
-          at ([xshift=60mm,yshift=14.2mm]current page.south west)
-          {\uniud@reffont\uniud@footercompactspacing
-           \Ifkomavarempty{piedipaginaprimapagina}{}{\usekomavar{piedipaginaprimapagina}\\}%
-           \ifdefstring{\uniud@footerresponsabile}{true}{%
-             \Ifkomavarempty{responsabileprocedimento}{}{\uniud@footerlabel{Responsabile del procedimento:}\uniud@footerfieldspace\usekomavar{responsabileprocedimento}\\}%
-           }{}%
-           \ifdefstring{\uniud@footercompilatore}{true}{%
-             \Ifkomavarempty{compilatoreprocedimento}{}{\uniud@footerlabel{Compilatore del procedimento:}\uniud@footerfieldspace\usekomavar{compilatoreprocedimento}\\}%
-           }{}%
-           \uniud@footercontactrow
-           \uniud@footerfiscalrow};
-      }{}%
+      \uniud@resolveresponsabili
+      \node[anchor=south west,align=left,text width=112mm,inner sep=0pt]
+        at ([xshift=60mm,yshift=14.2mm]current page.south west)
+        {\uniud@reffont\uniud@footercompactspacing
+         \Ifkomavarempty{piedipaginaprimapagina}{}{\usekomavar{piedipaginaprimapagina}\\}%
+         \ifuniud@showresponsabili
+           \uniud@footerlabel{Responsabile del procedimento:}\uniud@footerfieldspace\usekomavar{responsabileprocedimento}\\%
+           \uniud@footerlabel{Compilatore del procedimento:}\uniud@footerfieldspace\usekomavar{compilatoreprocedimento}\\%
+         \fi
+         \uniud@footercontactrow
+         \uniud@footerfiscalrow};
     \end{tikzpicture}%
   }{}%
 }

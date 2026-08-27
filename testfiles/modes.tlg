@@ -1,9 +1,15 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
+modalita-default=normale
+modalita=normale
 modalita=digitale
 modalita=analogico
 intestazione=istituzionale
+contatti-ist=true
+fiscale-ist=true
 intestazione=dipartimento
+contatti-dept=false
+fiscale-dept=false
 protocollo=123
 titolo=2
 classe=4

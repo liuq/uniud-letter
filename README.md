@@ -3,7 +3,7 @@
 Classe LaTeX per lettere dell'Universita degli Studi di Udine, basata su
 KOMA-Script (`scrlttr2`) e aggiornata ai modelli ufficiali 2025/2026.
 
-Versione corrente: **0.2.5** (2026-08-26).
+Versione corrente: **0.2.3** (2026-08-26).
 
 ## Repository self-contained
 
@@ -59,7 +59,6 @@ kpsewhich uniud-sigillo-blu.pdf
 \setmainlanguage{italian}
 
 \UniudDipartimento{DPIA}
-\UniudDigitale
 
 \UniudSetup{
   indirizzo = {via delle Scienze 206},
@@ -110,15 +109,17 @@ da `release.sh` prima di creare il commit/tag di release. La GitHub Action li
 ricompila a sua volta e li allega anche agli asset della release.
 
 I contatti del mittente sono campi nativi di `\UniudSetup`: `telefono`, `fax`,
-`email` e `sito`. Telefono, fax ed e-mail sono riportati nel pie' di pagina; il
-sito web e' usato anche nell'intestazione. `responsabile` e `compilatore`
-consentono inoltre di indicare riferimenti nominativi del procedimento.
+`email` e `sito`. Nelle lettere di dipartimento il footer personale e' minimale:
+i contatti vengono riportati nel pie' di pagina solo se si abilita il blocco
+`footer-contatti`. Nelle lettere istituzionali questo blocco e' attivo per
+default. `responsabile` e `compilatore` formano un unico blocco automatico e
+devono essere specificati insieme.
 
 ## API
 
 `\UniudSetup{...}` accetta fra le altre le chiavi:
 
-- `documento = digitale | analogico`;
+- `documento = normale | digitale | analogico`;
 - `intestazione = istituzionale | dipartimento`;
 - `acronimo`, `struttura`, `luogo`;
 - `indirizzo`, `cap`, `citta`, `provincia`, `paese`, `localita`;
@@ -126,13 +127,16 @@ consentono inoltre di indicare riferimenti nominativi del procedimento.
 - `firmatario`, `ruolo`;
 - `responsabile`, `compilatore`;
 - `codice-fiscale`, `partita-iva`, `abi`, `cab`, `cin`, `conto-corrente`;
-- `footer-prima-pagina`, `footer-marchio`, `footer-certificazioni`,
-  `footer-riferimenti` e le singole opzioni `footer-*`;
+- `footer-responsabili = auto | true | false`;
+- `footer-contatti = true | false`;
+- `footer-fiscale = true | false`;
+- `footer-prima-pagina`, `footer-marchio`, `footer-certificazioni`;
 - `protocollo`, `titolo`, `classe`, `fascicolo`.
 
 Comandi di comodo:
 
 ```latex
+\UniudNormale
 \UniudDigitale
 \UniudAnalogico
 \UniudIstituzionale
@@ -147,7 +151,7 @@ Sono riconosciuti direttamente:
 
 `DIUM`, `DILL`, `DMIF`, `DPIA`, `DIES`, `DISG`, `DI4A`, `DMED`.
 
-`DEIS` e accettato come alias per `DIES`; la chiave e case-insensitive.
+La chiave e case-insensitive.
 
 Il marchio di dipartimento viene costruito a runtime dal sigillo incluso e
 dall'acronimo secondo le proporzioni del manuale. L'ingombro verticale del
@@ -232,62 +236,65 @@ uniudletter-X.Y.Z.tds.zip
 SHA256SUMS
 ```
 
-### Protocollo opzionale e footer
+### Modalita', protocollo e footer
+
+La modalita' documentale predefinita e' `normale`: `\UniudFirma` non aggiunge
+nessuna dicitura automatica sulla firma. `\UniudDigitale` abilita esplicitamente
+la dicitura relativa alla firma digitale; `\UniudAnalogico` seleziona il modello
+con i campi tradizionali. `\UniudNormale` ripristina esplicitamente il default.
 
 Nelle lettere di dipartimento `\UniudProtocollo{...}` e' facoltativo: se non
-viene impostato, il blocco protocollo/riferimenti non viene stampato.
+viene impostato, il blocco protocollo/riferimenti non viene stampato e non viene
+riservato spazio. Anche in modalita' normale una lettera istituzionale non mostra
+il blocco se nessun campo e' stato fornito.
 
-Il footer della prima pagina e' modulare. Per default sono visibili il marchio
-istituzionale a sinistra, le certificazioni a destra, l'indirizzo/contatti
-impostati nella parte superiore e la coppia **CF + P.IVA dell'Ateneo**. I campi
-`responsabile` e `compilatore` compaiono solo se valorizzati. ABI, CAB, CIN e
-conto corrente sono disponibili ma disattivati per default.
+Il footer della prima pagina mantiene per default il **branding UNIUD** a
+sinistra e le **certificazioni** a destra. I dati variabili centrali sono
+organizzati in soli tre blocchi:
 
-Esempio completo:
+- `footer-responsabili = auto | true | false`: gestisce insieme responsabile e
+  compilatore. Con `auto` (default), il blocco compare se entrambi sono
+  valorizzati; se ne viene fornito uno solo la compilazione segnala un errore.
+  `false` sopprime intenzionalmente il blocco e il controllo;
+- `footer-contatti = true | false`: gestisce insieme indirizzo, telefono, fax,
+  e-mail e sito. I campi vuoti sono omessi senza lasciare separatori;
+- `footer-fiscale = true | false`: gestisce insieme CF, P.IVA ed eventuali ABI,
+  CAB, CIN e conto corrente.
+
+Il profilo dipende dal tipo di intestazione. Una lettera di **dipartimento** e'
+pensata come lettera personale: `footer-contatti=false` e
+`footer-fiscale=false` per default. Una lettera **istituzionale** attiva invece
+entrambi i blocchi. Il blocco responsabile/compilatore resta `auto` in entrambi
+i casi.
+
+Esempio, per arricchire una lettera personale di dipartimento:
 
 ```latex
 \UniudSetup{
   responsabile = {Nome Cognome - nome.cognome@uniud.it},
-  compilatore = {Nome Cognome - nome.cognome@uniud.it},
-
-  footer-indirizzo = true,
-  footer-telefono = true,
-  footer-fax = false,
-  footer-email = false,
-  footer-sito = true,
-  footer-cf-piva = true,
-
-  footer-abi = true,
-  footer-cab = true,
-  footer-cin = false,
-  footer-conto-corrente = false
+  compilatore  = {Nome Cognome - nome.cognome@uniud.it},
+  footer-contatti = true,
+  footer-fiscale = true,
+  abi = {02008},
+  cab = {12310}
 }
 ```
 
-L'indirizzo del footer non va duplicato: con `footer-indirizzo=true` viene
-costruito automaticamente dalle stesse chiavi `indirizzo`, `cap`, `citta`,
-`provincia` e `paese` usate per l'intestazione. I valori istituzionali predefiniti
-sono CF `80014550307`, P.IVA `01071600306`, ABI `02008`, CAB `12310`, CIN `R` e
-c/c `000040469443`; possono essere sostituiti rispettivamente con
+L'indirizzo del footer non va duplicato: il blocco contatti lo costruisce
+automaticamente dalle stesse chiavi `indirizzo`, `cap`, `citta`, `provincia` e
+`paese` usate nell'intestazione. CF e P.IVA hanno valori istituzionali
+predefiniti; i dati fiscali/bancari possono essere sostituiti con
 `codice-fiscale`, `partita-iva`, `abi`, `cab`, `cin` e `conto-corrente`.
 
-Le opzioni di visibilita' sono indipendenti:
+Per eliminare completamente il footer della prima pagina si puo' usare:
 
 ```latex
-% Mantiene il branding ma elimina tutti i riferimenti testuali centrali.
-\UniudSetup{footer-riferimenti=false}
-
-% Elimina soltanto una componente.
-\UniudSetup{footer-email=false, footer-cf-piva=false}
-
-% Elimina completamente il footer della prima pagina.
-% La numerazione delle pagine successive resta attiva.
 \UniudSetup{footer-prima-pagina=false}
 ```
 
-Anche `footer-marchio` e `footer-certificazioni` possono essere impostati a
-`false` separatamente. Una nota libera aggiuntiva puo' essere inserita con
-`pie-prima-pagina`.
+`footer-marchio` e `footer-certificazioni` restano disponibili come controlli
+avanzati, ma il loro default e' sempre `true`. Una nota libera aggiuntiva puo'
+essere inserita con `pie-prima-pagina`.
 
 Dalla seconda pagina il logo contratto `UNI/UD` viene impaginato a 12 mm dai
 bordi superiore e sinistro, con larghezza 21,3 mm; la numerazione usa il formato

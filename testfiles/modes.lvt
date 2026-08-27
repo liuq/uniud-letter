@@ -3,10 +3,12 @@
 \begin{document}
 \makeatletter
 \START
+\TYPE{modalita-default=\uniud@modalita}
+\UniudNormale\TYPE{modalita=\uniud@modalita}
 \UniudDigitale\TYPE{modalita=\uniud@modalita}
 \UniudAnalogico\TYPE{modalita=\uniud@modalita}
-\UniudIstituzionale\TYPE{intestazione=\uniud@intestazione}
-\UniudDipartimento{DPIA}\TYPE{intestazione=\uniud@intestazione}
+\UniudIstituzionale\TYPE{intestazione=\uniud@intestazione}\TYPE{contatti-ist=\uniud@footercontatti}\TYPE{fiscale-ist=\uniud@footerfiscale}
+\UniudDipartimento{DPIA}\TYPE{intestazione=\uniud@intestazione}\TYPE{contatti-dept=\uniud@footercontatti}\TYPE{fiscale-dept=\uniud@footerfiscale}
 \UniudProtocollo{numero=123,titolo=2,classe=4,fascicolo=7}
 \TYPE{protocollo=\scr@protocollo@var}
 \TYPE{titolo=\scr@titolo@var}

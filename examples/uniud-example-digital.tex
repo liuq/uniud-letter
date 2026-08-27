@@ -126,22 +126,26 @@ Quando serve, si possono aggiungere i riferimenti amministrativi:
 }
 \end{lstlisting}
 
-Il footer della prima pagina e' configurabile per singole componenti. Per
-esempio, per mostrare l'indirizzo e CF/P.IVA ma non e-mail e fax:
+Il footer della prima pagina mantiene sempre, per default, il branding UNIUD e
+le certificazioni. I dati variabili sono organizzati in tre blocchi: responsabile
++ compilatore, contatti, e dati fiscali/bancari. Nella carta istituzionale i
+blocchi contatti e fiscale sono attivi per default. Il blocco responsabili e'
+automatico quando entrambi i campi sono presenti:
 
 \begin{lstlisting}
 \UniudSetup{
-  footer-indirizzo = true,
-  footer-email = false,
-  footer-fax = false,
-  footer-cf-piva = true
+  responsabile = {Nome Cognome -- nome.cognome@uniud.it},
+  compilatore  = {Nome Cognome -- nome.cognome@uniud.it},
+  footer-responsabili = auto,
+  footer-contatti = true,
+  footer-fiscale = true
 }
 \end{lstlisting}
 
-\texttt{footer-riferimenti=false} lascia solo il branding corporate; con
-\texttt{footer-prima-pagina=false} si sopprime invece l'intero footer della prima
-pagina. ABI, CAB, CIN e conto corrente si attivano separatamente con le
-corrispondenti chiavi \texttt{footer-*}.
+Con un solo responsabile/compilatore la classe segnala un errore; il controllo
+puo' essere disattivato intenzionalmente con
+\texttt{footer-responsabili=false}. L'intero footer si sopprime con
+\texttt{footer-prima-pagina=false}.
 
 Il destinatario e l'oggetto non richiedono sintassi KOMA-Script. Si possono
 scrivere cosi':
