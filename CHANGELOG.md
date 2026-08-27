@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.4 - 2026-08-27
+
+- Release 0.2.4.
+
 ## Unreleased
 
 - Footer riferimenti: ripristinato il corpo 6/7.5 pt previsto dal manuale; etichette Responsabile/Compilatore in grassetto e spazi funzionali tra campi resi piu compatti senza alterare il tracking del font.
