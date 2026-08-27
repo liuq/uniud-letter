@@ -1,14 +1,14 @@
 # uniudletter
 
-Classe LaTeX per lettere dell'Universita degli Studi di Udine, basata su
+Classe LaTeX per lettere dell'Università degli Studi di Udine, basata su
 KOMA-Script (`scrlttr2`) e aggiornata ai modelli ufficiali 2025/2026.
 
-Versione corrente: **0.3.1** (2026-08-26).
+Versione corrente: **0.3.1** (2026-08-27).
 
 ## Repository self-contained
 
-Il repository contiene tutto cio che serve a compilare una lettera, incluso il
-sigillo UNIUD blu usato nell'intestazione. Non e piu necessaria una procedura
+Il repository contiene tutto ciò che serve a compilare una lettera, incluso il
+sigillo UNIUD blu usato nell'intestazione. Non è più necessaria una procedura
 separata di installazione degli asset.
 
 Sono inclusi:
@@ -16,17 +16,17 @@ Sono inclusi:
 - `uniud-sigillo-blu.svg` e `uniud-sigillo-blu.pdf`: il solo sigillo blu;
 - `uniud-footer-istituzionale-blu.svg` e relativo PDF runtime: il blocco
   `UNIVERSITA DEGLI STUDI DI UDINE / HIC SUNT FUTURA`;
-- `uniud-footer-certificazioni.pdf`: i marchi HR e certificazione qualita'.
+- `uniud-footer-certificazioni.pdf`: i marchi HR e certificazione qualità.
 
-Il marchio contratto `UNI/UD` delle pagine successive non e' un asset: viene
+Il marchio contratto `UNI/UD` delle pagine successive non è un asset: viene
 composto tipograficamente dalla classe.
 
 Il crop deriva dal file ufficiale blu `versione_01` disponibile alla data
-2026-08-26. I file ufficiali dell'identita visiva possono essere scaricati da:
+2026-08-26. I file ufficiali dell'identità visiva possono essere scaricati da:
 
 https://www.uniud.it/uniud/it/ateneo-uniud/identita-visiva/manuale_dimmagine/files
 
-Se l'Ateneo aggiorna l'identita visiva o i file sorgente, prevalgono sempre i
+Se l'Ateneo aggiorna l'identità visiva o i file sorgente, prevalgono sempre i
 materiali istituzionali correnti. Provenienza e diritti del sigillo sono
 specificati in `NOTICE`.
 
@@ -50,6 +50,25 @@ Verifica, da una directory diversa dal repository:
 kpsewhich uniudletter.cls
 kpsewhich uniud-sigillo-blu.pdf
 ```
+
+## Lingua del documento
+
+La documentazione e gli esempi distribuiti con `uniudletter` sono, per ora,
+soltanto in italiano. La classe può comunque essere usata per scrivere lettere
+in inglese o in altre lingue. Con XeLaTeX o LuaLaTeX si può, per esempio, usare
+`polyglossia`:
+
+```latex
+\usepackage{polyglossia}
+\setmainlanguage{english}
+```
+
+Non è ancora disponibile una localizzazione inglese completa della classe:
+le etichette generate automaticamente da `uniudletter` (per esempio quelle
+della firma digitale, del responsabile/compilatore e della numerazione delle
+pagine) restano attualmente in italiano. Il testo della lettera, il
+destinatario, l'oggetto e tutti i dati forniti dall'utente possono invece
+essere scritti normalmente in inglese.
 
 ## Uso rapido
 
@@ -75,7 +94,7 @@ kpsewhich uniud-sigillo-blu.pdf
 
 \UniudDestinatario{
   nome = {Prof.ssa Nome Cognome},
-  struttura = {Universita di Esempio},
+  struttura = {Università di Esempio},
   indirizzo = {via Esempio 1},
   cap = 00100,
   citta = Roma
@@ -97,7 +116,7 @@ dettaglio del backend KOMA-Script.
 
 ## Esempi come documentazione
 
-La documentazione di riferimento e' in [API.md](API.md). I tre file in `examples/` sono inoltre esempi compilabili e, allo stesso tempo, una documentazione commentata dei tre casi d'uso principali:
+La documentazione di riferimento è in [API.md](API.md). I tre file in `examples/` sono inoltre esempi compilabili e, allo stesso tempo, una documentazione commentata dei tre casi d'uso principali:
 
 - [lettera istituzionale digitale (PDF)](examples/uniud-example-digital.pdf) - [sorgente `.tex`](examples/uniud-example-digital.tex);
 - [lettera istituzionale analogica (PDF)](examples/uniud-example-analog.pdf) - [sorgente `.tex`](examples/uniud-example-analog.tex);
@@ -108,15 +127,15 @@ da `release.sh` prima di creare il commit/tag di release. La GitHub Action li
 ricompila a sua volta e li allega anche agli asset della release.
 
 I contatti del mittente sono campi nativi di `\UniudSetup`: `telefono`, `fax`,
-`email` e `sito`. Nelle lettere di dipartimento il footer personale e' minimale:
-i contatti vengono riportati nel pie' di pagina solo se si abilita il blocco
-`footer-contatti`. Nelle lettere istituzionali questo blocco e' attivo per
+`email` e `sito`. Nelle lettere di dipartimento il footer personale è minimale:
+i contatti vengono riportati nel piè di pagina solo se si abilita il blocco
+`footer-contatti`. Nelle lettere istituzionali questo blocco è attivo per
 default. `responsabile` e `compilatore` formano un unico blocco automatico e
 devono essere specificati insieme.
 
 ## API
 
-La documentazione completa della nuova API, inclusi i default dei tre blocchi del footer e la validazione responsabile/compilatore, e' in [API.md](API.md).
+La documentazione completa della nuova API, inclusi i default dei tre blocchi del footer e la validazione responsabile/compilatore, è in [API.md](API.md).
 
 `\UniudSetup{...}` accetta fra le altre le chiavi:
 
@@ -167,7 +186,7 @@ Helvetica-like e infine sans-serif bold generico. Il wordmark contratto `UNIUD`
 resta invece in Gotham Black, con Work Sans Black come fallback principale.
 
 I blocchi informativi superiori seguono Circular Bold/Book 8/8 pt; Work Sans e
-il fallback previsto per applicazioni d'ufficio quando Circular non e
+il fallback previsto per applicazioni d'ufficio quando Circular non è
 disponibile.
 
 La versione contratta `UNIUD` dell'intestazione istituzionale e delle pagine
@@ -184,7 +203,7 @@ tipografica; non richiede un secondo file grafico.
 ## Motore TeX
 
 Usare **XeLaTeX** (motore verificato dai test). Il codice usa `fontspec`, quindi
-pdfLaTeX non e supportato. LuaLaTeX puo funzionare ma non e ancora il motore di
+pdfLaTeX non è supportato. LuaLaTeX può funzionare ma non è ancora il motore di
 regressione principale.
 
 La grafica usa TikZ con `remember picture`: compilare due volte quando cambia
@@ -205,9 +224,9 @@ Il codice e la documentazione originali del progetto sono distribuiti con
 (CC BY-NC 4.0)**. CTAN classifica questa licenza come non-free per via della
 clausola NonCommercial.
 
-Il nome, il sigillo e gli altri elementi dell'identita visiva UNIUD **non sono
+Il nome, il sigillo e gli altri elementi dell'identità visiva UNIUD **non sono
 relicenziati** sotto CC BY-NC 4.0 e restano soggetti ai diritti e alle regole
-d'uso dell'Universita degli Studi di Udine. Vedere `LICENSE` e `NOTICE`.
+d'uso dell'Università degli Studi di Udine. Vedere `LICENSE` e `NOTICE`.
 
 ## Versioning and releases
 
@@ -239,15 +258,15 @@ SHA256SUMS
 
 ### Modalita', protocollo e footer
 
-La modalita' documentale predefinita e' `normale`: `\UniudFirma` non aggiunge
+La modalità documentale predefinita è `normale`: `\UniudFirma` non aggiunge
 nessuna dicitura automatica sulla firma. `\UniudDigitale` abilita esplicitamente
 la dicitura relativa alla firma digitale; `\UniudAnalogico` seleziona il modello
 con i campi tradizionali. `\UniudNormale` ripristina esplicitamente il default.
 
-Nelle lettere di dipartimento `\UniudProtocollo{...}` e' facoltativo: se non
+Nelle lettere di dipartimento `\UniudProtocollo{...}` è facoltativo: se non
 viene impostato, il blocco protocollo/riferimenti non viene stampato e non viene
-riservato spazio. Anche in modalita' normale una lettera istituzionale non mostra
-il blocco se nessun campo e' stato fornito.
+riservato spazio. Anche in modalità normale una lettera istituzionale non mostra
+il blocco se nessun campo è stato fornito.
 
 Il footer della prima pagina mantiene per default il **branding UNIUD** a
 sinistra e le **certificazioni** a destra. I dati variabili centrali sono
@@ -262,7 +281,7 @@ organizzati in soli tre blocchi:
 - `footer-fiscale = true | false`: gestisce insieme CF, P.IVA ed eventuali ABI,
   CAB, CIN e conto corrente.
 
-Il profilo dipende dal tipo di intestazione. Una lettera di **dipartimento** e'
+Il profilo dipende dal tipo di intestazione. Una lettera di **dipartimento** è
 pensata come lettera personale: `footer-contatti=false` e
 `footer-fiscale=false` per default. Una lettera **istituzionale** attiva invece
 entrambi i blocchi. Il blocco responsabile/compilatore resta `auto` in entrambi
@@ -287,14 +306,14 @@ automaticamente dalle stesse chiavi `indirizzo`, `cap`, `citta`, `provincia` e
 predefiniti; i dati fiscali/bancari possono essere sostituiti con
 `codice-fiscale`, `partita-iva`, `abi`, `cab`, `cin` e `conto-corrente`.
 
-Per eliminare completamente il footer della prima pagina si puo' usare:
+Per eliminare completamente il footer della prima pagina si può usare:
 
 ```latex
 \UniudSetup{footer-prima-pagina=false}
 ```
 
 `footer-marchio` e `footer-certificazioni` restano disponibili come controlli
-avanzati, ma il loro default e' sempre `true`. Una nota libera aggiuntiva puo'
+avanzati, ma il loro default è sempre `true`. Una nota libera aggiuntiva può
 essere inserita con `pie-prima-pagina`.
 
 Dalla seconda pagina il logo contratto `UNI/UD` viene impaginato a 12 mm dai

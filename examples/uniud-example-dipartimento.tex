@@ -3,7 +3,7 @@
 % ESEMPIO 3 / DOCUMENTAZIONE
 % Lettera personale di dipartimento.
 %
-% Questo e' il caso d'uso piu' semplice: la lettera e' "normale" per default,
+% Questo è il caso d'uso più semplice: la lettera è "normale" per default,
 % senza protocollo e senza diciture automatiche di firma digitale. Il footer
 % mantiene sempre il branding UNIUD e le certificazioni; i dati amministrativi
 % sono opt-in per blocchi.
@@ -50,7 +50,7 @@
 
 \UniudDestinatario{
   nome = {Spett.li Utenti \LaTeX},
-  struttura = {Universita' degli Studi di Udine},
+  struttura = {Università degli Studi di Udine},
   indirizzo = {Loro sedi},
   citta = {Udine}
 }
@@ -61,8 +61,8 @@
 \begin{letter}{}
 \opening{Gentili signore e gentili signori,}
 
-per una normale lettera personale di dipartimento il prologo puo' essere molto
-breve. Non occorre scegliere esplicitamente ne' la modalita' digitale ne' quella
+per una normale lettera personale di dipartimento il prologo può essere molto
+breve. Non occorre scegliere esplicitamente nè la modalità digitale nè quella
 analogica:
 
 \begin{lstlisting}
@@ -93,8 +93,8 @@ l'acronimo e la denominazione estesa. Sono riconosciuti direttamente:
 \texttt{DIUM, DILL, DMIF, DPIA, DIES, DISG, DI4A, DMED}.
 \end{center}
 
-La modalita' iniziale e' \emph{normale}: \lstinline|\UniudFirma| stampa ruolo e
-firmatario senza aggiungere la dicitura ``firmato digitalmente''. Se quella
+La modalità iniziale è \emph{normale}: \lstinline|\UniudFirma| stampa ruolo e
+firmatario senza aggiungere la dicitura ``firmato digitalmentè'. Se quella
 dicitura serve, va richiesta esplicitamente con:
 
 \begin{lstlisting}
@@ -102,10 +102,10 @@ dicitura serve, va richiesta esplicitamente con:
 \end{lstlisting}
 
 Per una lettera analogica con i campi tradizionali di protocollo si usa invece
-\lstinline|\UniudAnalogico|. E' disponibile anche
-\lstinline|\UniudNormale| per tornare esplicitamente alla modalita' standard.
+\lstinline|\UniudAnalogico|. È disponibile anche
+\lstinline|\UniudNormale| per tornare esplicitamente alla modalità standard.
 
-Il protocollo e' facoltativo nelle lettere di dipartimento. Se non si usa
+Il protocollo è facoltativo nelle lettere di dipartimento. Se non si usa
 \lstinline|\UniudProtocollo| non compare alcun blocco e non viene riservato
 spazio. Quando serve:
 
@@ -123,7 +123,7 @@ sinistra e le certificazioni a destra. Per una lettera personale di dipartimento
 non vengono invece aggiunti automaticamente dati amministrativi centrali.
 Questi sono organizzati in soli tre blocchi.
 
-Il primo e' il blocco \texttt{footer-responsabili}. Il default e'
+Il primo è il blocco \texttt{footer-responsabili}. Il default è
 \texttt{auto}: se si impostano \emph{entrambi} responsabile e compilatore, il
 blocco compare automaticamente:
 
@@ -136,7 +136,7 @@ blocco compare automaticamente:
 
 Se ne viene indicato uno solo la classe segnala un errore, per evitare che un
 riferimento venga dimenticato. Se si desidera deliberatamente ignorare entrambi
-si puo' usare \lstinline|footer-responsabili=false|.
+si può usare \lstinline|footer-responsabili=false|.
 
 Il secondo blocco contiene insieme indirizzo e contatti:
 
@@ -144,7 +144,7 @@ Il secondo blocco contiene insieme indirizzo e contatti:
 \UniudSetup{footer-contatti = true}
 \end{lstlisting}
 
-Quando e' attivo, usa automaticamente i dati gia' forniti con
+Quando è attivo, usa automaticamente i dati già forniti con
 \texttt{indirizzo}, \texttt{cap}, \texttt{citta}, \texttt{provincia},
 \texttt{paese}, \texttt{telefono}, \texttt{fax}, \texttt{email} e
 \texttt{sito}; i campi vuoti vengono semplicemente omessi.
@@ -160,7 +160,7 @@ vengono riportati solo se valorizzati. I valori possono essere sostituiti con
 \texttt{codice-fiscale}, \texttt{partita-iva}, \texttt{abi}, \texttt{cab},
 \texttt{cin} e \texttt{conto-corrente}.
 
-Per una comunicazione amministrativa completa si puo' quindi scrivere:
+Per una comunicazione amministrativa completa si può quindi scrivere:
 
 \begin{lstlisting}
 \UniudSetup{
@@ -173,7 +173,7 @@ Per una comunicazione amministrativa completa si puo' quindi scrivere:
 }
 \end{lstlisting}
 
-L'intero footer della prima pagina puo' comunque essere soppresso con
+L'intero footer della prima pagina può comunque essere soppresso con
 \lstinline|footer-prima-pagina=false|. Marchio e certificazioni sono componenti
 standard e restano attivi salvo esplicita disabilitazione avanzata con
 \texttt{footer-marchio} o \texttt{footer-certificazioni}.
@@ -192,7 +192,7 @@ Testo della lettera.
 \end{lstlisting}
 
 Dalla seconda pagina viene usato automaticamente il wordmark contratto
-\texttt{UNI/UD} largo 21,3 mm; la numerazione e' nel formato \texttt{2 di X}.
+\texttt{UNI/UD} largo 21,3 mm; la numerazione è nel formato \texttt{2 di X}.
 
 \UniudFirma
 \newpage

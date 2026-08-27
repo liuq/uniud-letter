@@ -3,7 +3,7 @@
 % ESEMPIO 1 / DOCUMENTAZIONE
 % Lettera istituzionale digitale.
 %
-% Questo file e' volutamente una lettera "auto-documentante": il testo della
+% Questo file è volutamente una lettera "auto-documentante": il testo della
 % lettera spiega come usare la classe uniudletter e mostra i comandi principali.
 % -----------------------------------------------------------------------------
 \documentclass{uniudletter}
@@ -54,7 +54,7 @@
 % Destinatario della lettera.
 \UniudDestinatario{
   nome = {Spett.li Utenti \LaTeX},
-  struttura = {Universita' degli Studi di Udine},
+  struttura = {Università degli Studi di Udine},
   indirizzo = {Loro sedi},
   citta = {Udine}
 }
@@ -65,13 +65,13 @@
 \begin{letter}{}
 \opening{Gentili signore e gentili signori,}
 
-questa lettera e' anche un esempio completo di utilizzo della classe
-\texttt{uniudletter}. La classe e' costruita sopra KOMA-Script, ma per l'uso
-normale non e' necessario ricorrere direttamente a \texttt{\string\setkomavar}:
-i comandi pubblici della classe raccolgono le impostazioni piu' comuni con nomi
+questa lettera è anche un esempio completo di utilizzo della classe
+\texttt{uniudletter}. La classe è costruita sopra KOMA-Script, ma per l'uso
+normale non è necessario ricorrere direttamente a \texttt{\string\setkomavar}:
+i comandi pubblici della classe raccolgono le impostazioni più comuni con nomi
 espliciti.
 
-Per iniziare e' sufficiente caricare la classe e scegliere il tipo di
+Per iniziare è sufficiente caricare la classe e scegliere il tipo di
 intestazione e di documento:
 
 \begin{lstlisting}
@@ -86,7 +86,7 @@ intestazione e di documento:
 Il comando \lstinline|\UniudIstituzionale| seleziona la carta intestata
 istituzionale dell'Ateneo. Il comando \lstinline|\UniudDigitale| seleziona la
 versione destinata alla gestione digitale: il blocco di protocollo viene quindi
-predisposto secondo il modello digitale anziche' con i campi da compilare a
+predisposto secondo il modello digitale anzichè con i campi da compilare a
 mano della versione analogica.
 
 I dati della struttura mittente si impostano con un unico comando
@@ -114,8 +114,8 @@ Le chiavi \texttt{indirizzo}, \texttt{cap}, \texttt{citta},
 La chiave \texttt{luogo} imposta il luogo usato dove previsto dal modello.
 Le chiavi \texttt{telefono}, \texttt{email} e \texttt{sito} permettono di
 indicare direttamente i contatti di riferimento: possono quindi essere quelli
-dell'ufficio oppure, se piu' opportuno, quelli della singola persona che sta
-scrivendo la lettera. E' disponibile anche la chiave \texttt{fax}.
+dell'ufficio oppure, se più opportuno, quelli della singola persona che sta
+scrivendo la lettera. È disponibile anche la chiave \texttt{fax}.
 
 Quando serve, si possono aggiungere i riferimenti amministrativi:
 
@@ -129,7 +129,7 @@ Quando serve, si possono aggiungere i riferimenti amministrativi:
 Il footer della prima pagina mantiene sempre, per default, il branding UNIUD e
 le certificazioni. I dati variabili sono organizzati in tre blocchi: responsabile
 + compilatore, contatti, e dati fiscali/bancari. Nella carta istituzionale i
-blocchi contatti e fiscale sono attivi per default. Il blocco responsabili e'
+blocchi contatti e fiscale sono attivi per default. Il blocco responsabili è
 automatico quando entrambi i campi sono presenti:
 
 \begin{lstlisting}
@@ -143,17 +143,17 @@ automatico quando entrambi i campi sono presenti:
 \end{lstlisting}
 
 Con un solo responsabile/compilatore la classe segnala un errore; il controllo
-puo' essere disattivato intenzionalmente con
+può essere disattivato intenzionalmente con
 \texttt{footer-responsabili=false}. L'intero footer si sopprime con
 \texttt{footer-prima-pagina=false}.
 
 Il destinatario e l'oggetto non richiedono sintassi KOMA-Script. Si possono
-scrivere cosi':
+scrivere così:
 
 \begin{lstlisting}
 \UniudDestinatario{
   nome = {Prof.ssa Nome Cognome},
-  struttura = {Universita' di esempio},
+  struttura = {Università di esempio},
   indirizzo = {via Esempio 1},
   cap = 00100,
   citta = Roma,
@@ -180,12 +180,12 @@ Testo della lettera.
 
 \lstinline|\UniudFirma| costruisce il blocco firma utilizzando le chiavi
 \texttt{firmatario} e \texttt{ruolo} definite in \lstinline|\UniudSetup|.
-Se si preferisce una chiusura testuale tradizionale, si puo' naturalmente usare
+Se si preferisce una chiusura testuale tradizionale, si può naturalmente usare
 anche \lstinline|\closing{Cordialmente,}| secondo le normali regole di
 \texttt{scrlttr2}.
 
-Per i font e' consigliato compilare con \XeLaTeX{} o LuaLaTeX. La classe usa i
-font dell'identita' visiva quando disponibili e applica automaticamente i
+Per i font è consigliato compilare con \XeLaTeX{} o LuaLaTeX. La classe usa i
+font dell'identità visiva quando disponibili e applica automaticamente i
 fallback previsti dal progetto.
 
 In sintesi, per una lettera istituzionale digitale bastano i quattro passaggi:

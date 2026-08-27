@@ -1,7 +1,7 @@
 # API di `uniudletter`
 
 Questa pagina raccoglie l'API pubblica della classe. Per una lettera normale non
-e' necessario conoscere le `komavar` di KOMA-Script: i dati si impostano con
+è necessario conoscere le `komavar` di KOMA-Script: i dati si impostano con
 `\UniudSetup{...}` e con i comandi di alto livello descritti qui sotto.
 
 ## Esempio minimo: lettera personale di dipartimento
@@ -28,7 +28,7 @@ e' necessario conoscere le `komavar` di KOMA-Script: i dati si impostano con
 
 \UniudDestinatario{
   nome = {Prof.ssa Nome Cognome},
-  struttura = {Universita di Esempio},
+  struttura = {Università di Esempio},
   indirizzo = {via Esempio 1},
   cap = 00100,
   citta = Roma
@@ -48,9 +48,25 @@ Testo della lettera.
 `\UniudDipartimento{...}` seleziona automaticamente denominazione e acronimo e
 applica il profilo di footer minimale adatto a una lettera personale.
 
-## Modalita' del documento
+## Lingua
 
-La modalita' predefinita e' **normale**. Non viene aggiunta automaticamente
+Per ora la documentazione e gli esempi ufficiali del pacchetto sono soltanto in
+italiano. Questo non impedisce di usare la classe per una lettera in inglese.
+Con XeLaTeX o LuaLaTeX, per esempio:
+
+```latex
+\usepackage{polyglossia}
+\setmainlanguage{english}
+```
+
+La localizzazione inglese completa dell'interfaccia tipografica non è ancora
+disponibile: le etichette prodotte automaticamente dalla classe restano in
+italiano. Tutto il contenuto fornito dall'utente può invece essere scritto in
+inglese.
+
+## Modalità del documento
+
+La modalità predefinita è **normale**. Non viene aggiunta automaticamente
 alcuna dicitura sulla firma.
 
 ```latex
@@ -72,8 +88,8 @@ Gli stessi valori possono essere impostati con:
   digitalmente;
 - `analogico`: seleziona il modello analogico con i campi tradizionali.
 
-La firma digitale e' quindi **opt-in**: usare `\UniudDigitale` solo quando la
-dicitura e' appropriata al documento che verra' effettivamente firmato.
+La firma digitale è quindi **opt-in**: usare `\UniudDigitale` solo quando la
+dicitura è appropriata al documento che verrà effettivamente firmato.
 
 ## Tipo di intestazione
 
@@ -89,7 +105,7 @@ Applica l'intestazione istituzionale. Il profilo predefinito del footer mostra:
 - certificazioni;
 - blocco contatti;
 - blocco fiscale;
-- blocco responsabile/compilatore in modalita' `auto`.
+- blocco responsabile/compilatore in modalità `auto`.
 
 ### Dipartimento
 
@@ -103,7 +119,7 @@ Sono riconosciuti:
 DIUM, DILL, DMIF, DPIA, DIES, DISG, DI4A, DMED
 ```
 
-La chiave e' case-insensitive. Il profilo predefinito e' pensato per una
+La chiave è case-insensitive. Il profilo predefinito è pensato per una
 **lettera personale di dipartimento**:
 
 - marchio UNIUD: attivo;
@@ -114,7 +130,7 @@ La chiave e' case-insensitive. Il profilo predefinito e' pensato per una
 
 I dati come indirizzo, telefono ed e-mail possono comunque essere forniti a
 `\UniudSetup`: restano disponibili per intestazione e altri usi, ma non vengono
-stampati nel footer finche' non si abilita il relativo blocco.
+stampati nel footer finchè non si abilita il relativo blocco.
 
 ## `\UniudSetup`
 
@@ -147,11 +163,11 @@ usa `\UniudDipartimento{...}`.
 }
 ```
 
-`localita` e' disponibile per i casi in cui serva impostare direttamente una
-localita' gia' composta.
+`localita` è disponibile per i casi in cui serva impostare direttamente una
+località già composta.
 
 Quando `footer-contatti=true`, il footer riusa questi stessi dati: non esistono
-campi duplicati specifici per il pie' di pagina.
+campi duplicati specifici per il piè di pagina.
 
 ### Firma
 
@@ -168,7 +184,7 @@ Nel corpo della lettera:
 \UniudFirma
 ```
 
-Il contenuto aggiuntivo della firma dipende dalla modalita' documentale scelta.
+Il contenuto aggiuntivo della firma dipende dalla modalità documentale scelta.
 
 ## I tre blocchi informativi del footer
 
@@ -184,13 +200,13 @@ centrali sono invece organizzati in **tre soli blocchi logici**.
 }
 ```
 
-Il controllo e':
+Il controllo è:
 
 ```latex
 footer-responsabili = auto | true | false
 ```
 
-Il default e' `auto`.
+Il default è `auto`.
 
 | Valori forniti | `auto` |
 | --- | --- |
@@ -205,7 +221,7 @@ Se si vuole deliberatamente ignorare i dati del blocco:
 \UniudSetup{footer-responsabili = false}
 ```
 
-Con `footer-responsabili=true` il blocco e' richiesto esplicitamente e devono
+Con `footer-responsabili=true` il blocco è richiesto esplicitamente e devono
 essere valorizzati entrambi i campi.
 
 ### 2. Contatti
@@ -284,7 +300,7 @@ Questi controlli sono disponibili, ma non sono normalmente necessari:
 Marchio e certificazioni hanno default `true` sia nelle lettere istituzionali
 sia in quelle di dipartimento.
 
-Una nota libera aggiuntiva puo' essere impostata con:
+Una nota libera aggiuntiva può essere impostata con:
 
 ```latex
 \UniudSetup{pie-prima-pagina = {...}}
@@ -295,7 +311,7 @@ Una nota libera aggiuntiva puo' essere impostata con:
 ```latex
 \UniudDestinatario{
   nome = {Prof.ssa Nome Cognome},
-  struttura = {Universita di Esempio},
+  struttura = {Università di Esempio},
   indirizzo = {via Esempio 1},
   cap = 00100,
   citta = Roma
@@ -310,7 +326,7 @@ Una nota libera aggiuntiva puo' essere impostata con:
 
 ## Protocollo e riferimenti
 
-Il blocco protocollo e' facoltativo. Se non viene impostato, non viene stampato
+Il blocco protocollo è facoltativo. Se non viene impostato, non viene stampato
 e non viene riservato spazio.
 
 ```latex
@@ -333,13 +349,13 @@ Le stesse informazioni sono disponibili come chiavi di `\UniudSetup`:
 }
 ```
 
-Per una normale lettera personale di dipartimento non e' necessario impostarle.
+Per una normale lettera personale di dipartimento non è necessario impostarle.
 
 ## Riepilogo dei default
 
 | Componente | Istituzionale | Dipartimento |
 | --- | :---: | :---: |
-| modalita' documento | normale | normale |
+| modalità documento | normale | normale |
 | marchio footer | si | si |
 | certificazioni footer | si | si |
 | responsabile/compilatore | auto | auto |

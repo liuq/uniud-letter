@@ -9,7 +9,7 @@
 Work Sans e consigliato come fallback tipografico. Gotham e LL Circular non
 sono distribuiti dal progetto.
 
-Il sigillo UNIUD necessario al layout e gia incluso nel repository in SVG e in
+Il sigillo UNIUD necessario al layout è già incluso nel repository in SVG e in
 PDF; non servono script o dipendenze grafiche aggiuntive durante
 l'installazione o la compilazione.
 
@@ -45,7 +45,7 @@ Dopo:
 l3build ctan
 ```
 
-viene prodotto anche `uniudletter.tds.zip`, che puo essere installato con:
+viene prodotto anche `uniudletter.tds.zip`, che può essere installato con:
 
 ```sh
 unzip uniudletter.tds.zip -d "$(kpsewhich -var-value=TEXMFHOME)"
@@ -61,7 +61,7 @@ mktexlsr "$(kpsewhich -var-value=TEXMFHOME)"
 ## Documentazione dell'API
 
 Dopo l'installazione, vedere `README.md` per l'avvio rapido e `API.md` per la
-documentazione completa dell'interfaccia pubblica, inclusi modalita' del
+documentazione completa dell'interfaccia pubblica, inclusi modalità del
 documento, profili istituzionale/dipartimento e i tre blocchi logici del footer.
 
 ## Sviluppo
@@ -71,3 +71,10 @@ l3build check
 make examples
 l3build ctan
 ```
+## Lingua
+
+Gli esempi e la documentazione sono attualmente in italiano. Le lettere possono
+comunque essere scritte in inglese, per esempio con `polyglossia` e
+`\setmainlanguage{english}`; la localizzazione delle etichette generate dalla
+classe non è ancora completa.
+
