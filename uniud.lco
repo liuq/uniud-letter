@@ -35,13 +35,28 @@
   }%
 }
 
-\IfFontExistsTF{Work Sans}{%
+\IfFontExistsTF{Work Sans}{
   \setmainfont{Work Sans}[Ligatures=TeX]
   \setsansfont{Work Sans}[Ligatures=TeX]
-}{%
-  \setmainfont{Noto Sans}[Ligatures=TeX]
-  \setsansfont{Noto Sans}[Ligatures=TeX]
-  \PackageWarningNoLine{uniud}{Work Sans non trovato; uso Noto Sans. Installare Work Sans per la tipografia ufficiale}
+}{
+  \IfFontExistsTF{Helvetica Neue}{
+    \setmainfont{Helvetica Neue}[Ligatures=TeX]
+    \setsansfont{Helvetica Neue}[Ligatures=TeX]
+    \PackageWarningNoLine{uniud}
+      {Work Sans non trovato; uso Helvetica Neue}
+  }{
+    \IfFontExistsTF{Helvetica}{
+      \setmainfont{Helvetica}[Ligatures=TeX]
+      \setsansfont{Helvetica}[Ligatures=TeX]
+      \PackageWarningNoLine{uniud}
+        {Work Sans non trovato; uso Helvetica}
+    }{
+      \setmainfont{TeX Gyre Heros}[Ligatures=TeX]
+      \setsansfont{TeX Gyre Heros}[Ligatures=TeX]
+      \PackageWarningNoLine{uniud}
+        {Work Sans/Helvetica non trovati; uso TeX Gyre Heros}
+    }
+  }
 }
 
 % Tipografia dei blocchi di intestazione (Manuale di identita' visiva 2026,
