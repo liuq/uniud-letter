@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2 - 2026-08-27
+
+- Release 0.3.2.
+
 ## Unreleased
 - Documentation typography normalized to proper UTF-8 Italian accents; documented English-language use via `polyglossia` and the current absence of a complete English localization.
 - Added `API.md` as the complete reference for the simplified public API, including document modes, institutional/department defaults, footer blocks and responsible/compiler validation.
