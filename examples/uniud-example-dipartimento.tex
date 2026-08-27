@@ -32,7 +32,9 @@
 }
 
 % Il comando imposta automaticamente acronimo, denominazione e il profilo
-% minimale del footer adatto a una lettera personale di dipartimento.
+% minimale del footer adatto a una lettera personale di dipartimento. Quando
+% `firmatario` è valorizzato, il suo nome compare anche nell'intestazione tra
+% la denominazione del dipartimento e il sito web.
 \UniudDipartimento{DPIA}
 
 \UniudSetup{
@@ -62,7 +64,7 @@
 \opening{Gentili signore e gentili signori,}
 
 per una normale lettera personale di dipartimento il prologo può essere molto
-breve. Non occorre scegliere esplicitamente nè la modalità digitale nè quella
+breve. Non occorre scegliere esplicitamente né la modalità digitale né quella
 analogica:
 
 \begin{lstlisting}
@@ -87,14 +89,16 @@ analogica:
 \end{lstlisting}
 
 \lstinline|\UniudDipartimento{DPIA}| seleziona il marchio del dipartimento,
-l'acronimo e la denominazione estesa. Sono riconosciuti direttamente:
+l'acronimo e la denominazione estesa. Se `firmatario` è valorizzato, il nome
+compare automaticamente nell'intestazione personale tra la denominazione del
+dipartimento e il sito web. Sono riconosciuti direttamente:
 
 \begin{center}
 \texttt{DIUM, DILL, DMIF, DPIA, DIES, DISG, DI4A, DMED}.
 \end{center}
 
 La modalità iniziale è \emph{normale}: \lstinline|\UniudFirma| stampa ruolo e
-firmatario senza aggiungere la dicitura ``firmato digitalmentè'. Se quella
+firmatario senza aggiungere la dicitura ``firmato digitalmente''. Se quella
 dicitura serve, va richiesta esplicitamente con:
 
 \begin{lstlisting}

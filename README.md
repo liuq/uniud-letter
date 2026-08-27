@@ -127,7 +127,10 @@ da `release.sh` prima di creare il commit/tag di release. La GitHub Action li
 ricompila a sua volta e li allega anche agli asset della release.
 
 I contatti del mittente sono campi nativi di `\UniudSetup`: `telefono`, `fax`,
-`email` e `sito`. Nelle lettere di dipartimento il footer personale è minimale:
+`email` e `sito`. Nelle lettere personali di dipartimento, se `firmatario` è
+valorizzato, il suo nome compare automaticamente nell'intestazione tra la
+denominazione del dipartimento e il sito web; non serve una chiave aggiuntiva.
+Nelle lettere di dipartimento il footer personale è minimale:
 i contatti vengono riportati nel piè di pagina solo se si abilita il blocco
 `footer-contatti`. Nelle lettere istituzionali questo blocco è attivo per
 default. `responsabile` e `compilatore` formano un unico blocco automatico e
@@ -171,12 +174,12 @@ Sono riconosciuti direttamente:
 
 `DIUM`, `DILL`, `DMIF`, `DPIA`, `DIES`, `DISG`, `DI4A`, `DMED`.
 
-La chiave e case-insensitive.
+La chiave è case-insensitive.
 
 Il marchio di dipartimento viene costruito a runtime dal sigillo incluso e
 dall'acronimo secondo le proporzioni del manuale. L'ingombro verticale del
-marker e l'unica misura assoluta (di default **13 mm = 5,25 u**); tutte le altre
-misure derivano da questa unita: sigillo **5,25 u**, separazione **1 u**,
+marker è l'unica misura assoluta (di default **13 mm = 5,25 u**); tutte le altre
+misure derivano da questa unità: sigillo **5,25 u**, separazione **1 u**,
 acronimo **4,8 u** centrato verticalmente nel marker. Cambiando l'altezza del
 marker, l'intero marchio scala mantenendo le stesse proporzioni.
 
@@ -185,7 +188,7 @@ del wordmark UNIUD: Gotham Bold/Medium, Work Sans SemiBold/Bold, quindi
 Helvetica-like e infine sans-serif bold generico. Il wordmark contratto `UNIUD`
 resta invece in Gotham Black, con Work Sans Black come fallback principale.
 
-I blocchi informativi superiori seguono Circular Bold/Book 8/8 pt; Work Sans e
+I blocchi informativi superiori seguono Circular Bold/Book 8/8 pt; Work Sans è
 il fallback previsto per applicazioni d'ufficio quando Circular non è
 disponibile.
 

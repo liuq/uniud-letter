@@ -130,11 +130,16 @@ La chiave è case-insensitive. Il profilo predefinito è pensato per una
 
 I dati come indirizzo, telefono ed e-mail possono comunque essere forniti a
 `\UniudSetup`: restano disponibili per intestazione e altri usi, ma non vengono
-stampati nel footer finchè non si abilita il relativo blocco.
+stampati nel footer finché non si abilita il relativo blocco.
+
+Se `firmatario` è valorizzato, nelle lettere di dipartimento il nome viene
+inserito automaticamente nell'intestazione personale con questa gerarchia:
+**denominazione del dipartimento → firmatario → sito web**. Se `firmatario` è
+vuoto, l'intestazione resta quella dipartimentale standard, senza riga personale.
 
 ## `\UniudSetup`
 
-### Identita' e struttura
+### Identità e struttura
 
 ```latex
 \UniudSetup{

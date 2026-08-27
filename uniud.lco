@@ -445,7 +445,10 @@
       \uniud@headrule{155mm}{195mm}
       \node[anchor=north west,align=left,text width=40mm,inner sep=0pt]
         at ([xshift=107mm,yshift=-14mm]current page.north west)
-        {\uniud@headerboldtext{\usekomavar{struttura}\\[3mm]\usekomavar{fromurl}}};
+        {\uniud@headerboldtext{\usekomavar{struttura}}%
+         \Ifkomavarempty{signature}{\\[3mm]}{%
+           \\[1.5mm]\uniud@headerbooktext{\usekomavar{signature}}\\[1.5mm]}%
+         \uniud@headerboldtext{\usekomavar{fromurl}}};
       % Il blocco indirizzo usa tutta la larghezza del filetto (40 mm).
       % 28 mm era troppo stretto e spezzava inutilmente indirizzi come
       % ``via delle Scienze 206'' nella carta intestata dipartimentale.
