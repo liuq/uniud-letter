@@ -259,7 +259,7 @@ uniudletter-X.Y.Z.tds.zip
 SHA256SUMS
 ```
 
-### Modalita', protocollo e footer
+### Modalità, protocollo e footer
 
 La modalità documentale predefinita è `normale`: `\UniudFirma` non aggiunge
 nessuna dicitura automatica sulla firma. `\UniudDigitale` abilita esplicitamente
